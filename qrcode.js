@@ -10,7 +10,8 @@
  */
  
 /*jslint
-    bitwise: true, browser: true, sloppy: true, plusplus: true, maxerr: 50, indent: 4
+    bitwise: true, browser: true, sloppy: true, plusplus: true, maxerr: 50,
+    indent: 4
 */
 
 var QRCode = (function () {
@@ -192,8 +193,7 @@ var QRCode = (function () {
     }
 
     /**
-     * <p>Exponentiation mod N.</p>
-     * <p>Reed-Solomon error correction.</p>
+     * <p></p>
      * @param {Number} x
      * @returns {Number}
      */
