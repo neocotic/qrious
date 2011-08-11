@@ -14,7 +14,17 @@
     indent: 4
 */
 
+/**
+ * <p>Pure JavaScript library for QR code generation using HTML5.</p>
+ * <p>qrcode.js is based heavily on tz's Javascript QR Encoder project and
+ * includes much safer and cleaner code with only a single global varialble
+ * and a simple and usable API.</p>
+ * @author <a href="http://github.com/neocotic">Alasdair Mercer</a>
+ * @requires HTML5
+ * @namespace
+ */
 var QRCode = (function () {
+    // Checks for HTML5 canvas support and returns dummy object if not found
     if (typeof HTMLCanvasElement === 'undefined'
             || !HTMLCanvasElement.prototype.getContext) {
         return {
@@ -78,7 +88,7 @@ var QRCode = (function () {
         ],
         frameBuffer = [],
         frameMask = [],
-        galiosExponent = [
+        galoisExponent = [
             0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1d, 0x3a, 0x74,
             0xe8, 0xcd, 0x87, 0x13, 0x26, 0x4c, 0x98, 0x2d, 0x5a, 0xb4, 0x75,
             0xea, 0xc9, 0x8f, 0x03, 0x06, 0x0c, 0x18, 0x30, 0x60, 0xc0, 0x9d,
@@ -147,11 +157,6 @@ var QRCode = (function () {
         ],
         width;
 
-    /**
-     * <p></p>
-     * @param {Number} x
-     * @param {Number} y
-     */
     function setMask(x, y) {
         var bt;
         if (x > y) {
@@ -167,11 +172,6 @@ var QRCode = (function () {
         frameMask[bt] = 1;
     }
 
-    /**
-     * <p></p>
-     * @param {Number} x
-     * @param {Number} y
-     */
     function addAlignment(x, y) {
         var j;
         frameBuffer[x + width * y] = 1;
@@ -189,11 +189,6 @@ var QRCode = (function () {
         }
     }
 
-    /**
-     * <p></p>
-     * @param {Number} x
-     * @returns {Number}
-     */
     function modN(x) {
         while (x >= 255) {
             x -= 255;
@@ -202,13 +197,6 @@ var QRCode = (function () {
         return x;
     }
 
-    /**
-     * <p></p>
-     * @param {Number} data
-     * @param {Number} dataLength
-     * @param {Number} ecc
-     * @param {Number} eccLength
-     */
     function appendData(data, dataLength, ecc, eccLength) {
         var fb, i, j;
         for (i = 0; i < eccLength; i++) {
@@ -219,7 +207,7 @@ var QRCode = (function () {
             if (fb !== 255) {
                 for (j = 1; j < eccLength; j++) {
                     stringBuffer[ecc + j - 1] = stringBuffer[ecc + j] ^
-                        galiosExponent[modN(fb + polynomial[eccLength - j])];
+                        galoisExponent[modN(fb + polynomial[eccLength - j])];
                 }
             } else {
                 for (j = ecc; j < ecc + eccLength; j++) {
@@ -227,16 +215,10 @@ var QRCode = (function () {
                 }
             }
             stringBuffer[ecc + eccLength - 1] = fb === 255 ? 0
-                : galiosExponent[modN(fb + polynomial[0])];
+                : galoisExponent[modN(fb + polynomial[0])];
         }
     }
 
-    /**
-     * <p></p>
-     * @param {Number} x
-     * @param {Number} y
-     * @returns {Number}
-     */
     function isMasked(x, y) {
         var bt;
         if (x > y) {
@@ -251,10 +233,6 @@ var QRCode = (function () {
         return frameMask[bt];
     }
 
-    /**
-     * <p></p>
-     * @param {Number} m
-     */
     function applyMask(m) {
         var x, y, r3x, r3y;
         switch (m) {
@@ -367,11 +345,6 @@ var QRCode = (function () {
         }
     }
 
-    /**
-     * <p></p>
-     * @param {Number} length
-     * @returns {Number}
-     */
     function getBadRuns(length) {
         var badRuns = 0, i;
         for (i = 0; i <= length; i++) {
@@ -394,10 +367,6 @@ var QRCode = (function () {
         return badRuns;
     }
 
-    /**
-     * <p></p>
-     * @returns {Number}
-     */
     function checkBadness() {
         var b, b1, bad = 0, big, bw = 0, count = 0, h, x, y;
         for (y = 0; y < width - 1; y++) {
@@ -453,11 +422,6 @@ var QRCode = (function () {
         return bad;
     }
 
-    /**
-     * <p></p>
-     * @param {String} str
-     * @returns {Number[]}
-     */
     function generateFrame(str) {
         var i, j, k, m, t, v, x, y;
         t = str.length;
@@ -637,10 +601,10 @@ var QRCode = (function () {
             for (j = i; j > 0; j--) {
                 polynomial[j] = polynomial[j]
                     ? polynomial[j - 1] ^
-                    galiosExponent[modN(galoisLog[polynomial[j]] + i)]
+                    galoisExponent[modN(galoisLog[polynomial[j]] + i)]
                     : polynomial[j - 1];
             }
-            polynomial[0] = galiosExponent[modN(galoisLog[polynomial[0]] + i)];
+            polynomial[0] = galoisExponent[modN(galoisLog[polynomial[0]] + i)];
         }
         for (i = 0; i <= eccBlock; i++) {
             polynomial[i] = galoisLog[polynomial[i]];
