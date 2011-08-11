@@ -767,20 +767,16 @@ var QRCode = (function () {
             c2d.fillStyle = '#eee';
             c2d.fillRect(0, 0, size, size);
             if (data.level) {
-                switch (data.level) {
-                case 'l':
+                switch (data.level.toUpperCase()) {
                 case 'L':
                     eccLevel = 1;
                     break;
-                case 'm':
                 case 'M':
                     eccLevel = 2;
                     break;
-                case 'q':
                 case 'Q':
                     eccLevel = 3;
                     break;
-                case 'h':
                 case 'H':
                     eccLevel = 4;
                     break;
