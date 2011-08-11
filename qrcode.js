@@ -15,7 +15,7 @@
 */
 
 var QRCode = (function () {
-    if (typeof HTMLCanvasElement.prototype.getContext !== 'function') {
+    if (!HTMLCanvasElement.prototype.getContext) {
         return {
             generate: function () {},
             generateImage: function () {}
