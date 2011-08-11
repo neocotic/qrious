@@ -1,4 +1,4 @@
-# [qrcode.js]()
+# [qrcode.js](http://forchoon.com/projects/javascript/qrcode-js/)
 
 A pure JavaScript library for [QR code](http://en.wikipedia.org/wiki/QR_code) generation using [HTML5](http://en.wikipedia.org/wiki/HTML5).
 
