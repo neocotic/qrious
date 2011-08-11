@@ -1,12 +1,13 @@
-/*
- * qrcode.js
- * Copyright (c) 2011 Alasdair Mercer
- * Released under GPLv3
+/*!
+ * qrcode.js v1.0.0
+ * http://forchoon.com/projects/javascript/qrcode-js/
  *
- * Based heavily on;
- * Javascript QR Encoder v0.1
- * Copyright (c) 2010 tz@execpc.com
- * Released under GPLv3
+ * Copyright 2011, Alasdair Mercer
+ * Licensed under the GPL Version 3 license.
+ *
+ * Based on Javascript QR Encoder
+ * Copyright 2010, tz@execpc.com
+ * Released under the GPL Version 3 license.
  */
 
 /*jslint
@@ -20,13 +21,14 @@
  * includes much safer and cleaner code with only a single global varialble
  * and a simple and usable API.</p>
  * @author <a href="http://github.com/neocotic">Alasdair Mercer</a>
+ * @version 1.0.0
  * @requires HTML5
  * @namespace
  */
 var QRCode = (function () {
     // Checks for HTML5 canvas support and returns dummy object if not found
-    if (typeof HTMLCanvasElement === 'undefined'
-            || !HTMLCanvasElement.prototype.getContext) {
+    if (typeof HTMLCanvasElement === 'undefined' ||
+            !HTMLCanvasElement.prototype.getContext) {
         return {
             generate: function () {},
             generateImage: function () {}
@@ -353,14 +355,14 @@ var QRCode = (function () {
             }
         }
         for (i = 3; i < length - 1; i += 2) {
-            if (badBuffer[i - 2] === badBuffer[i + 2]
-                    && badBuffer[i + 2] === badBuffer[i - 1]
-                    && badBuffer[i - 1] === badBuffer[i + 1]
-                    && badBuffer[i - 1] * 3 === badBuffer[i]
-                    && (badBuffer[i - 3] === 0
-                        || i + 3 > length
-                        || badBuffer[i - 3] * 3 >= badBuffer[i] * 4
-                        || badBuffer[i + 3] * 3 >= badBuffer[i] * 4)) {
+            if (badBuffer[i - 2] === badBuffer[i + 2] &&
+                    badBuffer[i + 2] === badBuffer[i - 1] &&
+                    badBuffer[i - 1] === badBuffer[i + 1] &&
+                    badBuffer[i - 1] * 3 === badBuffer[i] &&
+                    (badBuffer[i - 3] === 0 ||
+                        i + 3 > length ||
+                        badBuffer[i - 3] * 3 >= badBuffer[i] * 4 ||
+                        badBuffer[i + 3] * 3 >= badBuffer[i] * 4)) {
                 badRuns += N3;
             }
         }
@@ -372,13 +374,13 @@ var QRCode = (function () {
         for (y = 0; y < width - 1; y++) {
             for (x = 0; x < width - 1; x++) {
                 if ((frameBuffer[x + width * y] && frameBuffer[(x + 1) +
-                        width * y]
-                        && frameBuffer[x + width * (y + 1)]
-                        && frameBuffer[(x + 1) + width * (y + 1)])
-                        || !(frameBuffer[x + width * y]
-                        || frameBuffer[(x + 1) + width * y]
-                        || frameBuffer[x + width * (y + 1)]
-                        || frameBuffer[(x + 1) + width * (y + 1)])) {
+                        width * y] &&
+                        frameBuffer[x + width * (y + 1)] &&
+                        frameBuffer[(x + 1) + width * (y + 1)]) ||
+                        !(frameBuffer[x + width * y] ||
+                        frameBuffer[(x + 1) + width * y] ||
+                        frameBuffer[x + width * (y + 1)] ||
+                        frameBuffer[(x + 1) + width * (y + 1)])) {
                     bad += N2;
                 }
             }
@@ -728,7 +730,8 @@ var QRCode = (function () {
     return {
 
         /**
-         * <p>Generates the QR code using the data provided.</p>
+         * <p>Generates the QR code using the data provided and renders it
+         * on to a <code>canvas</code> element.</p>
          * <p>ECC (error correction capacity) determines how many intential
          * errors are contained in the QR code.</p>
          * @param {Object} [data] The object carrying the information to be
@@ -736,19 +739,21 @@ var QRCode = (function () {
          * its properties will used their default values.
          * @param {HTMLCanvasElement} [data.canvas] The <code>canvas</code>
          * element that will have the QR code generated in it. If this is not
-         * specified a throwaway <code>canvas</code> is created for the purpose
+         * specified a new <code>canvas</code> is created for the purpose
          * of this function.
          * @param {String} [data.level] The ECC level to be applied (L, M, Q,
-         * H). If this is not specified the "L" ECC level will be used.
-         * @param {Number} [data.size] The scaled size of the generated QR code
-         * (1-10). If this is not specified the QR code will be scaled at 4.
-         * @param {String} [data.value] The value to be encoded by the
+         * H). If this is not specified the <code>L</code> ECC level will be
+         * used.
+         * @param {Number} [data.size] The module size of the generated QR code
+         * (1-10). If this is not specified the module size of <code>4</code>
+         * will be used.
+         * @param {String} [data.value] The value to be encoded in the
          * generated QR code. If this is not specified an empty string will be
          * encoded.
          * @returns {HTMLCanvasElement} The <code>canvas</code> element
          * containing the generated QR code.
          */
-        generate: function (data) {
+        generateCanvas: function (data) {
             var canvas, c2d, i, j, px, qf, size = 4, steps = 25;
             data = data || {};
             if (data.size >= 1 && data.size <= 10) {
@@ -801,8 +806,8 @@ var QRCode = (function () {
         },
 
         /**
-         * <p>Generates the QR code using the data provided as an
-         * <code>image</code> element.</p>
+         * <p>Generates the QR code using the data provided  and renders it
+         * on to an <code>img</code> element.</p>
          * <p>ECC (error correction capacity) determines how many intential
          * errors are contained in the QR code.</p>
          * @param {Object} [data] The object carrying the information to be
@@ -812,19 +817,27 @@ var QRCode = (function () {
          * element that will have the QR code generated in it. If this is not
          * specified a throwaway <code>canvas</code> is created for the purpose
          * of this function.
+         * @param {HTMLImageElement} [data.image] The <code>img</code> element
+         * that will have the QR code generated in it. If this is not specified
+         * a new <code>img</code> is created for the purpose of this function.
          * @param {String} [data.level] The ECC level to be applied (L, M, Q,
-         * H). If this is not specified the "L" ECC level will be used.
-         * @param {Number} [data.size] The scaled size of the generated QR code
-         * (1-10). If this is not specified the QR code will be scaled at 4.
-         * @param {String} [data.value] The value to be encoded by the
+         * H). If this is not specified the <code>L</code> ECC level will be
+         * used.
+         * @param {Number} [data.size] The module size of the generated QR code
+         * (1-10). If this is not specified the module size of <code>4</code>
+         * will be used.
+         * @param {String} [data.value] The value to be encoded in the
          * generated QR code. If this is not specified an empty string will be
          * encoded.
          * @returns {HTMLImageElement} The <code>image</code> element for the
          * generated QR code.
          */
         generateImage: function (data) {
-            var img = document.createElement('img');
-            img.src = this.generate(data).toDataURL();
+            var canvas = this.generateCanvas(data),
+                img = data.image || document.createElement('img');
+            img.src = canvas.toDataURL();
+            img.height = canvas.height;
+            img.width = canvas.width;
             return img;
         }
 
