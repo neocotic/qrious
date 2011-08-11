@@ -8,14 +8,15 @@
  * Copyright (c) 2010 tz@execpc.com
  * Released under GPLv3
  */
- 
+
 /*jslint
     bitwise: true, browser: true, sloppy: true, plusplus: true, maxerr: 50,
     indent: 4
 */
 
 var QRCode = (function () {
-    if (!HTMLCanvasElement.prototype.getContext) {
+    if (typeof HTMLCanvasElement === 'undefined'
+            || !HTMLCanvasElement.prototype.getContext) {
         return {
             generate: function () {},
             generateImage: function () {}
