@@ -44,7 +44,7 @@ Add an image of a rendered QR code to a page.
                 document.body.appendChild(QRCode.generateImage({
                     level: 'H',
                     size: 4,
-                    value: 'Hello World!'
+                    value: 'http://forchoon.com/projects/javascript/qrcode-js/'
                 }));
             }
         </script>
@@ -52,6 +52,8 @@ Add an image of a rendered QR code to a page.
     <body onload="loadQR();"></body>
 </html>
 ```
+
+![qrcode.js Example 1](http://forchoon.com/wp-content/uploads/2011/08/qrcode-js-1.png)
 
 ### Using &lt;canvas&gt;
 
@@ -74,9 +76,9 @@ Render the QR code in an existing canvas on a page.
             function loadQR() {
                 QRCode.generateCanvas({
                     canvas: document.getElementById('qr'),
-                    level: 'H',
+                    level: 'L',
                     size: 4,
-                    value: 'Hello World!'
+                    value: 'https://github.com/neocotic/qrcode.js'
                 });
             }
         </script>
@@ -86,6 +88,8 @@ Render the QR code in an existing canvas on a page.
     </body>
 </html>
 ```
+
+![qrcode.js Example 2](http://forchoon.com/wp-content/uploads/2011/08/qrcode-js-2.png)
 
 ## What is ECC?
 
