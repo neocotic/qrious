@@ -16,9 +16,13 @@ All the data used by qrcode.js are *optional* and you can choose to provide no
 information at all if you wish. The API has two simple methods that take a
 single object argument that can contain the following values;
 
+* *{String}* **background** - The background colour to be used.
+  * White (`#fff`) is used if not specified.
 * *{HTMLCanvasElement}* **canvas** - A `<canvas>` element in which the QR code
   should be rendered.
   * Creates a new `<canvas>` element if not specified.
+* *{String}* **foreground** - The foreground colour to be used.
+  * Black (`#000`) is used if not specified.
 * *{HTMLImageElement}* **image** - An `<img>` element in which the QR code
   should be rendered.
   * Creates a new `<img>` element if not specified.

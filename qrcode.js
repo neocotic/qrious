@@ -1,5 +1,5 @@
 /*!
- * qrcode.js v1.0.0
+ * qrcode.js v1.0.1
  * http://forchoon.com/projects/javascript/qrcode-js/
  *
  * Copyright 2011, Alasdair Mercer
@@ -737,10 +737,12 @@ var QRCode = (function () {
          * @param {Object} [data] The object carrying the information to be
          * used when generating the QR code. If this is not specified all of
          * its properties will used their default values.
+         * @param {String} [data.background] The background colour to be used.
          * @param {HTMLCanvasElement} [data.canvas] The <code>canvas</code>
          * element that will have the QR code generated in it. If this is not
          * specified a new <code>canvas</code> is created for the purpose
          * of this function.
+         * @param {String} [data.foreground] The foreground colour to be used.
          * @param {String} [data.level] The ECC level to be applied (L, M, Q,
          * H). If this is not specified the <code>L</code> ECC level will be
          * used.
@@ -764,7 +766,7 @@ var QRCode = (function () {
             c2d = canvas.getContext('2d');
             c2d.canvas.width = size;
             c2d.canvas.height = size;
-            c2d.fillStyle = '#eee';
+            c2d.fillStyle = data.background || '#fff';
             c2d.fillRect(0, 0, size, size);
             if (data.level) {
                 switch (data.level.toUpperCase()) {
@@ -788,9 +790,9 @@ var QRCode = (function () {
             px /= width;
             px = Math.round(px - 0.5);
             c2d.clearRect(0, 0, size, size);
-            c2d.fillStyle = '#fff';
+            c2d.fillStyle = data.background || '#fff';
             c2d.fillRect(0, 0, px * (width + 8), px * (width + 8));
-            c2d.fillStyle = '#000';
+            c2d.fillStyle = data.foreground || '#000';
             for (i = 0; i < width; i++) {
                 for (j = 0; j < width; j++) {
                     if (qf[j * width + i]) {
@@ -809,10 +811,12 @@ var QRCode = (function () {
          * @param {Object} [data] The object carrying the information to be
          * used when generating the QR code. If this is not specified all of
          * its properties will used their default values.
+         * @param {String} [data.background] The background colour to be used.
          * @param {HTMLCanvasElement} [data.canvas] The <code>canvas</code>
          * element that will have the QR code generated in it. If this is not
          * specified a throwaway <code>canvas</code> is created for the purpose
          * of this function.
+         * @param {String} [data.foreground] The foreground colour to be used.
          * @param {HTMLImageElement} [data.image] The <code>img</code> element
          * that will have the QR code generated in it. If this is not specified
          * a new <code>img</code> is created for the purpose of this function.
