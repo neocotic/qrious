@@ -21,7 +21,7 @@
  * includes much safer and cleaner code with only a single global varialble
  * and a simple and usable API.</p>
  * @author <a href="http://github.com/neocotic">Alasdair Mercer</a>
- * @version 1.0.0
+ * @version 1.0.1
  * @requires HTML5
  * @namespace
  */
