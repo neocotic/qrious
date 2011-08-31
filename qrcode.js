@@ -1,5 +1,5 @@
 /*!
- * qrcode.js v1.0.1
+ * qrcode.js v1.0.2
  * http://forchoon.com/projects/javascript/qrcode-js/
  *
  * Copyright 2011, Alasdair Mercer
@@ -21,19 +21,23 @@
  * includes much safer and cleaner code with only a single global varialble
  * and a simple and usable API.</p>
  * @author <a href="http://github.com/neocotic">Alasdair Mercer</a>
- * @version 1.0.1
+ * @version 1.0.2
  * @requires HTML5
  * @namespace
  */
 var QRCode = (function () {
+
     // Checks for HTML5 canvas support and returns dummy object if not found
     if (typeof HTMLCanvasElement === 'undefined' ||
             !HTMLCanvasElement.prototype.getContext) {
         return {
-            generate: function () {},
-            generateImage: function () {}
+            canvas: function () {},
+            generateCanvas: function () {},
+            generateImage: function () {},
+            image: function () {}
         };
     }
+
     var alignmentDelta = [
             0, 11, 15, 19, 23, 27, 31, 16, 18, 20, 22, 24, 26, 28, 20, 22, 24,
             24, 26, 28, 28, 22, 24, 24, 26, 26, 28, 28, 24, 24, 26, 26, 26, 28,
@@ -732,6 +736,8 @@ var QRCode = (function () {
         /**
          * <p>Generates the QR code using the data provided and renders it
          * on to a <code>canvas</code> element.</p>
+         * <p>If no <code>canvas</code> element is specified in the argument
+         * provided a new one will be created and used.</p>
          * <p>ECC (error correction capacity) determines how many intential
          * errors are contained in the QR code.</p>
          * @param {Object} [data] The object carrying the information to be
@@ -754,8 +760,9 @@ var QRCode = (function () {
          * encoded.
          * @returns {HTMLCanvasElement} The <code>canvas</code> element
          * containing the generated QR code.
+         * @since 1.0.2
          */
-        generateCanvas: function (data) {
+        canvas: function (data) {
             var canvas, c2d, i, j, px, qf, size = 4, steps = 25;
             data = data || {};
             if (data.size >= 1 && data.size <= 10) {
@@ -804,8 +811,43 @@ var QRCode = (function () {
         },
 
         /**
+         * <p>Generates the QR code using the data provided and renders it
+         * on to a <code>canvas</code> element.</p>
+         * <p>If no <code>canvas</code> element is specified in the argument
+         * provided a new one will be created and used.</p>
+         * <p>ECC (error correction capacity) determines how many intential
+         * errors are contained in the QR code.</p>
+         * @param {Object} [data] The object carrying the information to be
+         * used when generating the QR code. If this is not specified all of
+         * its properties will used their default values.
+         * @param {String} [data.background] The background colour to be used.
+         * @param {HTMLCanvasElement} [data.canvas] The <code>canvas</code>
+         * element that will have the QR code generated in it. If this is not
+         * specified a new <code>canvas</code> is created for the purpose
+         * of this function.
+         * @param {String} [data.foreground] The foreground colour to be used.
+         * @param {String} [data.level] The ECC level to be applied (L, M, Q,
+         * H). If this is not specified the <code>L</code> ECC level will be
+         * used.
+         * @param {Number} [data.size] The module size of the generated QR code
+         * (1-10). If this is not specified the module size of <code>4</code>
+         * will be used.
+         * @param {String} [data.value] The value to be encoded in the
+         * generated QR code. If this is not specified an empty string will be
+         * encoded.
+         * @returns {HTMLCanvasElement} The <code>canvas</code> element
+         * containing the generated QR code.
+         * @deprecated Since 1.0.2. You should now use {@link canvas}.
+         */
+        generateCanvas: function (data) {
+            return this.canvas(data);
+        },
+
+        /**
          * <p>Generates the QR code using the data provided  and renders it
          * on to an <code>img</code> element.</p>
+         * <p>If no <code>img</code> element is specified in the argument
+         * provided a new one will be created and used.</p>
          * <p>ECC (error correction capacity) determines how many intential
          * errors are contained in the QR code.</p>
          * @param {Object} [data] The object carrying the information to be
@@ -831,9 +873,46 @@ var QRCode = (function () {
          * encoded.
          * @returns {HTMLImageElement} The <code>image</code> element for the
          * generated QR code.
+         * @deprecated Since 1.0.2. You should now use {@link image}.
          */
         generateImage: function (data) {
-            var canvas = this.generateCanvas(data),
+            return this.image(data);
+        },
+
+        /**
+         * <p>Generates the QR code using the data provided  and renders it
+         * on to an <code>img</code> element.</p>
+         * <p>If no <code>img</code> element is specified in the argument
+         * provided a new one will be created and used.</p>
+         * <p>ECC (error correction capacity) determines how many intential
+         * errors are contained in the QR code.</p>
+         * @param {Object} [data] The object carrying the information to be
+         * used when generating the QR code. If this is not specified all of
+         * its properties will used their default values.
+         * @param {String} [data.background] The background colour to be used.
+         * @param {HTMLCanvasElement} [data.canvas] The <code>canvas</code>
+         * element that will have the QR code generated in it. If this is not
+         * specified a throwaway <code>canvas</code> is created for the purpose
+         * of this function.
+         * @param {String} [data.foreground] The foreground colour to be used.
+         * @param {HTMLImageElement} [data.image] The <code>img</code> element
+         * that will have the QR code generated in it. If this is not specified
+         * a new <code>img</code> is created for the purpose of this function.
+         * @param {String} [data.level] The ECC level to be applied (L, M, Q,
+         * H). If this is not specified the <code>L</code> ECC level will be
+         * used.
+         * @param {Number} [data.size] The module size of the generated QR code
+         * (1-10). If this is not specified the module size of <code>4</code>
+         * will be used.
+         * @param {String} [data.value] The value to be encoded in the
+         * generated QR code. If this is not specified an empty string will be
+         * encoded.
+         * @returns {HTMLImageElement} The <code>image</code> element for the
+         * generated QR code.
+         * @since 1.0.2
+         */
+        image: function (data) {
+            var canvas = this.canvas(data),
                 img = data.image || document.createElement('img');
             img.src = canvas.toDataURL();
             img.height = canvas.height;
@@ -842,4 +921,5 @@ var QRCode = (function () {
         }
 
     };
+
 }());

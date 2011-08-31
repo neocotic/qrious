@@ -6,13 +6,13 @@ generation using [HTML5](http://en.wikipedia.org/wiki/HTML5).
 ## &lt;img&gt;
 
 ```
-QRCode.generateImage([data])
+QRCode.image([data])
 ```
 
 ## &lt;canvas&gt;
 
 ```
-QRCode.generateCanvas([data])
+QRCode.canvas([data])
 ```
 
 ## Data Object
