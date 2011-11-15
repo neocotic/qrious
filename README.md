@@ -28,7 +28,7 @@ itself.
   black).
 * *{HTMLImageElement}* **image** - An `<img>` element in which the QR code
   should be rendered (creates a new `<img>` element by default).
-  * This property is *only* used by `QRCode.generateImage`.
+  * This property is *only* used by `QRCode.image` & `QRCode.generateImage`.
 * *{String}* **level** - The ECC (error correction capacity) level to be
   applied (defaults to `L`).
 * *{Number}* **size** - The module size of the generated QR code (defaults to
