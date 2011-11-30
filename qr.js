@@ -938,7 +938,7 @@
             buff = _buff;
             if (fd) fdAndBuff();
           });
-          fs.open(path, 'w', 0666, function C3(err, _fd) {
+          fs.open(data.path, 'w', 0666, function C3(err, _fd) {
             if (err) throw err;
             fd = _fd;
             if (buff) fdAndBuff();
