@@ -1,4 +1,4 @@
-qrcode.js, Pure JavaScript library for generating QR codes using HTML5  
+qr.js, Pure JavaScript library for generating QR codes using canvas  
 Copyright (C) 2011 Alasdair Mercer
 
 This program is free software: you can redistribute it and/or modify  
