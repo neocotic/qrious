@@ -1,11 +1,11 @@
-// [qr.js](http://neocotic.github.com/qr.js) 1.0.3
-// (c) 2011 Alasdair Mercer
-// Licensed under the GPL Version 3 license.
-// Based on jsqrencode
-// (c) 2010 tz@execpc.com
-// Licensed under the GPL Version 3 license.
-// For all details and documentation:
-// http://neocotic.github.com/qr.js
+// [qr.js](http://neocotic.com/qr.js) 1.0.3  
+// (c) 2011 Alasdair Mercer  
+// Freely distributable under the MIT license.  
+// Based on [jsqrencode](http://code.google.com/p/jsqrencode/)  
+// (c) 2010 tz@execpc.com  
+// Licensed under the GPL Version 3 license.  
+// For all details and documentation:  
+// <http://neocotic.com/qr.js>
 
 (function (root) {
 
@@ -195,13 +195,13 @@
     }
   }
 
-  // Safely handle cases where synchronization methodology may vary.
+  // Safely handle cases where synchronization methodology may vary.  
   // In cases where a callback function was specified it should be used to pass
   // the return value of the function provided or any errors that were thrown
   // during the process. Either the return value of the callback function or
-  // the error encountered will be returned here.
+  // the error encountered will be returned here.  
   // Otherwise; errors will be thrown as normal and the return value of the
-  // function will simply be returned.
+  // function will simply be returned.  
   // When the function provided is called the specified context will be
   // applied.
   function syncSafe(fn, cb, ctx) {
@@ -474,6 +474,7 @@
     return bad;
   }
 
+  // Generate the encoded QR image for the string provided.
   function generateFrame(str) {
     var i, j, k, m, t, v, x, y;
     // Find the smallest version that fits the string.
@@ -794,11 +795,11 @@
     // ------------
 
     // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element.
+    // `<canvas>` element.  
     // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.
+    // will be created and used.  
     // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.
+    // contained in the QR code.  
     // Optionally, a callback function can be provided which will be called
     // with the `<canvas>` element as the second argument. If an error occurs
     // it will be passed as the first argument to this function, otherwise this
@@ -862,11 +863,11 @@
     },
 
     // Generate the QR code using the data provided and render it on to a
-    // `<img>` element.
+    // `<img>` element.  
     // If no `<img>` element is specified in the argument provided a new one
-    // will be created and used.
+    // will be created and used.  
     // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.
+    // contained in the QR code.  
     // Optionally, a callback function can be provided which will be called
     // with the `<img>` element as the second argument. If an error occurs it
     // will be passed as the first argument to this function, otherwise this
@@ -894,11 +895,11 @@
     },
 
     // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element and save it as an image file.
+    // `<canvas>` element and save it as an image file.  
     // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.
+    // will be created and used.  
     // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.
+    // contained in the QR code.  
     // If called in a browser the `path` property/argument is ignored and will
     // simply prompt the user to choose a location and file name. However, if
     // called within NodeJS the file will be saved to specified path.
@@ -952,11 +953,11 @@
     },
 
     // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element before returning its data URI.
+    // `<canvas>` element before returning its data URI.  
     // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.
+    // will be created and used.  
     // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.
+    // contained in the QR code.  
     // Optionally, a callback function can be provided which will be called
     // with the data URI string as the second argument. If an error occurs it
     // will be passed as the first argument to this function, otherwise this
@@ -972,8 +973,8 @@
     // -----------------
 
     // Run qr.js in *noConflict* mode, returning the `qr` variable to its
-    // previous owner.
-    // Returns a reference to `qr`.
+    // previous owner.  
+    // Returns a reference to `qr`.  
     // Optionally, a callback function can be provided which will be called
     // after the ownership has been restored. If an error occurs it will be
     // passed as the first argument to this function, otherwise this argument

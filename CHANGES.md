@@ -9,6 +9,7 @@ YYYY.MM.DD, Version 1.0.3
 * [#7](https://github.com/neocotic/qr.js/issues/7): Allow `data` arguments to be an object or string value
 * [#8](https://github.com/neocotic/qr.js/issues/8): Add `VERSION` property to the API
 * [#8](https://github.com/neocotic/qr.js/issues/8): Add `toDataURL`, `save` and `noConflict` methods to the API
+* Now distributed under the [MIT License](http://en.wikipedia.org/wiki/MIT_License)
 
 2011.08.31, Version 1.0.2
 

@@ -14,25 +14,29 @@
 ### &lt;canvas&gt;
 
 ```
-qr.canvas([data|value][, callback(error, canvas)])
+qr.canvas([data][, callback(error, canvas)])
+qr.canvas([value][, callback(error, canvas)])
 ```
 
 ### &lt;img&gt;
 
 ```
-qr.image([data|value][, callback(error, image)])
+qr.image([data][, callback(error, image)])
+qr.image([value][, callback(error, image)])
 ```
 
 ### Data URI
 
 ```
-qr.toDataURL([data|value][, callback(error, url)])
+qr.toDataURL([data][, callback(error, url)])
+qr.toDataURL([value][, callback(error, url)])
 ```
 
 ### Save
 
 ```
-qr.save([data|value][, path][, callback(error, path)])
+qr.save([data][, path][, callback(error, path)])
+qr.save([value][, path][, callback(error, path)])
 ```
 
 ### First Argument
@@ -76,7 +80,7 @@ qr.VERSION
 If you want more information or examples of using this library please visit the
 project's homepage;
 
-http://neocotic.github.com/qr.js
+http://neocotic.com/qr.js
 
-[qr.js]: http://neocotic.github.com/qr.js
+[qr.js]: http://neocotic.com/qr.js
 [QR code]: http://en.wikipedia.org/wiki/QR_code
