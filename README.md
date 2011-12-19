@@ -11,32 +11,11 @@
 
 ## Standard Usage
 
-### &lt;canvas&gt;
-
-```
-qr.canvas([data][, callback(error, canvas)])
-qr.canvas([value][, callback(error, canvas)])
-```
-
-### &lt;img&gt;
-
-```
-qr.image([data][, callback(error, image)])
-qr.image([value][, callback(error, image)])
-```
-
-### Data URI
-
-```
-qr.toDataURL([data][, callback(error, url)])
-qr.toDataURL([value][, callback(error, url)])
-```
-
-### Save
-
-```
-qr.save([data][, path][, callback(error, path)])
-qr.save([value][, path][, callback(error, path)])
+``` javascript
+qr.canvas([data|value][, callback(error, canvas)])
+qr.image([data|value][, callback(error, image)])
+qr.toDataURL([data|value][, callback(error, url)])
+qr.save([data|value][, path][, callback(error)])
 ```
 
 ### First Argument
@@ -67,20 +46,30 @@ otherwise they can be set using the following properties;
 
 ## Miscellaneous
 
-```
+``` javascript
 qr.noConflict([callback(error)])
-```
-
-```
 qr.VERSION
 ```
 
-## Further Information
+## Bugs
 
-If you want more information or examples of using this library please visit the
-project's homepage;
+If you have any problems with this library or would like to see the changes
+currently in development you can do so here;
+
+https://github.com/neocotic/qr.js/issues
+
+## Questions?
+
+Take a look at `docs/qr.html` to get a better understanding of what the code is
+doing.
+
+If that doesn't help, feel free to follow me on Twitter, [@neocotic][].
+
+However, if you want more information or examples of using this library please
+visit the project's homepage;
 
 http://neocotic.com/qr.js
 
+[@neocotic]: https://twitter.com/#!/neocotic
 [qr.js]: http://neocotic.com/qr.js
 [QR code]: http://en.wikipedia.org/wiki/QR_code
