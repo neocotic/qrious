@@ -31,6 +31,5 @@
   "dependencies": {
     "canvas": "0.8"
   },
-  "ender": "./ender.js",
   "main": "./qr.js"
 }
