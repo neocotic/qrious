@@ -64,6 +64,13 @@
     20, 4,  117, 30,    40, 7,  47,  28,    43, 22, 24,  30,    10, 67, 15,  30,
     19, 6,  118, 30,    18, 31, 47,  28,    34, 34, 24,  30,    20, 61, 15,  30
   ];
+  // Map of human-readable ECC levels.
+  var ECC_LEVELS = {
+    L: 1,
+    M: 2,
+    Q: 3,
+    H: 4
+  };
   // Final format bits with mask (level << 3 | mask).
   var FINAL_FORMAT = [
     0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976, /* L */
@@ -513,48 +520,70 @@
   // Generate the encoded QR image for the string provided.
   function generateFrame(str) {
     var i, j, k, m, t, v, x, y;
+
     // Find the smallest version that fits the string.
     t = str.length;
+
     version = 0;
+
     do {
       version++;
+
       k = (eccLevel - 1) * 4 + (version - 1) * 16;
+
       neccBlock1 = ECC_BLOCKS[k++];
       neccBlock2 = ECC_BLOCKS[k++];
       dataBlock  = ECC_BLOCKS[k++];
       eccBlock   = ECC_BLOCKS[k];
-      k = dataBlock * (neccBlock1 + neccBlock2) + neccBlock2 - 3 +
-          (version <= 9);
+
+      k = dataBlock * (neccBlock1 + neccBlock2) + neccBlock2 - 3 + (version <= 9);
+
       if (t <= k) break;
     } while (version < 40);
+
     // FIXME: Ensure that it fits insted of being truncated.
     width = 17 + 4 * version;
+
     // Allocate, clear and setup data structures.
-    v = dataBlock + (dataBlock + eccBlock) * (neccBlock1 + neccBlock2) +
-        neccBlock2;
-    for (t = 0; t < v; t++) eccBuffer[t] = 0;
+    v = dataBlock + (dataBlock + eccBlock) * (neccBlock1 + neccBlock2) + neccBlock2;
+
+    for (t = 0; t < v; t++) {
+      eccBuffer[t] = 0;
+    }
+
     stringBuffer = str.slice(0);
-    for (t = 0; t < width * width; t++) frameBuffer[t] = 0;
-    for (t = 0; t < (width * (width + 1) + 1) / 2; t++) frameMask[t] = 0;
+
+    for (t = 0; t < width * width; t++) {
+      frameBuffer[t] = 0;
+    }
+
+    for (t = 0; t < (width * (width + 1) + 1) / 2; t++) {
+      frameMask[t] = 0;
+    }
+
     // Insert finders: Foreground colour to frame and background to mask.
     for (t = 0; t < 3; t++) {
-      k = 0;
-      y = 0;
+      k = y = 0;
+
       if (t === 1) k = (width - 7);
       if (t === 2) y = (width - 7);
+
       frameBuffer[(y + 3) + width * (k + 3)] = 1;
+
       for (x = 0; x < 6; x++) {
         frameBuffer[(y + x) + width * k] = 1;
         frameBuffer[y + width * (k + x + 1)] = 1;
         frameBuffer[(y + 6) + width * (k + x)] = 1;
         frameBuffer[(y + x + 1) + width * (k + 6)] = 1;
       }
+
       for (x = 1; x < 5; x++) {
         setMask(y + x, k + 1);
         setMask(y + 1, k + x + 1);
         setMask(y + 5, k + x);
         setMask(y + x + 1, k + 5);
       }
+
       for (x = 2; x < 4; x++) {
         frameBuffer[(y + x) + width * (k + 2)] = 1;
         frameBuffer[(y + 2) + width * (k + x + 1)] = 1;
@@ -562,43 +591,62 @@
         frameBuffer[(y + x + 1) + width * (k + 4)] = 1;
       }
     }
+
     // Alignment blocks.
     if (version > 1) {
       t = ALIGNMENT_DELTA[version];
       y = width - 7;
+
       for (;;) {
         x = width - 7;
+
         while (x > t - 3) {
           addAlignment(x, y);
+
           if (x < t) break;
+
           x -= t;
         }
+
         if (y <= t + 9) break;
+
         y -= t;
+
         addAlignment(6, y);
         addAlignment(y, 6);
       }
     }
+
     // Single foreground cell.
     frameBuffer[8 + width * (width - 8)] = 1;
+
     // Timing gap (mask only).
     for (y = 0; y < 7; y++) {
       setMask(7, y);
       setMask(width - 8, y);
       setMask(7, y + width - 7);
     }
+
     for (x = 0; x < 8; x++) {
       setMask(x, 7);
       setMask(x + width - 8, 7);
       setMask(x, width - 8);
     }
+
     // Reserve mask, format area.
-    for (x = 0; x < 9; x++) setMask(x, 8);
+    for (x = 0; x < 9; x++) {
+      setMask(x, 8);
+    }
+
     for (x = 0; x < 8; x++) {
       setMask(x + width - 8, 8);
       setMask(8, x);
     }
-    for (y = 0; y < 7; y++) setMask(8, y + width - 7);
+
+    for (y = 0; y < 7; y++) {
+      setMask(8, y + width - 7);
+    }
+
     // Timing row/column.
     for (x = 0; x < width - 14; x++) {
       if (x & 1) {
@@ -609,10 +657,12 @@
         frameBuffer[6 + width * (8 + x)] = 1;
       }
     }
+
     // Version block.
     if (version > 6) {
       t = VERSION_BLOCK[version - 7];
       k = 17;
+
       for (x = 0; x < 6; x++) {
         for (y = 0; y < 3; y++, k--) {
           if (1 & (k > 11 ? version >> (k - 12) : t >> k)) {
@@ -625,123 +675,167 @@
         }
       }
     }
-    // Sync mask bits. Only set above for background cells, so now add the
-    // foreground.
+
+    // Sync mask bits. Only set above for background cells, so now add the foreground.
     for (y = 0; y < width; y++) {
       for (x = 0; x <= y; x++) {
-        if (frameBuffer[x + width * y]) setMask(x, y);
+        if (frameBuffer[x + width * y]) {
+          setMask(x, y);
+        }
       }
     }
-    // Convert string to bit stream. 8-bit data to QR-coded 8-bit data
-    // (numeric, alphanum, or kanji not supported).
+
+    // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji
+    // not supported).
     v = stringBuffer.length;
+
     // String to array.
-    for (i = 0; i < v; i++) eccBuffer[i] = stringBuffer.charCodeAt(i);
+    for (i = 0; i < v; i++) {
+      eccBuffer[i] = stringBuffer.charCodeAt(i);
+    }
+
     stringBuffer = eccBuffer.slice(0);
+
     // Calculate max string length.
     x = dataBlock * (neccBlock1 + neccBlock2) + neccBlock2;
+
     if (v >= x - 2) {
       v = x - 2;
+
       if (version > 9) v--;
     }
+
     // Shift and re-pack to insert length prefix.
     i = v;
+
     if (version > 9) {
       stringBuffer[i + 2] = 0;
       stringBuffer[i + 3] = 0;
+
       while (i--) {
         t = stringBuffer[i];
+
         stringBuffer[i + 3] |= 255 & (t << 4);
         stringBuffer[i + 2] = t >> 4;
       }
+
       stringBuffer[2] |= 255 & (v << 4);
       stringBuffer[1] = v >> 4;
       stringBuffer[0] = 0x40 | (v >> 12);
     } else {
       stringBuffer[i + 1] = 0;
       stringBuffer[i + 2] = 0;
+
       while (i--) {
         t = stringBuffer[i];
+
         stringBuffer[i + 2] |= 255 & (t << 4);
         stringBuffer[i + 1] = t >> 4;
       }
+
       stringBuffer[1] |= 255 & (v << 4);
       stringBuffer[0] = 0x40 | (v >> 4);
     }
+
     // Fill to end with pad pattern.
     i = v + 3 - (version < 10);
+
     while (i < x) {
       stringBuffer[i++] = 0xec;
       stringBuffer[i++] = 0x11;
     }
+
     // Calculate generator polynomial.
     polynomial[0] = 1;
+
     for (i = 0; i < eccBlock; i++) {
       polynomial[i + 1] = 1;
+
       for (j = i; j > 0; j--) {
         polynomial[j] = polynomial[j] ? polynomial[j - 1] ^
-            GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[j]] + i)] :
-            polynomial[j - 1];
+            GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[j]] + i)] : polynomial[j - 1];
       }
+
       polynomial[0] = GALOIS_EXPONENT[modN(GALOIS_LOG[polynomial[0]] + i)];
     }
+
     // Use logs for generator polynomial to save calculation step.
-    for (i = 0; i <= eccBlock; i++) polynomial[i] = GALOIS_LOG[polynomial[i]];
+    for (i = 0; i <= eccBlock; i++) {
+      polynomial[i] = GALOIS_LOG[polynomial[i]];
+    }
+
     // Append ECC to data buffer.
     k = x;
     y = 0;
+
     for (i = 0; i < neccBlock1; i++) {
       appendData(y, dataBlock, k, eccBlock);
+
       y += dataBlock;
       k += eccBlock;
     }
+
     for (i = 0; i < neccBlock2; i++) {
       appendData(y, dataBlock + 1, k, eccBlock);
+
       y += dataBlock + 1;
       k += eccBlock;
     }
+
     // Interleave blocks.
     y = 0;
+
     for (i = 0; i < dataBlock; i++) {
       for (j = 0; j < neccBlock1; j++) {
         eccBuffer[y++] = stringBuffer[i + j * dataBlock];
       }
+
       for (j = 0; j < neccBlock2; j++) {
-        eccBuffer[y++] = stringBuffer[(neccBlock1 * dataBlock) + i +
-            (j * (dataBlock + 1))];
+        eccBuffer[y++] = stringBuffer[(neccBlock1 * dataBlock) + i + (j * (dataBlock + 1))];
       }
     }
+
     for (j = 0; j < neccBlock2; j++) {
-      eccBuffer[y++] = stringBuffer[(neccBlock1 * dataBlock) + i +
-          (j * (dataBlock + 1))];
+      eccBuffer[y++] = stringBuffer[(neccBlock1 * dataBlock) + i + (j * (dataBlock + 1))];
     }
+
     for (i = 0; i < eccBlock; i++) {
       for (j = 0; j < neccBlock1 + neccBlock2; j++) {
         eccBuffer[y++] = stringBuffer[x + i + j * eccBlock];
       }
     }
+
     stringBuffer = eccBuffer;
+
     // Pack bits into frame avoiding masked area.
     x = y = width - 1;
     k = v = 1;
+
     // inteleaved data and ECC codes.
     m = (dataBlock + eccBlock) * (neccBlock1 + neccBlock2) + neccBlock2;
+
     for (i = 0; i < m; i++) {
       t = stringBuffer[i];
+
       for (j = 0; j < 8; j++, t <<= 1) {
-        if (0x80 & t) frameBuffer[x + width * y] = 1;
+        if (0x80 & t) {
+          frameBuffer[x + width * y] = 1;
+        }
+
         // Find next fill position.
         do {
           if (v) {
             x--;
           } else {
             x++;
+
             if (k) {
               if (y !== 0) {
                 y--;
               } else {
                 x -= 2;
-                k = !k;
+                k  = !k;
+
                 if (x === 6) {
                   x--;
                   y = 9;
@@ -752,7 +846,8 @@
                 y++;
               } else {
                 x -= 2;
-                k = !k;
+                k  = !k;
+
                 if (x === 6) {
                   x--;
                   y -= 8;
@@ -760,39 +855,52 @@
               }
             }
           }
+
           v = !v;
         } while (isMasked(x, y));
       }
     }
+
     // Save pre-mask copy of frame.
     stringBuffer = frameBuffer.slice(0);
+
     t = 0;
     y = 30000;
-    // Using `for` instead of `while` since in original Arduino code if an
-    // early mask was *good enough* it wouldn't try for a better one since they
-    // get more complex and take longer.
+
+    // Using `for` instead of `while` since in original Arduino code if an early mask was *good
+    // enough* it wouldn't try for a better one since they get more complex and take longer.
     for (k = 0; k < 8; k++) {
       // Returns foreground-background imbalance.
       applyMask(k);
+
       x = checkBadness();
+
       // Is current mask better than previous best?
       if (x < y) {
         y = x;
         t = k;
       }
+
       // Don't increment `i` to a void redoing mask.
       if (t === 7) break;
+
       // Reset for next pass.
       frameBuffer = stringBuffer.slice(0);
     }
+
     // Redo best mask as none were *good enough* (i.e. last wasn't `t`).
-    if (t !== k) applyMask(t);
+    if (t !== k) {
+      applyMask(t);
+    }
+
     // Add in final mask/ECC level bytes.
     y = FINAL_FORMAT[t + ((eccLevel - 1) << 3)];
+
     // Low byte.
     for (k = 0; k < 8; k++, y >>= 1) {
       if (y & 1) {
         frameBuffer[(width - 1 - k) + width * 8] = 1;
+
         if (k < 6) {
           frameBuffer[8 + width * k] = 1;
         } else {
@@ -800,10 +908,12 @@
         }
       }
     }
+
     // High byte.
     for (k = 0; k < 7; k++, y >>= 1) {
       if (y & 1) {
         frameBuffer[8 + width * (width - 7 + k)] = 1;
+
         if (k) {
           frameBuffer[(6 - k) + width * 8] = 1;
         } else {
@@ -811,7 +921,8 @@
         }
       }
     }
-    // Finally, return the image.
+
+    // Finally, return the image data.
     return frameBuffer;
   }
 
@@ -830,177 +941,176 @@
     // QR functions
     // ------------
 
-    // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element.  
-    // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.  
-    // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.  
-    // Optionally, a callback function can be provided which will be called
-    // with the `<canvas>` element as the second argument. If an error occurs
-    // it will be passed as the first argument to this function, otherwise this
-    // argument will be `null`.
-    canvas: function (data, callback) {
+    // Generate the QR code using the data provided and render it on to a `<canvas>` element.  
+    // If no `<canvas>` element is specified in the argument provided a new one will be created and
+    // used.  
+    // ECC (error correction capacity) determines how many intential errors are contained in the QR
+    // code.  
+    // Optionally, a callback function can be provided which will be called with the `<canvas>`
+    // element as the second argument. If an error occurs it will be passed as the first argument
+    // to this function, otherwise this argument will be `null`.
+    canvas: function(data, callback) {
       callback = findLastFunction(data, callback);
-      return syncSafe(function A() {
-        switch (typeof data) {
-        case 'object': break;
-        case 'string':
-          data = {value: data};
-          break;
-        default:
-          data = {};
-          break;
-        }
-        var
-          cvs, c2d, i, j, px, qf,
-          size  = 4,
-          steps = 25;
-        if (data.size >= 1 && data.size <= 10) size = data.size;
-        size *= steps;
-        cvs = data.canvas || createCanvas();
-        c2d = cvs.getContext('2d');
-        c2d.canvas.width = size;
+
+      return syncSafe(function () {
+        if (typeof data === 'string') data = { value: data };
+        data = data || {};
+
+        // Module size of the generated QR code (i.e. 1-10).
+        var size = data.size >= 1 && data.size <= 10 ? data.size : 4;
+        // Actual size of the QR code symbol and is scaled to 25 pixels (e.g. 1 = 25px, 3 = 75px).
+        size *= 25;
+
+        // `<canvas>` element used to render the QR code.
+        var cvs = data.canvas || createCanvas();
+        // Retreive the 2D context of the canvas.
+        var c2d = cvs.getContext('2d');
+        // Ensure the canvas has the correct dimensions.
+        c2d.canvas.width  = size;
         c2d.canvas.height = size;
+        // Fill the canvas with the correct background colour.
         c2d.fillStyle = data.background || '#fff';
         c2d.fillRect(0, 0, size, size);
-        if (data.level) {
-          switch (data.level.toUpperCase()) {
-          case 'L':
-            eccLevel = 1;
-            break;
-          case 'M':
-            eccLevel = 2;
-            break;
-          case 'Q':
-            eccLevel = 3;
-            break;
-          case 'H':
-            eccLevel = 4;
-            break;
-          }
-        }
-        qf = generateFrame(data.value || '');
+
+        // Determine the ECC level to be applied.
+        eccLevel = ECC_LEVELS[(data.level && data.level.toUpperCase()) || 'L'];
+
+        // Generate the image frame for the given `value`.
+        var frame = generateFrame(data.value || '');
+
         c2d.lineWidth = 1;
-        px = size;
+
+        // Determine the *pixel* size.
+        var px = size;
         px /= width;
-        px = Math.round(px - 0.5);
+        px  = Math.round(px - 0.5);
+
+        // Draw the QR code.
         c2d.clearRect(0, 0, size, size);
         c2d.fillStyle = data.background || '#fff';
         c2d.fillRect(0, 0, px * (width + 8), px * (width + 8));
         c2d.fillStyle = data.foreground || '#000';
+
+        var i, j;
+
         for (i = 0; i < width; i++) {
           for (j = 0; j < width; j++) {
-            if (qf[j * width + i]) c2d.fillRect(px * i, px * j, px, px);
+            if (frame[j * width + i]) {
+              c2d.fillRect(px * i, px * j, px, px);
+            }
           }
         }
+
         return cvs;
       }, callback, this);
     },
 
-    // Generate the QR code using the data provided and render it on to a
-    // `<img>` element.  
-    // If no `<img>` element is specified in the argument provided a new one
-    // will be created and used.  
-    // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.  
-    // Optionally, a callback function can be provided which will be called
-    // with the `<img>` element as the second argument. If an error occurs it
-    // will be passed as the first argument to this function, otherwise this
-    // argument will be `null`.
-    image: function (data, callback) {
+    // Generate the QR code using the data provided and render it on to a `<img>` element.  
+    // If no `<img>` element is specified in the argument provided a new one will be created and
+    // used.  
+    // ECC (error correction capacity) determines how many intential errors are contained in the QR
+    // code.  
+    // Optionally, a callback function can be provided which will be called with the `<img>`
+    // element as the second argument. If an error occurs it will be passed as the first argument
+    // to this function, otherwise this argument will be `null`.
+    image: function(data, callback) {
       callback = findLastFunction(data, callback);
-      return syncSafe(function B() {
-        switch (typeof data) {
-        case 'object': break;
-        case 'string':
-          data = {value: data};
-          break;
-        default:
-          data = {};
-          break;
-        }
-        var
-          cvs = this.canvas(data),
-          img = data.image || createImage();
+
+      return syncSafe(function () {
+        if (typeof data === 'string') data = { value: data };
+        data = data || {};
+
+        // `<canvas>` element only which the QR code is rendered.
+        var cvs = this.canvas(data);
+        // `<img>` element used to display the QR code.
+        var img = data.image || createImage();
+
+        // Apply the QR code to `img`.
         img.src    = cvs.toDataURL();
         img.height = cvs.height;
         img.width  = cvs.width;
+
         return img;
       }, callback, this);
     },
 
-    // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element and save it as an image file.  
-    // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.  
-    // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.  
-    // If called in a browser the `path` property/argument is ignored and will
-    // simply prompt the user to choose a location and file name. However, if
-    // called within NodeJS the file will be saved to specified path.
-    // Optionally, a callback function can be provided which will be called
-    // once the saving process has started. If an error occurs it will be
-    // passed as the first argument to this function, otherwise this argument
-    // will be `null`.
-    save: function (data, path, callback) {
+    // Generate the QR code using the data provided and render it on to a `<canvas>` element and
+    // save it as an image file.  
+    // If no `<canvas>` element is specified in the argument provided a new one will be created and
+    // used.  
+    // ECC (error correction capacity) determines how many intential errors are contained in the QR
+    // code.  
+    // If called in a browser the `path` property/argument is ignored and will simply prompt the
+    // user to choose a location and file name. However, if called within node.js the file will be
+    // saved to specified path.  
+    // Optionally, a callback function can be provided which will be called once the saving process
+    // has started. If an error occurs it will be passed as the first argument to this function,
+    // otherwise this argument will be `null`.
+    save: function(data, path, callback) {
       callback = findLastFunction(data, path, callback);
-      return syncSafe(function C() {
-        switch (typeof data) {
-        case 'object':
-          if (typeof path === 'string' && !data.path) data.path = path;
-          break;
-        case 'string':
-          data = {value: data};
-          if (typeof path === 'string') data.path = path;
-          break;
-        default:
-          data = {};
-          break;
-        }
+
+      return syncSafe(function () {
+        if (typeof data === 'string') data = { value: data };
+        data = data || {};
+
+        if (typeof path === 'string') data.path = path;
+
+        // `<canvas>` element only which the QR code is rendered.
         var cvs = this.canvas(data);
+
         if (inNode) {
-          // Running in NodeJS so path is required.
+          // Running in node.js so path is required.
           if (typeof data.path !== 'string') {
             throw new TypeError('Invalid path type: ' + typeof data.path);
           }
-          var fd, buff, fdAndBuff = function C1() {
-            fs.write(fd, buff, 0, buff.length, 0, function C1A(err) {
+
+          var fd, buff;
+
+          function fdAndBuff() {
+            fs.write(fd, buff, 0, buff.length, 0, function (error) {
               fs.close(fd);
-              if (err) throw err;
+
+              if (error) throw error;
             });
-          };
-          cvs.toBuffer(function C2(err, _buff) {
-            if (err) throw err;
+          }
+
+          cvs.toBuffer(function (error, _buff) {
+            if (error) throw error;
+
             buff = _buff;
-            if (fd) fdAndBuff();
+            if (fd) {
+              fdAndBuff();
+            }
           });
-          fs.open(data.path, 'w', 0666, function C3(err, _fd) {
-            if (err) throw err;
+
+          fs.open(data.path, 'w', 0666, function (error, _fd) {
+            if (error) throw error;
+
             fd = _fd;
-            if (buff) fdAndBuff();
+            if (buff) {
+              fdAndBuff();
+            }
           });
         } else {
           // Force the image to be downloaded.
-          root.location.href = cvs.toDataURL().replace('image/png',
-              DOWNLOAD_MIME);
+          root.location.href = cvs.toDataURL().replace('image/png', DOWNLOAD_MIME);
         }
       }, callback, this);
     },
 
-    // Generate the QR code using the data provided and render it on to a
-    // `<canvas>` element before returning its data URI.  
-    // If no `<canvas>` element is specified in the argument provided a new one
-    // will be created and used.  
-    // ECC (error correction capacity) determines how many intential errors are
-    // contained in the QR code.  
-    // Optionally, a callback function can be provided which will be called
-    // with the data URI string as the second argument. If an error occurs it
-    // will be passed as the first argument to this function, otherwise this
-    // argument will be `null`.
-    toDataURL: function (data, callback) {
+    // Generate the QR code using the data provided and render it on to a `<canvas>` element before
+    // returning its data URI.  
+    // If no `<canvas>` element is specified in the argument provided a new one will be created and
+    // used.  
+    // ECC (error correction capacity) determines how many intential errors are contained in the QR
+    // code.  
+    // Optionally, a callback function can be provided which will be called with the data URI
+    // string as the second argument. If an error occurs it will be passed as the first argument to
+    // this function, otherwise this argument will be `null`.
+    toDataURL: function(data, callback) {
       callback = findLastFunction(data, callback);
-      return syncSafe(function D() {
+
+      return syncSafe(function () {
         return this.canvas(data).toDataURL();
       }, callback, this);
     },
@@ -1008,15 +1118,13 @@
     // Utility functions
     // -----------------
 
-    // Run qr.js in *noConflict* mode, returning the `qr` variable to its
-    // previous owner.  
+    // Run qr.js in *noConflict* mode, returning the `qr` variable to its previous owner.  
     // Returns a reference to `qr`.  
-    // Optionally, a callback function can be provided which will be called
-    // after the ownership has been restored. If an error occurs it will be
-    // passed as the first argument to this function, otherwise this argument
-    // will be `null`.
+    // Optionally, a callback function can be provided which will be called after the ownership has
+    // been restored. If an error occurs it will be passed as the first argument to this function,
+    // otherwise this argument will be `null`.
     noConflict: function (callback) {
-      return syncSafe(function E() {
+      return syncSafe(function () {
         root.qr = previousQr;
         return this;
       }, callback, this);
@@ -1027,19 +1135,21 @@
   // Support
   // -------
 
-  // Export `qr` for NodeJS and CommonJS.
+  // Export `qr` for node.js and CommonJS.
   if (typeof exports !== 'undefined') {
     inNode = true;
+
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = qr;
     }
     exports.qr = qr;
-    // Import required NodeJS modules.
+
+    // Import required node.js modules.
     Canvas = require('canvas');
     Image = Canvas.Image;
     fs = require('fs');
   } else if (typeof define === 'function' && define.amd) {
-    define(function Z() {
+    define(function () {
       return qr;
     });
   } else {
