@@ -1,16 +1,35 @@
 {
-  "name"         : "qr",
-  "description"  : "Library for QR code generation using canvas",
-  "version"      : "1.0.3",
-  "homepage"     : "http://neocotic.com/qr.js",
-  "bugs"         : {"url"    : "https://github.com/neocotic/qr.js/issues"},
-  "author"       : "Alasdair Mercer <mercer.alasdair@gmail.com>",
-  "licenses"     : [{"type"  : "MIT",
-                     "url"   : "https://github.com/neocotic/qr.js/raw/master/LICENSE.md"}],
-  "keywords"     : ["qr", "code", "encode", "canvas", "image"],
-  "repository"   : {"type"   : "git",
-                    "url"    : "git://github.com/neocotic/qr.js.git"},
-  "main"         : "qr.js",
-  "ender"        : "ender.js",
-  "dependencies" : {"canvas" : "0.8"}
+  "name": "qr",
+  "version": "1.1.0",
+  "description": "Library for QR code generation using canvas",
+  "homepage": "http://neocotic.com/qr.js",
+  "bugs": {
+    "url": "https://github.com/neocotic/qr.js/issues"
+  },
+  "author": {
+    "name": "Alasdair Mercer",
+    "email": "mercer.alasdair@gmail.com",
+    "url": "http://neocotic.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/neocotic/qr.js/raw/master/LICENSE.md"
+    }
+  ],
+  "keywords": [
+    "qr",
+    "code",
+    "encode",
+    "canvas",
+    "image"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/neocotic/qr.js.git"
+  },
+  "dependencies": {
+    "canvas": "0.8"
+  },
+  "main": "./qr.js"
 }
