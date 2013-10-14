@@ -1003,7 +1003,7 @@
     Image = Canvas.Image;
     fs = require('fs');
   } else if (typeof define === 'function' && define.amd) {
-    define('qr', function Z() {
+    define(function Z() {
       return qr;
     });
   } else {
