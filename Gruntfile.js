@@ -25,8 +25,10 @@ module.exports = function(grunt) {
           banner: (
               '/*! <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | <%= pkg.licenses[0].type %> License'
             + '\njsqrencode | (c) 2010 tz@execpc.com | GPL v3 License'
-            + '\n*/ '
-          )
+            + '\n*/'
+          ),
+          report: 'min',
+          sourceMap: 'qr.min.map'
         }
       }
     }
