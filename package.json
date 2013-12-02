@@ -29,7 +29,7 @@
     "url": "git://github.com/neocotic/qr.js.git"
   },
   "dependencies": {
-    "canvas": "0.8"
+    "canvas": "~1.1.2"
   },
-  "main": "./qr.js"
+  "main": "qr.js"
 }
