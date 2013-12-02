@@ -23,6 +23,8 @@ Install using the package manager for your desired environment(s):
 ``` bash
 # for node.js:
 $ npm install qr-js
+# OR; for the browser:
+$ bower install qr-js
 ```
 
 ## Examples
