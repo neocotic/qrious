@@ -1,5 +1,5 @@
 {
-  "name": "qr",
+  "name": "qr-js",
   "version": "1.1.0",
   "description": "Library for QR code generation using canvas",
   "homepage": "http://neocotic.com/qr.js",
@@ -30,6 +30,11 @@
   },
   "dependencies": {
     "canvas": "~1.1.2"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-docco": "~0.3.0"
   },
   "main": "qr.js"
 }
