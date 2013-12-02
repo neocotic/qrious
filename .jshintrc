@@ -1,0 +1,23 @@
+{
+  "boss": true,
+  "browser": true,
+  "camelcase": true,
+  "curly": false,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "laxcomma": true,
+  "maxlen": 100,
+  "newcap": true,
+  "noarg": true,
+  "node": true,
+  "nonew": true,
+  "quotmark": "single",
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "-W018": true,
+  "globals": {
+    "define": true
+  }
+}
