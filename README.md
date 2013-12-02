@@ -51,7 +51,7 @@ In [node.js][]:
 ``` javascript
 var qr = require('qr-js');
 
-qr.saveSync('http://neocotic.com/qr.js');
+qr.saveSync('http://neocotic.com/qr.js', 'qrcode.png');
 ```
 
 ## API
