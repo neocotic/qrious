@@ -9,6 +9,8 @@
 
 [qr.js][] is a pure JavaScript library for [QR code][] generation using canvas.
 
+[![Build Status](https://secure.travis-ci.org/neocotic/qr.js.png)](http://travis-ci.org/neocotic/qr.js)
+
 * [Install](#install)
 * [Examples](#examples)
 * [API](#api)

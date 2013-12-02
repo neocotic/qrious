@@ -9,6 +9,9 @@
 
 (function () {
 
+  'use strict';
+
+  // Reference to the *root* object.
   var root = this;
 
   // Private constants
@@ -131,6 +134,8 @@
     0x9a6, 0x683, 0x8c9, 0x7ec, 0xec4, 0x1e1, 0xfab, 0x08e, 0xc1a, 0x33f, 0xd75, 0x250, 0x9d5,
     0x6f0, 0x8ba, 0x79f, 0xb0b, 0x42e, 0xa64, 0x541, 0xc69
   ];
+  // Mode for node.js file system file writes.
+  var WRITE_MODE = parseInt('0666', 8);
 
   // Private variables
   // -----------------
@@ -183,11 +188,16 @@
     return inNode ? new Image() : root.document.createElement('img');
   }
 
-  // Force the canvas image to be downloaded in the browser.
-  function download(cvs, data) {
+  // Force the canvas image to be downloaded in the browser.  
+  // Optionally, a `callback` function can be specified which will be called upon completed. Since
+  // this is not an asynchronous operation, this is merely convenient and helps simplify the
+  // calling code.
+  function download(cvs, data, callback) {
     var mime = data.mime || DEFAULT_MIME;
 
     root.location.href = cvs.toDataURL(mime).replace(mime, DOWNLOAD_MIME);
+
+    if (typeof callback === 'function') callback();
   }
 
   // Normalize the `data` that is provided to the main API.
@@ -199,14 +209,70 @@
   // Override the `qr` API methods that require HTML5 canvas support to throw a relevant error.
   function overrideAPI(qr) {
     var methods = [ 'canvas', 'image', 'save', 'saveSync', 'toDataURL' ];
-    var i, name;
+    var i;
 
-    for (i = 0; i < methods.length; i++) {
-      name = methods[i];
-
+    function overrideMethod(name) {
       qr[name] = function () {
         throw new Error(name + ' requires HTML5 canvas element support');
       };
+    }
+
+    for (i = 0; i < methods.length; i++) {
+      overrideMethod(methods[i]);
+    }
+  }
+
+  // Asynchronously write the data of the rendered canvas to a given file path.
+  function writeFile(cvs, data, callback) {
+    if (typeof data.path !== 'string') {
+      return callback(new TypeError('Invalid path type: ' + typeof data.path));
+    }
+
+    var fd, buff;
+
+    // Write the buffer to the open file stream once both prerequisites are met.
+    function writeBuffer() {
+      fs.write(fd, buff, 0, buff.length, 0, function (error) {
+        fs.close(fd);
+
+        callback(error);
+      });
+    }
+
+    // Create a buffer of the canvas' data.
+    cvs.toBuffer(function (error, _buff) {
+      if (error) return callback(error);
+
+      buff = _buff;
+      if (fd) {
+        writeBuffer();
+      }
+    });
+
+    // Open a stream for the file to be written.
+    fs.open(data.path, 'w', WRITE_MODE, function (error, _fd) {
+      if (error) return callback(error);
+
+      fd = _fd;
+      if (buff) {
+        writeBuffer();
+      }
+    });
+  }
+
+  // Write the data of the rendered canvas to a given file path.
+  function writeFileSync(cvs, data) {
+    if (typeof data.path !== 'string') {
+      throw new TypeError('Invalid path type: ' + typeof data.path);
+    }
+
+    var buff = cvs.toBuffer();
+    var fd = fs.openSync(data.path, 'w', WRITE_MODE);
+
+    try {
+      fs.writeSync(fd, buff, 0, buff.length, 0);
+    } catch (error) {
+      fs.closeSync(fd);
     }
   }
 
@@ -449,8 +515,8 @@
 
   // Calculate how bad the masked image is (e.g. blocks, imbalance, runs, or finders).
   function checkBadness() {
-    var bad = bw = count = 0;
-    var b, b1, big, h, x, y;
+    var b, b1, bad, big, bw, count, h, x, y;
+    bad = bw = count = 0;
 
     // Blocks of same colour.
     for (y = 0; y < width - 1; y++) {
@@ -1052,54 +1118,23 @@
         throw new TypeError('Invalid callback type: ' + typeof callback);
       }
 
+      var completed = false;
       // `<canvas>` element only which the QR code is rendered.
       var cvs = this.canvas(data);
 
+      // Simple function to try and ensure that the `callback` function is only called once.
+      function done(error) {
+        if (!completed) {
+          completed = true;
+
+          callback(error);
+        }
+      }
+
       if (inNode) {
-        // Running in node.js so path is required.
-        if (typeof data.path !== 'string') {
-          throw new TypeError('Invalid path type: ' + typeof data.path);
-        }
-
-        var fd, buff, completed;
-
-        function done(error) {
-          if (!completed) {
-            completed = true;
-
-            callback(error);
-          }
-        }
-
-        function writeBuffer() {
-          fs.write(fd, buff, 0, buff.length, 0, function (error) {
-            fs.close(fd);
-
-            done(error);
-          });
-        }
-
-        cvs.toBuffer(function (error, _buff) {
-          if (error) return done(error);
-
-          buff = _buff;
-          if (fd) {
-            writeBuffer();
-          }
-        });
-
-        fs.open(data.path, 'w', 0666, function (error, _fd) {
-          if (error) return done(error);
-
-          fd = _fd;
-          if (buff) {
-            writeBuffer();
-          }
-        });
+        writeFile(cvs, data, done);
       } else {
-        download(cvs, data);
-
-        done();
+        download(cvs, data, done);
       }
     },
 
@@ -1121,19 +1156,7 @@
       var cvs = this.canvas(data);
 
       if (inNode) {
-        // Running in node.js so path is required.
-        if (typeof data.path !== 'string') {
-          throw new TypeError('Invalid path type: ' + typeof data.path);
-        }
-
-        var buff = cvs.toBuffer();
-        var fd = fs.openSync(data.path, 'w', 0666);
-
-        try {
-          fs.writeSync(fd, buff, 0, buff.length, 0);
-        } catch (error) {
-          fs.closeSync(fd);
-        }
+        writeFileSync(cvs, data);
       } else {
         download(cvs, data);
       }

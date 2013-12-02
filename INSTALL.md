@@ -24,13 +24,15 @@ Follow these steps to build [qr.js][];
 2. `cd` to the repository directory
 3. Ensure you have all of the dependencies by entering `npm install`
 4. Ensure you can run [Grunt][] by running `npm install -g grunt-cli`
-5. To update the optimized distributable file and documentation enter `grunt dist`
+5. To run the full test suite enter `grunt test`
+   * **Pro Tip:** You can easily run step 5 by just entering `grunt`
+6. To update the optimized distributable file and documentation enter `grunt dist`
    * Outputs to documentation to the `docs` directory
 
 ## Important
 
 If you're planning on contributing to [qr.js][] please do **NOT** update the distributable file or
-documentation (step 5) when submitting a pull request. We will not accept pull requests when these
+documentation (step 6) when submitting a pull request. We will not accept pull requests when these
 files have been changed as we do this ourselves when finalizing a release.
 
 Read the `CONTRIBUTING.md` file for more information about submitting pull requests.

@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  'use strict';
+
   // Configuration
   // -------------
 
@@ -16,6 +18,16 @@ module.exports = function(grunt) {
       }
     },
 
+    jshint: {
+      all: [
+        'Gruntfile.js',
+        'qr.js'
+      ],
+      options: {
+        jshintrc: '.jshintrc'
+      }
+    },
+
     uglify: {
       all: {
         files: {
@@ -23,9 +35,10 @@ module.exports = function(grunt) {
         },
         options: {
           banner: (
-              '/*! <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | <%= pkg.licenses[0].type %> License'
-            + '\njsqrencode | (c) 2010 tz@execpc.com | GPL v3 License'
-            + '\n*/'
+            '/*! <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today("yyyy") %>' +
+            ' <%= pkg.author.name %> | <%= pkg.licenses[0].type %> License \n' +
+            'jsqrencode | (c) 2010 tz@execpc.com | GPL v3 License\n' +
+            '*/'
           ),
           report: 'min',
           sourceMap: 'qr.min.map'
@@ -38,9 +51,12 @@ module.exports = function(grunt) {
   // Tasks
   // -----
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-docco');
 
+  grunt.registerTask('default', [ 'test' ]);
   grunt.registerTask('dist', [ 'uglify', 'docco' ]);
+  grunt.registerTask('test', [ 'jshint' ]);
 
 };

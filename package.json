@@ -33,8 +33,12 @@
   },
   "devDependencies": {
     "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-docco": "~0.3.0"
   },
-  "main": "qr.js"
+  "main": "qr.js",
+  "scripts": {
+    "test": "grunt test"
+  }
 }
