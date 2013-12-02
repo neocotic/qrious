@@ -9,6 +9,13 @@
 
 [qr.js][] is a pure JavaScript library for [QR code][] generation using canvas.
 
+* [Install](#install)
+* [Examples](#examples)
+* [API](#api)
+* [Canvas Support](#canvas-support)
+* [Bugs](#bugs)
+* [Questions](#questions)
+
 ## Install
 
 Install using the package manager for your desired environment(s):
