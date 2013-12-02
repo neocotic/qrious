@@ -25,6 +25,7 @@ keeping things right.
 * Check for unnecessary whitespace with `git diff --check` before committing
 * Make sure your commit messages are in the proper format
 * Avoid updating the distributable file or annotated source code documentation
+
 ```
 (#99999) Make the example in CONTRIBUTING imperative and concrete
 
@@ -37,6 +38,7 @@ The first line is a real life imperative statement with a ticket number from our
 body describes the behavior without the patch, why this is a problem, and how the patch fixes the
 problem when applied.
 ```
+
 * Make sure you have added the necessary tests for your changes
 * Run *all* the tests to assure nothing else was accidentally broken
 
