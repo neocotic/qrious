@@ -285,5 +285,6 @@ http://neocotic.com/qr.js
 [cairo]: http://cairographics.org
 [node.js]: http://nodejs.org
 [node-canvas]: https://github.com/LearnBoost/node-canvas
+[npm]: http://npmjs.org
 [qr.js]: http://neocotic.com/qr.js
 [qr code]: http://en.wikipedia.org/wiki/QR_code
