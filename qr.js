@@ -7,12 +7,9 @@
 // For all details and documentation:  
 // <http://neocotic.com/qr.js>
 
-(function () {
+(function (root) {
 
   'use strict';
-
-  // Reference to the *root* object.
-  var root = this;
 
   // Private constants
   // -----------------
@@ -1006,7 +1003,7 @@
     // ---------
 
     // Current version of `qr`.
-    VERSION: '1.1.0',
+    VERSION: '1.1.1',
 
     // QR functions
     // ------------
@@ -1215,4 +1212,4 @@
     root.qr = qr;
   }
 
-})();
+})(this);

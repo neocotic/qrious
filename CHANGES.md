@@ -1,3 +1,7 @@
+## Version 1.1.1, 2013.12.03
+
+* Fixed bug with IIFE
+
 ## Version 1.1.0, 2013.12.02
 
 * [#9](https://github.com/neocotic/qr.js/issues/9): Fix RequireJS support

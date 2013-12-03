@@ -31,7 +31,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>(<span class="function"><span class="keyword">function</span> <span class="params">(root)</span> {</span>
 
   <span class="string">'use strict'</span>;</pre></div></div>
             
@@ -44,11 +44,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Reference to the <em>root</em> object.</p>
+              <h2 id="private-constants">Private constants</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> root = <span class="keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -58,19 +56,6 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <h2 id="private-constants">Private constants</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>Alignment pattern.</p>
 
@@ -85,11 +70,11 @@
         </li>
         
         
-        <li id="section-5">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>Default MIME type.</p>
 
@@ -100,11 +85,11 @@
         </li>
         
         
-        <li id="section-6">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>MIME used to initiate a browser download prompt when <code>qr.save</code> is called.</p>
 
@@ -115,11 +100,11 @@
         </li>
         
         
-        <li id="section-7">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>There are four elements per version. The first two indicate the number of blocks, then the
 data width, and finally the ECC width.</p>
@@ -172,11 +157,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Map of human-readable ECC levels.</p>
 
@@ -192,11 +177,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Final format bits with mask (level &lt;&lt; 3 | mask).</p>
 
@@ -212,11 +197,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Galois field exponent table.</p>
 
@@ -244,11 +229,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Galois field log table.</p>
 
@@ -276,11 +261,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p><em>Badness</em> coefficients.</p>
 
@@ -294,11 +279,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Version pattern.</p>
 
@@ -313,11 +298,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Mode for node.js file system file writes.</p>
 
@@ -328,11 +313,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <h2 id="private-variables">Private variables</h2>
 
@@ -341,11 +326,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>Run lengths for badness.</p>
 
@@ -356,11 +341,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Constructor for <code>canvas</code> elements in the node.js environment.</p>
 
@@ -371,11 +356,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Data block.</p>
 
@@ -386,11 +371,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>ECC data blocks and tables.</p>
 
@@ -401,11 +386,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>ECC buffer.</p>
 
@@ -416,11 +401,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>ECC level (defaults to <strong>L</strong>).</p>
 
@@ -431,11 +416,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Image buffer.</p>
 
@@ -446,11 +431,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Fixed part of the image.</p>
 
@@ -461,11 +446,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>File system within the node.js environment.</p>
 
@@ -476,11 +461,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Constructor for <code>img</code> elements in the node.js environment.</p>
 
@@ -491,11 +476,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>Indicates whether or not this script is running in node.js.</p>
 
@@ -506,11 +491,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Generator polynomial.</p>
 
@@ -521,11 +506,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Save the previous value of the <code>qr</code> variable.</p>
 
@@ -536,11 +521,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>Data input buffer.</p>
 
@@ -551,11 +536,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>Version for the data.</p>
 
@@ -566,11 +551,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>Data width is based on <code>version</code>.</p>
 
@@ -581,11 +566,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <h2 id="private-functions">Private functions</h2>
 
@@ -594,11 +579,11 @@ data width, and finally the ECC width.</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p>Create a new canvas  using <code>document.createElement</code> unless script is running in node.js, in
 which case the <code>canvas</code> module is used.</p>
@@ -612,11 +597,11 @@ which case the <code>canvas</code> module is used.</p>
         </li>
         
         
-        <li id="section-34">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>Create a new image using <code>document.createElement</code> unless script is running in node.js, in
 which case the <code>canvas</code> module is used.</p>
@@ -630,11 +615,11 @@ which case the <code>canvas</code> module is used.</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Force the canvas image to be downloaded in the browser.<br>Optionally, a <code>callback</code> function can be specified which will be called upon completed. Since
 this is not an asynchronous operation, this is merely convenient and helps simplify the
@@ -653,11 +638,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>Normalize the <code>data</code> that is provided to the main API.</p>
 
@@ -671,11 +656,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>Override the <code>qr</code> API methods that require HTML5 canvas support to throw a relevant error.</p>
 
@@ -699,11 +684,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-38">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>Asynchronously write the data of the rendered canvas to a given file path.</p>
 
@@ -719,11 +704,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-39">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <p>Write the buffer to the open file stream once both prerequisites are met.</p>
 
@@ -740,11 +725,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-40">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-40">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>Create a buffer of the canvas&#39; data.</p>
 
@@ -762,11 +747,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-41">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               <p>Open a stream for the file to be written.</p>
 
@@ -785,11 +770,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-42">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p>Write the data of the rendered canvas to a given file path.</p>
 
@@ -813,11 +798,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-43">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <p>Set bit to indicate cell in frame is immutable (symmetric around diagonal).</p>
 
@@ -844,11 +829,11 @@ calling code.</p>
         </li>
         
         
-        <li id="section-44">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-44">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p>Enter alignment pattern. Foreground colour to frame, background to mask. Frame will be merged
 with mask later.</p>
@@ -878,11 +863,11 @@ with mask later.</p>
         </li>
         
         
-        <li id="section-45">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-45">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
               </div>
               <p>Exponentiation mod N.</p>
 
@@ -900,11 +885,11 @@ with mask later.</p>
         </li>
         
         
-        <li id="section-46">
+        <li id="section-45">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-46">&#182;</a>
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p>Calculate and append <code>ecc</code> data to the <code>data</code> block. If block is in the string buffer the
 indices to buffers are used.</p>
@@ -940,11 +925,11 @@ indices to buffers are used.</p>
         </li>
         
         
-        <li id="section-47">
+        <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-47">&#182;</a>
+                <a class="pilcrow" href="#section-46">&#182;</a>
               </div>
               <p>Check mask since symmetricals use half.</p>
 
@@ -970,11 +955,11 @@ indices to buffers are used.</p>
         </li>
         
         
-        <li id="section-48">
+        <li id="section-47">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-48">&#182;</a>
+                <a class="pilcrow" href="#section-47">&#182;</a>
               </div>
               <p>Apply the selected mask out of the 8 options.</p>
 
@@ -1093,11 +1078,11 @@ indices to buffers are used.</p>
         </li>
         
         
-        <li id="section-49">
+        <li id="section-48">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-49">&#182;</a>
+                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               <p>Using the table for the length of each run, calculate the amount of bad image. Long runs or
 those that look like finders are called twice; once for X and Y.</p>
@@ -1117,11 +1102,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-50">
+        <li id="section-49">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-50">&#182;</a>
+                <a class="pilcrow" href="#section-49">&#182;</a>
               </div>
               <p>FBFFFBF as in finder.</p>
 
@@ -1136,11 +1121,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-51">
+        <li id="section-50">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-51">&#182;</a>
+                <a class="pilcrow" href="#section-50">&#182;</a>
               </div>
               <p>Background around the foreground pattern? Not part of the specs.</p>
 
@@ -1159,11 +1144,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-52">
+        <li id="section-51">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-52">&#182;</a>
+                <a class="pilcrow" href="#section-51">&#182;</a>
               </div>
               <p>Calculate how bad the masked image is (e.g. blocks, imbalance, runs, or finders).</p>
 
@@ -1176,11 +1161,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-53">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-53">&#182;</a>
+                <a class="pilcrow" href="#section-52">&#182;</a>
               </div>
               <p>Blocks of same colour.</p>
 
@@ -1192,11 +1177,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-54">
+        <li id="section-53">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-54">&#182;</a>
+                <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
               <p>All foreground colour.</p>
 
@@ -1210,11 +1195,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-55">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
+                <a class="pilcrow" href="#section-54">&#182;</a>
               </div>
               <p>All background colour.</p>
 
@@ -1232,11 +1217,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-56">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-56">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>X runs.</p>
 
@@ -1275,11 +1260,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-57">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-57">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>Y runs.</p>
 
@@ -1307,11 +1292,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-58">
+        <li id="section-57">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-58">&#182;</a>
+                <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
               <p>Generate the encoded QR image for the string provided.</p>
 
@@ -1323,11 +1308,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-59">
+        <li id="section-58">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-59">&#182;</a>
+                <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
               <p>Find the smallest version that fits the string.</p>
 
@@ -1355,11 +1340,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-60">
+        <li id="section-59">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-60">&#182;</a>
+                <a class="pilcrow" href="#section-59">&#182;</a>
               </div>
               <p>FIXME: Ensure that it fits insted of being truncated.</p>
 
@@ -1370,11 +1355,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-61">
+        <li id="section-60">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-61">&#182;</a>
+                <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
               <p>Allocate, clear and setup data structures.</p>
 
@@ -1399,11 +1384,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-62">
+        <li id="section-61">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
+                <a class="pilcrow" href="#section-61">&#182;</a>
               </div>
               <p>Insert finders: Foreground colour to frame and background to mask.</p>
 
@@ -1442,11 +1427,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-63">
+        <li id="section-62">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-63">&#182;</a>
+                <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
               <p>Alignment blocks.</p>
 
@@ -1479,11 +1464,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-64">
+        <li id="section-63">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-64">&#182;</a>
+                <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
               <p>Single foreground cell.</p>
 
@@ -1494,11 +1479,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-65">
+        <li id="section-64">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-65">&#182;</a>
+                <a class="pilcrow" href="#section-64">&#182;</a>
               </div>
               <p>Timing gap (mask only).</p>
 
@@ -1519,11 +1504,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-66">
+        <li id="section-65">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-66">&#182;</a>
+                <a class="pilcrow" href="#section-65">&#182;</a>
               </div>
               <p>Reserve mask, format area.</p>
 
@@ -1545,11 +1530,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-67">
+        <li id="section-66">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-67">&#182;</a>
+                <a class="pilcrow" href="#section-66">&#182;</a>
               </div>
               <p>Timing row/column.</p>
 
@@ -1568,11 +1553,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-68">
+        <li id="section-67">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-68">&#182;</a>
+                <a class="pilcrow" href="#section-67">&#182;</a>
               </div>
               <p>Version block.</p>
 
@@ -1598,11 +1583,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-69">
+        <li id="section-68">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-69">&#182;</a>
+                <a class="pilcrow" href="#section-68">&#182;</a>
               </div>
               <p>Sync mask bits. Only set above for background cells, so now add the foreground.</p>
 
@@ -1619,11 +1604,11 @@ those that look like finders are called twice; once for X and Y.</p>
         </li>
         
         
-        <li id="section-70">
+        <li id="section-69">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-70">&#182;</a>
+                <a class="pilcrow" href="#section-69">&#182;</a>
               </div>
               <p>Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji
 not supported).</p>
@@ -1635,11 +1620,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-71">
+        <li id="section-70">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-71">&#182;</a>
+                <a class="pilcrow" href="#section-70">&#182;</a>
               </div>
               <p>String to array.</p>
 
@@ -1654,11 +1639,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-72">
+        <li id="section-71">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-72">&#182;</a>
+                <a class="pilcrow" href="#section-71">&#182;</a>
               </div>
               <p>Calculate max string length.</p>
 
@@ -1675,11 +1660,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-73">
+        <li id="section-72">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-73">&#182;</a>
+                <a class="pilcrow" href="#section-72">&#182;</a>
               </div>
               <p>Shift and re-pack to insert length prefix.</p>
 
@@ -1719,11 +1704,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-74">
+        <li id="section-73">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-74">&#182;</a>
+                <a class="pilcrow" href="#section-73">&#182;</a>
               </div>
               <p>Fill to end with pad pattern.</p>
 
@@ -1739,11 +1724,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-75">
+        <li id="section-74">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-75">&#182;</a>
+                <a class="pilcrow" href="#section-74">&#182;</a>
               </div>
               <p>Calculate generator polynomial.</p>
 
@@ -1765,11 +1750,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-76">
+        <li id="section-75">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-76">&#182;</a>
+                <a class="pilcrow" href="#section-75">&#182;</a>
               </div>
               <p>Use logs for generator polynomial to save calculation step.</p>
 
@@ -1782,11 +1767,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-77">
+        <li id="section-76">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-77">&#182;</a>
+                <a class="pilcrow" href="#section-76">&#182;</a>
               </div>
               <p>Append ECC to data buffer.</p>
 
@@ -1812,11 +1797,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-78">
+        <li id="section-77">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-78">&#182;</a>
+                <a class="pilcrow" href="#section-77">&#182;</a>
               </div>
               <p>Interleave blocks.</p>
 
@@ -1849,11 +1834,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-79">
+        <li id="section-78">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-79">&#182;</a>
+                <a class="pilcrow" href="#section-78">&#182;</a>
               </div>
               <p>Pack bits into frame avoiding masked area.</p>
 
@@ -1865,11 +1850,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-80">
+        <li id="section-79">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-80">&#182;</a>
+                <a class="pilcrow" href="#section-79">&#182;</a>
               </div>
               <p>inteleaved data and ECC codes.</p>
 
@@ -1888,11 +1873,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-81">
+        <li id="section-80">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-81">&#182;</a>
+                <a class="pilcrow" href="#section-80">&#182;</a>
               </div>
               <p>Find next fill position.</p>
 
@@ -1939,11 +1924,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-82">
+        <li id="section-81">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-82">&#182;</a>
+                <a class="pilcrow" href="#section-81">&#182;</a>
               </div>
               <p>Save pre-mask copy of frame.</p>
 
@@ -1957,11 +1942,11 @@ not supported).</p>
         </li>
         
         
-        <li id="section-83">
+        <li id="section-82">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-83">&#182;</a>
+                <a class="pilcrow" href="#section-82">&#182;</a>
               </div>
               <p>Using <code>for</code> instead of <code>while</code> since in original Arduino code if an early mask was <em>good
 enough</em> it wouldn&#39;t try for a better one since they get more complex and take longer.</p>
@@ -1973,11 +1958,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-84">
+        <li id="section-83">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-84">&#182;</a>
+                <a class="pilcrow" href="#section-83">&#182;</a>
               </div>
               <p>Returns foreground-background imbalance.</p>
 
@@ -1990,11 +1975,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-85">
+        <li id="section-84">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-85">&#182;</a>
+                <a class="pilcrow" href="#section-84">&#182;</a>
               </div>
               <p>Is current mask better than previous best?</p>
 
@@ -2008,11 +1993,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-86">
+        <li id="section-85">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-86">&#182;</a>
+                <a class="pilcrow" href="#section-85">&#182;</a>
               </div>
               <p>Don&#39;t increment <code>i</code> to a void redoing mask.</p>
 
@@ -2023,11 +2008,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-87">
+        <li id="section-86">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-87">&#182;</a>
+                <a class="pilcrow" href="#section-86">&#182;</a>
               </div>
               <p>Reset for next pass.</p>
 
@@ -2039,11 +2024,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-88">
+        <li id="section-87">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-88">&#182;</a>
+                <a class="pilcrow" href="#section-87">&#182;</a>
               </div>
               <p>Redo best mask as none were <em>good enough</em> (i.e. last wasn&#39;t <code>t</code>).</p>
 
@@ -2056,11 +2041,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-89">
+        <li id="section-88">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-89">&#182;</a>
+                <a class="pilcrow" href="#section-88">&#182;</a>
               </div>
               <p>Add in final mask/ECC level bytes.</p>
 
@@ -2071,11 +2056,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-90">
+        <li id="section-89">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-90">&#182;</a>
+                <a class="pilcrow" href="#section-89">&#182;</a>
               </div>
               <p>Low byte.</p>
 
@@ -2096,11 +2081,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-91">
+        <li id="section-90">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-91">&#182;</a>
+                <a class="pilcrow" href="#section-90">&#182;</a>
               </div>
               <p>High byte.</p>
 
@@ -2121,11 +2106,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-92">
+        <li id="section-91">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-92">&#182;</a>
+                <a class="pilcrow" href="#section-91">&#182;</a>
               </div>
               <p>Finally, return the image data.</p>
 
@@ -2137,11 +2122,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-93">
+        <li id="section-92">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-93">&#182;</a>
+                <a class="pilcrow" href="#section-92">&#182;</a>
               </div>
               <h2 id="qr-js-setup">qr.js setup</h2>
 
@@ -2150,11 +2135,11 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
-        <li id="section-94">
+        <li id="section-93">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-94">&#182;</a>
+                <a class="pilcrow" href="#section-93">&#182;</a>
               </div>
               <p>Build the publicly exposed API.</p>
 
@@ -2165,15 +2150,30 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
         </li>
         
         
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
+              </div>
+              <h2 id="constants">Constants</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-95">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-95">&#182;</a>
               </div>
-              <h2 id="constants">Constants</h2>
+              <p>Current version of <code>qr</code>.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    VERSION: <span class="string">'1.1.1'</span>,</pre></div></div>
             
         </li>
         
@@ -2184,11 +2184,9 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-96">&#182;</a>
               </div>
-              <p>Current version of <code>qr</code>.</p>
+              <h2 id="qr-functions">QR functions</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    VERSION: <span class="string">'1.1.0'</span>,</pre></div></div>
             
         </li>
         
@@ -2198,19 +2196,6 @@ enough</em> it wouldn&#39;t try for a better one since they get more complex and
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-97">&#182;</a>
-              </div>
-              <h2 id="qr-functions">QR functions</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-98">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-98">&#182;</a>
               </div>
               <p>Generate the QR code using the data provided and render it on to a <code>&lt;canvas&gt;</code> element.<br>If no <code>&lt;canvas&gt;</code> element is specified in the argument provided a new one will be created and
 used.<br>ECC (error correction capacity) determines how many intential errors are contained in the QR
@@ -2224,11 +2209,11 @@ code.</p>
         </li>
         
         
-        <li id="section-99">
+        <li id="section-98">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-99">&#182;</a>
+                <a class="pilcrow" href="#section-98">&#182;</a>
               </div>
               <p>Module size of the generated QR code (i.e. 1-10).</p>
 
@@ -2239,11 +2224,11 @@ code.</p>
         </li>
         
         
-        <li id="section-100">
+        <li id="section-99">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-100">&#182;</a>
+                <a class="pilcrow" href="#section-99">&#182;</a>
               </div>
               <p>Actual size of the QR code symbol and is scaled to 25 pixels (e.g. 1 = 25px, 3 = 75px).</p>
 
@@ -2254,11 +2239,11 @@ code.</p>
         </li>
         
         
-        <li id="section-101">
+        <li id="section-100">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-101">&#182;</a>
+                <a class="pilcrow" href="#section-100">&#182;</a>
               </div>
               <p><code>&lt;canvas&gt;</code> element used to render the QR code.</p>
 
@@ -2269,11 +2254,11 @@ code.</p>
         </li>
         
         
-        <li id="section-102">
+        <li id="section-101">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-102">&#182;</a>
+                <a class="pilcrow" href="#section-101">&#182;</a>
               </div>
               <p>Retreive the 2D context of the canvas.</p>
 
@@ -2284,11 +2269,11 @@ code.</p>
         </li>
         
         
-        <li id="section-103">
+        <li id="section-102">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-103">&#182;</a>
+                <a class="pilcrow" href="#section-102">&#182;</a>
               </div>
               <p>Ensure the canvas has the correct dimensions.</p>
 
@@ -2300,11 +2285,11 @@ code.</p>
         </li>
         
         
-        <li id="section-104">
+        <li id="section-103">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-104">&#182;</a>
+                <a class="pilcrow" href="#section-103">&#182;</a>
               </div>
               <p>Fill the canvas with the correct background colour.</p>
 
@@ -2316,11 +2301,11 @@ code.</p>
         </li>
         
         
-        <li id="section-105">
+        <li id="section-104">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-105">&#182;</a>
+                <a class="pilcrow" href="#section-104">&#182;</a>
               </div>
               <p>Determine the ECC level to be applied.</p>
 
@@ -2331,11 +2316,11 @@ code.</p>
         </li>
         
         
-        <li id="section-106">
+        <li id="section-105">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-106">&#182;</a>
+                <a class="pilcrow" href="#section-105">&#182;</a>
               </div>
               <p>Generate the image frame for the given <code>value</code>.</p>
 
@@ -2348,11 +2333,11 @@ code.</p>
         </li>
         
         
-        <li id="section-107">
+        <li id="section-106">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-107">&#182;</a>
+                <a class="pilcrow" href="#section-106">&#182;</a>
               </div>
               <p>Determine the <em>pixel</em> size.</p>
 
@@ -2365,11 +2350,11 @@ code.</p>
         </li>
         
         
-        <li id="section-108">
+        <li id="section-107">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-108">&#182;</a>
+                <a class="pilcrow" href="#section-107">&#182;</a>
               </div>
               <p>Draw the QR code.</p>
 
@@ -2396,11 +2381,11 @@ code.</p>
         </li>
         
         
-        <li id="section-109">
+        <li id="section-108">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-109">&#182;</a>
+                <a class="pilcrow" href="#section-108">&#182;</a>
               </div>
               <p>Generate the QR code using the data provided and render it on to a <code>&lt;img&gt;</code> element.<br>If no <code>&lt;img&gt;</code> element is specified in the argument provided a new one will be created and
 used.<br>ECC (error correction capacity) determines how many intential errors are contained in the QR
@@ -2414,11 +2399,11 @@ code.</p>
         </li>
         
         
-        <li id="section-110">
+        <li id="section-109">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-110">&#182;</a>
+                <a class="pilcrow" href="#section-109">&#182;</a>
               </div>
               <p><code>&lt;canvas&gt;</code> element only which the QR code is rendered.</p>
 
@@ -2429,11 +2414,11 @@ code.</p>
         </li>
         
         
-        <li id="section-111">
+        <li id="section-110">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-111">&#182;</a>
+                <a class="pilcrow" href="#section-110">&#182;</a>
               </div>
               <p><code>&lt;img&gt;</code> element used to display the QR code.</p>
 
@@ -2444,11 +2429,11 @@ code.</p>
         </li>
         
         
-        <li id="section-112">
+        <li id="section-111">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-112">&#182;</a>
+                <a class="pilcrow" href="#section-111">&#182;</a>
               </div>
               <p>Apply the QR code to <code>img</code>.</p>
 
@@ -2464,11 +2449,11 @@ code.</p>
         </li>
         
         
-        <li id="section-113">
+        <li id="section-112">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-113">&#182;</a>
+                <a class="pilcrow" href="#section-112">&#182;</a>
               </div>
               <p>Generate the QR code using the data provided and render it on to a <code>&lt;canvas&gt;</code> element and
 save it as an image file.<br>If no <code>&lt;canvas&gt;</code> element is specified in the argument provided a new one will be created and
@@ -2497,11 +2482,11 @@ otherwise this argument will be <code>null</code>.</p>
         </li>
         
         
-        <li id="section-114">
+        <li id="section-113">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-114">&#182;</a>
+                <a class="pilcrow" href="#section-113">&#182;</a>
               </div>
               <p>Callback function is required.</p>
 
@@ -2516,11 +2501,11 @@ otherwise this argument will be <code>null</code>.</p>
         </li>
         
         
-        <li id="section-115">
+        <li id="section-114">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-115">&#182;</a>
+                <a class="pilcrow" href="#section-114">&#182;</a>
               </div>
               <p><code>&lt;canvas&gt;</code> element only which the QR code is rendered.</p>
 
@@ -2531,11 +2516,11 @@ otherwise this argument will be <code>null</code>.</p>
         </li>
         
         
-        <li id="section-116">
+        <li id="section-115">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-116">&#182;</a>
+                <a class="pilcrow" href="#section-115">&#182;</a>
               </div>
               <p>Simple function to try and ensure that the <code>callback</code> function is only called once.</p>
 
@@ -2559,11 +2544,11 @@ otherwise this argument will be <code>null</code>.</p>
         </li>
         
         
-        <li id="section-117">
+        <li id="section-116">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-117">&#182;</a>
+                <a class="pilcrow" href="#section-116">&#182;</a>
               </div>
               <p>Generate the QR code using the data provided and render it on to a <code>&lt;canvas&gt;</code> element and
 save it as an image file.<br>If no <code>&lt;canvas&gt;</code> element is specified in the argument provided a new one will be created and
@@ -2582,11 +2567,11 @@ saved to specified path.</p>
         </li>
         
         
-        <li id="section-118">
+        <li id="section-117">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-118">&#182;</a>
+                <a class="pilcrow" href="#section-117">&#182;</a>
               </div>
               <p><code>&lt;canvas&gt;</code> element only which the QR code is rendered.</p>
 
@@ -2604,11 +2589,11 @@ saved to specified path.</p>
         </li>
         
         
-        <li id="section-119">
+        <li id="section-118">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-119">&#182;</a>
+                <a class="pilcrow" href="#section-118">&#182;</a>
               </div>
               <p>Generate the QR code using the data provided and render it on to a <code>&lt;canvas&gt;</code> element before
 returning its data URI.<br>If no <code>&lt;canvas&gt;</code> element is specified in the argument provided a new one will be created and
@@ -2626,11 +2611,11 @@ code.</p>
         </li>
         
         
-        <li id="section-120">
+        <li id="section-119">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-120">&#182;</a>
+                <a class="pilcrow" href="#section-119">&#182;</a>
               </div>
               <h2 id="utility-functions">Utility functions</h2>
 
@@ -2639,11 +2624,11 @@ code.</p>
         </li>
         
         
-        <li id="section-121">
+        <li id="section-120">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-121">&#182;</a>
+                <a class="pilcrow" href="#section-120">&#182;</a>
               </div>
               <p>Run qr.js in <em>noConflict</em> mode, returning the <code>qr</code> variable to its previous owner.<br>Returns a reference to <code>qr</code>.</p>
 
@@ -2659,11 +2644,11 @@ code.</p>
         </li>
         
         
-        <li id="section-122">
+        <li id="section-121">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-122">&#182;</a>
+                <a class="pilcrow" href="#section-121">&#182;</a>
               </div>
               <h2 id="support">Support</h2>
 
@@ -2672,11 +2657,11 @@ code.</p>
         </li>
         
         
-        <li id="section-123">
+        <li id="section-122">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-123">&#182;</a>
+                <a class="pilcrow" href="#section-122">&#182;</a>
               </div>
               <p>Export <code>qr</code> for node.js and CommonJS.</p>
 
@@ -2693,11 +2678,11 @@ code.</p>
         </li>
         
         
-        <li id="section-124">
+        <li id="section-123">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-124">&#182;</a>
+                <a class="pilcrow" href="#section-123">&#182;</a>
               </div>
               <p>Import required node.js modules.</p>
 
@@ -2715,11 +2700,11 @@ code.</p>
         </li>
         
         
-        <li id="section-125">
+        <li id="section-124">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-125">&#182;</a>
+                <a class="pilcrow" href="#section-124">&#182;</a>
               </div>
               <p>In non-HTML5 browser so strip base functionality.</p>
 
@@ -2732,7 +2717,7 @@ code.</p>
     root.qr = qr;
   }
 
-})();</pre></div></div>
+})(<span class="keyword">this</span>);</pre></div></div>
             
         </li>
         
