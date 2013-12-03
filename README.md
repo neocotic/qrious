@@ -120,7 +120,7 @@ Renders a QR code in an HTML `<img>` element for a given value.
 var img = qr.image('http://neocotic.com/qr.js');
 // Re-render the QR code on an existing element
 qr.image({
-  img: img,
+  image: img,
   value: 'https://github.com/neocotic/qr.js'
 });
 ```
