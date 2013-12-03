@@ -1,6 +1,6 @@
 ## Version 1.1.1, 2013.12.03
 
-* Fixed bug with IIFE
+* Fix bug with IIFE
 
 ## Version 1.1.0, 2013.12.02
 
