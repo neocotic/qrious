@@ -268,7 +268,7 @@
 
     try {
       fs.writeSync(fd, buff, 0, buff.length, 0);
-    } catch (error) {
+    } finally {
       fs.closeSync(fd);
     }
   }
