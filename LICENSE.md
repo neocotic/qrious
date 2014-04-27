@@ -1,4 +1,4 @@
-Copyright (C) 2013 Alasdair Mercer, http://neocotic.com
+Copyright (C) 2014 Alasdair Mercer, http://neocotic.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy  
 of this software and associated documentation files (the "Software"), to deal  

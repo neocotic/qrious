@@ -1,3 +1,7 @@
+## Version 1.1.2, 2014.04.27
+
+* [#20](https://github.com/neocotic/qr.js/issues/20): Fix "too many open files" bug
+
 ## Version 1.1.1, 2013.12.03
 
 * Fix bug with IIFE
