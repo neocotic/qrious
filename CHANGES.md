@@ -1,3 +1,7 @@
+## Version 1.1.3, 2014.09.01
+
+* [#23](https://github.com/neocotic/qr.js/issues/23): Revert back to [GPL License][]
+
 ## Version 1.1.2, 2014.04.27
 
 * [#20](https://github.com/neocotic/qr.js/issues/20): Fix "too many open files" bug
@@ -44,6 +48,7 @@
 [bower]: http://bower.io
 [commonjs]: http://commonjs.org
 [ender]: http://ender.no.de
+[gpl license]: http://www.gnu.org/licenses/
 [grunt]: http://gruntjs.com
 [mit license]: http://en.wikipedia.org/wiki/MIT_License
 [node.js]: http://nodejs.org
