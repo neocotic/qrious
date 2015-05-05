@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/neocotic/qr.js.git"
+    "url": "git://github.com/ariesjia/qr.js.git"
   },
   "main": "qr.min.js",
   "ignore": [
