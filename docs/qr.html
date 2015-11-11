@@ -27,12 +27,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p><a href="http://neocotic.com/qr.js">qr.js</a><br>(c) 2014 Alasdair Mercer<br>Licensed under the GPL Version 3 license.<br>Based on <a href="http://code.google.com/p/jsqrencode/">jsqrencode</a><br>(c) 2010 tz@execpc.com<br>Licensed under the GPL Version 3 license.<br>For all details and documentation:<br><a href="http://neocotic.com/qr.js">http://neocotic.com/qr.js</a></p>
+              <p><a href="http://neocotic.com/qr.js">qr.js</a><br>(c) 2015 Alasdair Mercer<br>Licensed under the GPL Version 3 license.<br>Based on <a href="http://code.google.com/p/jsqrencode/">jsqrencode</a><br>(c) 2010 tz@execpc.com<br>Licensed under the GPL Version 3 license.<br>For all details and documentation:<br><a href="http://neocotic.com/qr.js">http://neocotic.com/qr.js</a></p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>
-(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(root)</span> {</span>
+(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">root</span>) </span>{
 <span class="hljs-pi">
   'use strict'</span>;</pre></div></div>
             
@@ -627,7 +627,7 @@ which case the <code>canvas</code> module is used.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createCanvas</span><span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createCanvas</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">return</span> inNode ? <span class="hljs-keyword">new</span> Canvas() : root.document.createElement(<span class="hljs-string">'canvas'</span>);
   }</pre></div></div>
             
@@ -645,7 +645,7 @@ which case the <code>canvas</code> module is used.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createImage</span><span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createImage</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">return</span> inNode ? <span class="hljs-keyword">new</span> Image() : root.document.createElement(<span class="hljs-string">'img'</span>);
   }</pre></div></div>
             
@@ -664,7 +664,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">download</span><span class="hljs-params">(cvs, data, callback)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">download</span>(<span class="hljs-params">cvs, data, callback</span>) </span>{
     <span class="hljs-keyword">var</span> mime = data.mime || DEFAULT_MIME;
 
     root.location.href = cvs.toDataURL(mime).replace(mime, DOWNLOAD_MIME);
@@ -685,7 +685,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">normalizeData</span><span class="hljs-params">(data)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">normalizeData</span>(<span class="hljs-params">data</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> data === <span class="hljs-string">'string'</span>) data = { value: data };
     <span class="hljs-keyword">return</span> data || {};
   }</pre></div></div>
@@ -703,12 +703,12 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">overrideAPI</span><span class="hljs-params">(qr)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">overrideAPI</span>(<span class="hljs-params">qr</span>) </span>{
     <span class="hljs-keyword">var</span> methods = [ <span class="hljs-string">'canvas'</span>, <span class="hljs-string">'image'</span>, <span class="hljs-string">'save'</span>, <span class="hljs-string">'saveSync'</span>, <span class="hljs-string">'toDataURL'</span> ];
     <span class="hljs-keyword">var</span> i;
 
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">overrideMethod</span><span class="hljs-params">(name)</span> {</span>
-      qr[name] = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">overrideMethod</span>(<span class="hljs-params">name</span>) </span>{
+      qr[name] = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(name + <span class="hljs-string">' requires HTML5 canvas element support'</span>);
       };
     }
@@ -731,7 +731,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeFile</span><span class="hljs-params">(cvs, data, callback)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeFile</span>(<span class="hljs-params">cvs, data, callback</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> data.path !== <span class="hljs-string">'string'</span>) {
       <span class="hljs-keyword">return</span> callback(<span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'Invalid path type: '</span> + <span class="hljs-keyword">typeof</span> data.path));
     }
@@ -751,8 +751,8 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeBuffer</span><span class="hljs-params">()</span> {</span>
-      fs.write(fd, buff, <span class="hljs-number">0</span>, buff.length, <span class="hljs-number">0</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(error)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeBuffer</span>(<span class="hljs-params"></span>) </span>{
+      fs.write(fd, buff, <span class="hljs-number">0</span>, buff.length, <span class="hljs-number">0</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
         fs.close(fd);
 
         callback(error);
@@ -772,7 +772,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    cvs.toBuffer(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(error, _buff)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    cvs.toBuffer(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, _buff</span>) </span>{
       <span class="hljs-keyword">if</span> (error) <span class="hljs-keyword">return</span> callback(error);
 
       buff = _buff;
@@ -794,7 +794,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    fs.open(data.path, <span class="hljs-string">'w'</span>, WRITE_MODE, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(error, _fd)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    fs.open(data.path, <span class="hljs-string">'w'</span>, WRITE_MODE, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, _fd</span>) </span>{
       <span class="hljs-keyword">if</span> (error) <span class="hljs-keyword">return</span> callback(error);
 
       fd = _fd;
@@ -817,7 +817,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeFileSync</span><span class="hljs-params">(cvs, data)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeFileSync</span>(<span class="hljs-params">cvs, data</span>) </span>{
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> data.path !== <span class="hljs-string">'string'</span>) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'Invalid path type: '</span> + <span class="hljs-keyword">typeof</span> data.path);
     }
@@ -845,7 +845,7 @@ calling code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setMask</span><span class="hljs-params">(x, y)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setMask</span>(<span class="hljs-params">x, y</span>) </span>{
     <span class="hljs-keyword">var</span> bit;
 
     <span class="hljs-keyword">if</span> (x &gt; y) {
@@ -877,7 +877,7 @@ with mask later.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAlignment</span><span class="hljs-params">(x, y)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAlignment</span>(<span class="hljs-params">x, y</span>) </span>{
     <span class="hljs-keyword">var</span> i;
 
     frameBuffer[x + width * y] = <span class="hljs-number">1</span>;
@@ -910,7 +910,7 @@ with mask later.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">modN</span><span class="hljs-params">(x)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">modN</span>(<span class="hljs-params">x</span>) </span>{
     <span class="hljs-keyword">while</span> (x &gt;= <span class="hljs-number">255</span>) {
       x -= <span class="hljs-number">255</span>;
       x  = (x &gt;&gt; <span class="hljs-number">8</span>) + (x &amp; <span class="hljs-number">255</span>);
@@ -933,7 +933,7 @@ indices to buffers are used.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appendData</span><span class="hljs-params">(data, dataLength, ecc, eccLength)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appendData</span>(<span class="hljs-params">data, dataLength, ecc, eccLength</span>) </span>{
     <span class="hljs-keyword">var</span> bit, i, j;
 
     <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; eccLength; i++) {
@@ -972,7 +972,7 @@ indices to buffers are used.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isMasked</span><span class="hljs-params">(x, y)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isMasked</span>(<span class="hljs-params">x, y</span>) </span>{
     <span class="hljs-keyword">var</span> bit;
 
     <span class="hljs-keyword">if</span> (x &gt; y) {
@@ -1002,7 +1002,7 @@ indices to buffers are used.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyMask</span><span class="hljs-params">(mask)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyMask</span>(<span class="hljs-params">mask</span>) </span>{
     <span class="hljs-keyword">var</span> x, y, r3x, r3y;
 
     <span class="hljs-keyword">switch</span> (mask) {
@@ -1126,7 +1126,7 @@ those that look like finders are called twice; once for X and Y.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBadRuns</span><span class="hljs-params">(length)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBadRuns</span>(<span class="hljs-params">length</span>) </span>{
     <span class="hljs-keyword">var</span> badRuns = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> i;
 
@@ -1191,7 +1191,7 @@ those that look like finders are called twice; once for X and Y.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkBadness</span><span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkBadness</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">var</span> b, b1, bad, big, bw, count, h, x, y;
     bad = bw = count = <span class="hljs-number">0</span>;</pre></div></div>
             
@@ -1339,7 +1339,7 @@ those that look like finders are called twice; once for X and Y.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateFrame</span><span class="hljs-params">(str)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateFrame</span>(<span class="hljs-params">str</span>) </span>{
     <span class="hljs-keyword">var</span> i, j, k, m, t, v, x, y;</pre></div></div>
             
         </li>
@@ -2234,7 +2234,7 @@ enough</em> it wouldn’t try for a better one since they get more complex and t
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    VERSION: <span class="hljs-string">'1.1.3'</span>,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    VERSION: <span class="hljs-string">'1.1.4'</span>,</pre></div></div>
             
         </li>
         
@@ -2276,7 +2276,7 @@ code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    canvas: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    canvas: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
       data = normalizeData(data);</pre></div></div>
             
         </li>
@@ -2418,7 +2418,9 @@ code.</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> px = size;
       px /= width;
-      px  = <span class="hljs-built_in">Math</span>.floor(px);</pre></div></div>
+      px  = <span class="hljs-built_in">Math</span>.floor(px);
+
+      <span class="hljs-keyword">var</span> offset = <span class="hljs-built_in">Math</span>.floor((size - (px * width)) / <span class="hljs-number">2</span>);</pre></div></div>
             
         </li>
         
@@ -2435,7 +2437,7 @@ code.</p>
             
             <div class="content"><div class='highlight'><pre>      c2d.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, size, size);
       c2d.fillStyle = data.background || <span class="hljs-string">'#fff'</span>;
-      c2d.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, px * (width + <span class="hljs-number">8</span>), px * (width + <span class="hljs-number">8</span>));
+      c2d.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, size, size);
       c2d.fillStyle = data.foreground || <span class="hljs-string">'#000'</span>;
 
       <span class="hljs-keyword">var</span> i, j;
@@ -2443,7 +2445,7 @@ code.</p>
       <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; width; i++) {
         <span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; width; j++) {
           <span class="hljs-keyword">if</span> (frame[j * width + i]) {
-            c2d.fillRect(px * i, px * j, px, px);
+            c2d.fillRect(px * i + offset, px * j + offset, px, px);
           }
         }
       }
@@ -2466,7 +2468,7 @@ code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    image: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    image: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
       data = normalizeData(data);</pre></div></div>
             
         </li>
@@ -2539,7 +2541,7 @@ otherwise this argument will be <code>null</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    save: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data, path, callback)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    save: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, path, callback</span>) </span>{
       data = normalizeData(data);
 
       <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">typeof</span> path) {
@@ -2599,7 +2601,7 @@ otherwise this argument will be <code>null</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">done</span><span class="hljs-params">(error)</span> {</span>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">done</span>(<span class="hljs-params">error</span>) </span>{
         <span class="hljs-keyword">if</span> (!completed) {
           completed = <span class="hljs-literal">true</span>;
 
@@ -2632,7 +2634,7 @@ saved to specified path.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    saveSync: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data, path)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    saveSync: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, path</span>) </span>{
       data = normalizeData(data);
 
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> path === <span class="hljs-string">'string'</span>) data.path = path;</pre></div></div>
@@ -2675,7 +2677,7 @@ code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    toDataURL: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    toDataURL: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
       data = normalizeData(data);
 
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.canvas(data).toDataURL(data.mime || DEFAULT_MIME);
@@ -2719,7 +2721,7 @@ code.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    noConflict: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>    noConflict: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
       root.qr = previousQr;
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
     }
@@ -2767,8 +2769,8 @@ code.</p>
             <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> exports !== <span class="hljs-string">'undefined'</span>) {
     inNode = <span class="hljs-literal">true</span>;
 
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> module !== <span class="hljs-string">'undefined'</span> &amp;&amp; module.exports) {
-      exports = module.exports = qr;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-built_in">module</span>.exports) {
+      exports = <span class="hljs-built_in">module</span>.exports = qr;
     }
     exports.qr = qr;</pre></div></div>
             
@@ -2789,7 +2791,7 @@ code.</p>
     Image = Canvas.Image;
     fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">'function'</span> &amp;&amp; define.amd) {
-    define(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    define(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">return</span> qr;
     });
   } <span class="hljs-keyword">else</span> {</pre></div></div>

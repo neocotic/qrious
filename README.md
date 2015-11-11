@@ -247,7 +247,7 @@ This is really just intended for use within a browser.
 The current version of `qr`.
 
 ``` javascript
-console.log(qr.VERSION); // "1.1.3"
+console.log(qr.VERSION); // "1.1.4"
 ```
 
 ## Canvas Support

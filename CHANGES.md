@@ -1,3 +1,9 @@
+## Version 1.1.4, 2015.11.11
+
+* [#2](https://github.com/neocotic/qr.js/issues/2): Fix padding issues
+* [#35](https://github.com/neocotic/qr.js/pull/35): Make the QR-code center-aligned
+* [#38](https://github.com/neocotic/qr.js/pull/38): Update node-canvas dependency version to support Node.js v4 and above
+
 ## Version 1.1.3, 2014.09.01
 
 * [#23](https://github.com/neocotic/qr.js/issues/23): Revert back to [GPL License][]

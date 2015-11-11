@@ -1,6 +1,6 @@
 {
   "name": "qr-js",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Library for QR code generation using canvas",
   "homepage": "http://neocotic.com/qr.js",
   "bugs": {
@@ -11,12 +11,7 @@
     "email": "mercer.alasdair@gmail.com",
     "url": "http://neocotic.com"
   },
-  "licenses": [
-    {
-      "type": "GPL-3.0",
-      "url": "https://github.com/neocotic/qr.js/raw/master/LICENSE.md"
-    }
-  ],
+  "license": "GPL-3.0",
   "keywords": [
     "qr",
     "code",
@@ -26,16 +21,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/neocotic/qr.js.git"
+    "url": "https://github.com/neocotic/qr.js.git"
   },
   "dependencies": {
-    "canvas": "~1.2.9"
+    "canvas": "^1.3.1"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-uglify": "~0.5.1",
-    "grunt-docco": "~0.3.3"
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-uglify": "^0.10.0",
+    "grunt-docco": "^0.4.0"
   },
   "main": "qr.js",
   "scripts": {

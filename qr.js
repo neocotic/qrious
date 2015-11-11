@@ -1,5 +1,5 @@
 // [qr.js](http://neocotic.com/qr.js)  
-// (c) 2014 Alasdair Mercer  
+// (c) 2015 Alasdair Mercer  
 // Licensed under the GPL Version 3 license.  
 // Based on [jsqrencode](http://code.google.com/p/jsqrencode/)  
 // (c) 2010 tz@execpc.com  
@@ -1003,7 +1003,7 @@
     // ---------
 
     // Current version of `qr`.
-    VERSION: '1.1.3',
+    VERSION: '1.1.4',
 
     // QR functions
     // ------------
