@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Alignment from './Alignment'
-import ErrorCorrection from './ErrorCorrection'
-import Galois from './Galois'
-import Version from './Version'
+const Alignment = require('./Alignment')
+const ErrorCorrection = require('./ErrorCorrection')
+const Galois = require('./Galois')
+const Version = require('./Version')
 
 /**
  * TODO: Document
  *
- * @protected
+ * @public
  */
-class QRFrame {
+class Frame {
 
   /**
    * TODO: Document
@@ -35,6 +35,7 @@ class QRFrame {
    * @param {Number} length -
    * @return {Number[]}
    * @private
+   * @static
    */
   static _createArray(length) {
     const array = []
@@ -53,6 +54,7 @@ class QRFrame {
    * @param {Number} y -
    * @return {Number}
    * @private
+   * @static
    */
   static _getMaskBit(x, y) {
     let bit
@@ -79,6 +81,7 @@ class QRFrame {
    * @param {Number} x -
    * @return {Number}
    * @private
+   * @static
    */
   static _modN(x) {
     while (x >= 255) {
@@ -90,42 +93,34 @@ class QRFrame {
   }
 
   // *Badness* coefficients.
-  static N1 = 3
-  static N2 = 3
-  static N3 = 40
-  static N4 = 10
-
-  /**
-   * The run lengths for badness.
-   *
-   * @private
-   * @type {Number[]}
-   */
-  _badness = []
-
-  /**
-   * The generator polynomial.
-   *
-   * @private
-   * @type {Number[]}
-   */
-  _polynomial = []
-
-  /**
-   * The version for the data.
-   *
-   * @private
-   * @type {Number}
-   */
-  _version = 0
+  static get N1() {
+    return 3
+  }
+  static get N2() {
+    return 3
+  }
+  static get N3() {
+    return 40
+  }
+  static get N4() {
+    return 10
+  }
 
   /**
    * TODO: Document
    *
-   * @param {QRFrame~Options} options -
+   * @param {Frame~Options} options -
    * @public
    */
   constructor(options) {
+    /**
+     * The run lengths for badness.
+     *
+     * @private
+     * @type {Number[]}
+     */
+    this._badness = []
+
     /**
      * Determine the ECC level to be applied.
      *
@@ -133,6 +128,14 @@ class QRFrame {
      * @type {Number}
      */
     this._level = ErrorCorrection.LEVELS[options.level]
+
+    /**
+     * The generator polynomial.
+     *
+     * @private
+     * @type {Number[]}
+     */
+    this._polynomial = []
 
     /**
      * TODO: Document
@@ -149,6 +152,14 @@ class QRFrame {
      * @type {Number}
      */
     this._valueLength = this._value.length
+
+    /**
+     * The version for the data.
+     *
+     * @private
+     * @type {Number}
+     */
+    this._version = 0
 
     /**
      * The data input buffer.
@@ -207,7 +218,7 @@ class QRFrame {
      * @public
      * @type {Number[]}
      */
-    this.buffer = QRFrame._createArray(this.width * this.width)
+    this.buffer = Frame._createArray(this.width * this.width)
 
     /**
      * The error correction buffer.
@@ -215,7 +226,7 @@ class QRFrame {
      * @private
      * @type {Number[]}
      */
-    this._ecc = QRFrame._createArray(this._dataBlock + (this._dataBlock + this._eccBlock) * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2)
+    this._ecc = Frame._createArray(this._dataBlock + (this._dataBlock + this._eccBlock) * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2)
 
     /**
      * The fixed part of the image.
@@ -223,7 +234,7 @@ class QRFrame {
      * @private
      * @type {Number[]}
      */
-    this._mask = QRFrame._createArray((this.width * (this.width + 1) + 1) / 2)
+    this._mask = Frame._createArray((this.width * (this.width + 1) + 1) / 2)
 
     this._insertFinders()
     this._insertAlignments()
@@ -241,7 +252,7 @@ class QRFrame {
     this._appendEccToData()
     this._interleaveBlocks()
     this._pack()
-    // TODO: Complete
+    this._finish()
   }
 
   /**
@@ -293,7 +304,7 @@ class QRFrame {
 
       if (bit !== 255) {
         for (let j = 1; j < eccLength; j++) {
-          this._stringBuffer[ecc + j - 1] = this._stringBuffer[ecc + j] ^ Galois.EXPONENT[QRFrame._modN(bit + this._polynomial[eccLength - j])]
+          this._stringBuffer[ecc + j - 1] = this._stringBuffer[ecc + j] ^ Galois.EXPONENT[Frame._modN(bit + this._polynomial[eccLength - j])]
         }
       } else {
         for (let j = ecc; j < ecc + eccLength; j++) {
@@ -301,7 +312,7 @@ class QRFrame {
         }
       }
 
-      this._stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0 : Galois.EXPONENT[QRFrame._modN(bit + this._polynomial[0])]
+      this._stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0 : Galois.EXPONENT[Frame._modN(bit + this._polynomial[0])]
     }
   }
 
@@ -487,10 +498,10 @@ class QRFrame {
       this._polynomial[i + 1] = 1
 
       for (let j = i; j > 0; j--) {
-        this._polynomial[j] = this._polynomial[j] ? this._polynomial[j - 1] ^ Galois.EXPONENT[QRFrame._modN(Galois.LOG[this._polynomial[j]] + i)] : this._polynomial[j - 1]
+        this._polynomial[j] = this._polynomial[j] ? this._polynomial[j - 1] ^ Galois.EXPONENT[Frame._modN(Galois.LOG[this._polynomial[j]] + i)] : this._polynomial[j - 1]
       }
 
-      this._polynomial[0] = Galois.EXPONENT[QRFrame._modN(Galois.LOG[this._polynomial[0]] + i)]
+      this._polynomial[0] = Galois.EXPONENT[Frame._modN(Galois.LOG[this._polynomial[0]] + i)]
     }
 
     // Use logs for generator polynomial to save calculation step.
@@ -524,7 +535,7 @@ class QRFrame {
           this.buffer[x + 1 + width * y] ||
           this.buffer[x + width * (y + 1)] ||
           this.buffer[x + 1 + width * (y + 1)])) {
-          bad += QRFrame.N2
+          bad += Frame.N2
         }
       }
     }
@@ -567,7 +578,7 @@ class QRFrame {
       count++
     }
 
-    bad += count * QRFrame.N4
+    bad += count * Frame.N4
 
     // Y runs.
     for (let x = 0; x < width; x++) {
@@ -678,7 +689,7 @@ class QRFrame {
 
     for (let i = 0; i <= length; i++) {
       if (this._badness[i] >= 5) {
-        badRuns += QRFrame.N1 + this._badness[i] - 5
+        badRuns += Frame.N1 + this._badness[i] - 5
       }
     }
 
@@ -692,11 +703,85 @@ class QRFrame {
         (this._badness[i - 3] === 0 || i + 3 > length ||
         this._badness[i - 3] * 3 >= this._badness[i] * 4 ||
         this._badness[i + 3] * 3 >= this._badness[i] * 4)) {
-        badRuns += QRFrame.N3
+        badRuns += Frame.N3
       }
     }
 
     return badRuns
+  }
+
+  /**
+   * TODO: Document
+   *
+   * @private
+   */
+  _finish() {
+    // TODO: Complete
+    // Save pre-mask copy of frame.
+    this._stringBuffer = this.buffer.slice(0)
+
+    let bit = 0
+    let i
+    let mask = 30000
+
+    /*
+     * Using for instead of while since in original Arduino code if an early mask was "good enough" it wouldn't try for
+     * a better one since they get more complex and take longer.
+     */
+    for (i = 0; i < 8; i++) {
+      // Returns foreground-background imbalance.
+      this._applyMask(i)
+
+      const currentMask = this._checkBadness()
+
+      // Is current mask better than previous best?
+      if (currentMask < mask) {
+        mask = currentMask
+        bit = i
+      }
+
+      // Don't increment "i" to a void redoing mask.
+      if (bit === 7) {
+        break
+      }
+
+      // Reset for next pass.
+      this.buffer = this._stringBuffer.slice(0)
+    }
+
+    // Redo best mask as none were "good enough" (i.e. last wasn't bit).
+    if (bit !== i) {
+      this._applyMask(bit)
+    }
+
+    // Add in final mask/ECC level bytes.
+    mask = ErrorCorrection.FINAL_FORMAT[bit + ((this._level - 1) << 3)]
+
+    // Low byte.
+    for (i = 0; i < 8; i++, mask >>= 1) {
+      if (mask & 1) {
+        this.buffer[(this.width - 1 - i) + this.width * 8] = 1
+
+        if (i < 6) {
+          this.buffer[8 + this.width * i] = 1
+        } else {
+          this.buffer[8 + this.width * (i + 1)] = 1
+        }
+      }
+    }
+
+    // High byte.
+    for (i = 0; i < 7; i++, mask >>= 1) {
+      if (mask & 1) {
+        this.buffer[8 + this.width * (this.width - 7 + i)] = 1
+
+        if (i) {
+          this.buffer[(6 - i) + this.width * 8] = 1
+        } else {
+          this.buffer[7 + this.width * 8] = 1
+        }
+      }
+    }
   }
 
   /**
@@ -900,7 +985,7 @@ class QRFrame {
    * @private
    */
   _isMasked(x, y) {
-    const bit = QRFrame._getMaskBit(x, y)
+    const bit = Frame._getMaskBit(x, y)
 
     return this._mask[bit] === 1
   }
@@ -999,7 +1084,7 @@ class QRFrame {
    * @private
    */
   _setMask(x, y) {
-    const bit = QRFrame._getMaskBit(x, y)
+    const bit = Frame._getMaskBit(x, y)
 
     this._mask[bit] = 1
   }
@@ -1024,12 +1109,12 @@ class QRFrame {
   }
 }
 
-export default QRFrame
+module.exports = Frame
 
 /**
  * TODO: Document
  *
- * @typedef {Object} QRFrame~Options
+ * @typedef {Object} Frame~Options
  * @property {String} level -
  * @property {String} value -
  */

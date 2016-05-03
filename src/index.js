@@ -17,6 +17,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QRious from './QRious'
-
-export default QRious
+module.exports = require('./QRious')
