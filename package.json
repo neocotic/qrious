@@ -23,7 +23,7 @@
     "type": "git",
     "url": "https://github.com/neocotic/qrious.git"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "canvas": "^1.3.12"
   },
   "devDependencies": {
