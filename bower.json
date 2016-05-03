@@ -1,8 +1,8 @@
 {
-  "name": "qr-js",
-  "version": "1.1.4",
+  "name": "qrious",
+  "version": "2.0.0",
   "description": "Library for QR code generation using canvas",
-  "homepage": "http://neocotic.com/qr.js",
+  "homepage": "https://github.com/neocotic/qrious",
   "authors": [
     {
       "name": "Alasdair Mercer",
@@ -20,12 +20,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/neocotic/qr.js.git"
+    "url": "https://github.com/neocotic/qrious.git"
   },
-  "main": "qr.min.js",
+  "main": "dist/qrious.js",
   "ignore": [
     "**/.*",
-    "docs",
     "AUTHORS.md",
     "CHANGES.md",
     "CONTRIBUTING.md",

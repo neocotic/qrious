@@ -1,7 +1,2 @@
-node_modules
-npm-debug.log
-
-.DS_Store?
-ehthumbs.db
-Icon?
-Thumbs.db
+node_modules/
+*.log

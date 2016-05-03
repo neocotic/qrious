@@ -1,5 +1,4 @@
-docs
-.jshintrc
+.*
 AUTHORS.md
 CHANGES.md
 CONTRIBUTING.md
@@ -7,5 +6,4 @@ Gruntfile.js
 INSTALL.md
 README.md
 bower.json
-qr.min.js
-qr.min.map
+dist/qrious.min.*

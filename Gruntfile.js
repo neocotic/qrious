@@ -1,63 +1,45 @@
 module.exports = function(grunt) {
-
-  'use strict';
-
-  // Configuration
-  // -------------
-
   grunt.initConfig({
-
     pkg: grunt.file.readJSON('package.json'),
 
-    docco: {
-      all: {
-        options: {
-          output: 'docs'
-        },
-        src: 'qr.js'
+    babel: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          'dist/qrious.js': 'src/index.js'
+        }
       }
     },
 
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'qr.js'
-      ],
-      options: {
-        jshintrc: '.jshintrc'
-      }
+    eslint: {
+      target: [ 'src/**/*.js' ]
     },
 
     uglify: {
       all: {
         files: {
-          'qr.min.js': 'qr.js'
+          'dist/qrious.min.js': 'dist/qrious.js'
         },
         options: {
-          banner: (
+          banner:
             '/*! <%= pkg.name %> v<%= pkg.version %> | (c) <%= grunt.template.today("yyyy") %>' +
             ' <%= pkg.author.name %> | GPL v3 License\n' +
             'jsqrencode | (c) 2010 tz@execpc.com | GPL v3 License\n' +
-            '*/'
-          ),
+            '*/',
           report: 'min',
           sourceMap: true,
-          sourceMapName: 'qr.min.map'
+          sourceMapName: 'dist/qrious.min.map'
         }
       }
     }
+  })
 
-  });
+  require('load-grunt-tasks')(grunt)
 
-  // Tasks
-  // -----
-
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-docco');
-
-  grunt.registerTask('default', [ 'test' ]);
-  grunt.registerTask('dist', [ 'test', 'uglify', 'docco' ]);
-  grunt.registerTask('test', [ 'jshint' ]);
-
-};
+  grunt.registerTask('default', [ 'test' ])
+  grunt.registerTask('build', [ 'eslint', 'babel' ])
+  grunt.registerTask('dist', [ 'build', 'uglify' ])
+  grunt.registerTask('test', [ 'eslint' ])
+}
