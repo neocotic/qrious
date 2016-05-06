@@ -17,15 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Alignment = require('./Alignment')
 const CanvasRenderer = require('./renderer/CanvasRenderer')
 const ElementServiceProvider = require('./service/element/ElementServiceProvider')
-const ErrorCorrection = require('./ErrorCorrection')
 const Frame = require('./Frame')
-const Galois = require('./Galois')
 const ImageRenderer = require('./renderer/ImageRenderer')
 const Utilities = require('./util/Utilities')
-const Version = require('./Version')
 
 /**
  * TODO: Document

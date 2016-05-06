@@ -30,7 +30,7 @@ class ImageRenderer extends Renderer {
   /**
    * @override
    */
-  draw(frame) {
+  draw() {
     const qrious = this.qrious
 
     qrious.image.src = qrious.toDataURL()
