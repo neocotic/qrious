@@ -109,7 +109,7 @@ class ErrorCorrection {
    * @static
    */
   static get LEVELS() {
-    {
+    return {
       L: 1,
       M: 2,
       Q: 3,
