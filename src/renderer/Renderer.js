@@ -45,7 +45,7 @@ class Renderer {
   /**
    * TODO: Document
    *
-   * @param {QRFrame} frame -
+   * @param {Frame} frame -
    * @protected
    */
   draw(frame) {
@@ -55,7 +55,7 @@ class Renderer {
   /**
    * TODO: Document
    *
-   * @param {QRFrame} frame -
+   * @param {Frame} frame -
    * @return {Number}
    * @protected
    */
@@ -68,7 +68,7 @@ class Renderer {
   /**
    * TODO: Document
    *
-   * @param {QRFrame} frame -
+   * @param {Frame} frame -
    * @return {Number}
    * @protected
    */
@@ -81,7 +81,7 @@ class Renderer {
   /**
    * TODO: Document
    *
-   * @param {QRFrame} frame -
+   * @param {Frame} frame -
    * @public
    */
   render(frame) {
