@@ -716,7 +716,6 @@ class Frame {
    * @private
    */
   _finish() {
-    // TODO: Complete
     // Save pre-mask copy of frame.
     this._stringBuffer = this.buffer.slice(0)
 
@@ -755,12 +754,12 @@ class Frame {
     }
 
     // Add in final mask/ECC level bytes.
-    mask = ErrorCorrection.FINAL_FORMAT[bit + ((this._level - 1) << 3)]
+    mask = ErrorCorrection.FINAL_FORMAT[bit + (this._level - 1 << 3)]
 
     // Low byte.
     for (i = 0; i < 8; i++, mask >>= 1) {
       if (mask & 1) {
-        this.buffer[(this.width - 1 - i) + this.width * 8] = 1
+        this.buffer[this.width - 1 - i + this.width * 8] = 1
 
         if (i < 6) {
           this.buffer[8 + this.width * i] = 1
@@ -776,7 +775,7 @@ class Frame {
         this.buffer[8 + this.width * (this.width - 7 + i)] = 1
 
         if (i) {
-          this.buffer[(6 - i) + this.width * 8] = 1
+          this.buffer[6 - i + this.width * 8] = 1
         } else {
           this.buffer[7 + this.width * 8] = 1
         }
