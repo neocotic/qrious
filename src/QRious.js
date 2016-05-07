@@ -101,6 +101,7 @@ class QRious {
      * @type {*}
      */
     this.canvas = this.element && this._elementService.isCanvas(this.element) ? this.element : this._elementService.createCanvas()
+    this.canvas.qrious = this
 
     /**
      * TODO: Document
@@ -109,6 +110,7 @@ class QRious {
      * @type {*}
      */
     this.image = this.element && this._elementService.isImage(this.element) ? this.element : this._elementService.createImage()
+    this.image.qrious = this
 
     /**
      * TODO: Document
