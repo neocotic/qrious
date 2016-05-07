@@ -100,7 +100,7 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.canvas = this.element && this._elementService.isCanvas(this.element) ? this.element : this._elementService.createCanvas()
+    this.canvas = this._element && this._elementService.isCanvas(this._element) ? this._element : this._elementService.createCanvas()
     this.canvas.qrious = this
 
     /**
@@ -109,7 +109,7 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.image = this.element && this._elementService.isImage(this.element) ? this.element : this._elementService.createImage()
+    this.image = this._element && this._elementService.isImage(this._element) ? this._element : this._elementService.createImage()
     this.image.qrious = this
 
     /**
