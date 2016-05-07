@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>QRious Demo</title>
+
+  <style>
+    html {
+      height: 100%;
+      font-family: sans-serif;
+    }
+
+    body {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      margin: 0;
+      height: 100%;
+    }
+
+    *, :after, :before {
+      box-sizing: border-box;
+    }
+
+    main {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+    }
+
+    main section {
+      -webkit-flex: none;
+      flex: none;
+      max-width: 50%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <section>
+    <img id="#qrious">
+
+    <form>
+      <legend>QRious</legend>
+    </form>
+  </section>
+</main>
+<script src="./dist/qrious.js"></script>
+<script>
+  (function() {
+    var qr = window.qr = new QRious({
+      element: document.getElementById('qrious'),
+      value: 'QRious'
+    })
+  })()
+</script>
+</body>
+</html>
