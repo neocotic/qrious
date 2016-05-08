@@ -43,6 +43,7 @@
   "main": "dist/qrious.js",
   "scripts": {
     "build": "grunt build",
+    "dist": "grunt dist",
     "test": "grunt test"
   }
 }
