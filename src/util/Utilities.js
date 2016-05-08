@@ -57,11 +57,14 @@ class Utilities {
    */
   static setter(object, fieldName, value, defaultValue, transformer) {
     const oldValue = object[fieldName]
-    const newValue = typeof transformer === 'function' ? transformer(value) : value
+    let newValue = value != null ? value : defaultValue
+    if (typeof transformer === 'function') {
+      newValue = transformer(newValue)
+    }
 
-    object[fieldName] = newValue != null ? newValue : defaultValue
+    object[fieldName] = newValue
 
-    return object[fieldName] !== oldValue
+    return newValue !== oldValue
   }
 
   /**
