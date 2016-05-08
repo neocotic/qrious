@@ -69,7 +69,7 @@ class QRious {
    */
   static _parseOptions(options) {
     options = Object.assign({}, QRious.DEFAULTS, options)
-    options.level = options.level.toUpperCase()
+    options.level = Utilities.toUpperCase(options.level)
     options.size = Math.abs(options.size)
 
     return options
