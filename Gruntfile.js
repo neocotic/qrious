@@ -79,6 +79,13 @@ module.exports = function(grunt) {
           sourceMapName: 'dist/qrious.min.map'
         }
       }
+    },
+
+    watch: {
+      all: {
+        files: [ 'src/**/*.js' ],
+        tasks: [ 'build' ]
+      }
     }
   })
 
