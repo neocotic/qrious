@@ -36,8 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       display: flex;
       -webkit-flex-direction: column;
       flex-direction: column;
-      height: 100%;
-      margin: 0;
+      height: calc(100% - 100px);
+      margin: 50px 0;
       background-color: #ccc;
     }
 
@@ -58,6 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     main section {
       min-width: 250px;
       max-width: 50%;
+      height: 100%;
       text-align: center;
     }
 
@@ -66,12 +67,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     }
 
     main form {
+      padding-bottom: 50px;
       text-align: left;
     }
 
     main form label {
       display: block;
       margin-top: 10px;
+      color: #444;
+      font-weight: bold;
     }
 
     main form input,
@@ -87,17 +91,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <form>
       <label>
-        Value:
+        value
         <input type="text" name="value" value="QRious">
       </label>
 
       <label>
-        Size:
+        size
         <input type="number" name="size" placeholder="100" min="100" max="1000" value="250">
       </label>
 
       <label>
-        Level:
+        level
         <select name="level">
           <option value="L">L - 7% damage</option>
           <option value="M">M - 15% damage</option>
@@ -107,12 +111,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </label>
 
       <label>
-        Background:
+        background
         <input type="color" name="background" value="#ffffff">
       </label>
 
       <label>
-        Foreground:
+        foreground
         <input type="color" name="foreground" value="#000000">
       </label>
     </form>
