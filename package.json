@@ -39,6 +39,7 @@
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^18.1.0",
+    "grunt-exorcise": "^2.1.1",
     "load-grunt-tasks": "^3.5.0"
   },
   "main": "dist/qrious.js",

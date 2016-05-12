@@ -22,35 +22,15 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     browserify: {
-      dist: {
+      build: {
         options: {
-          banner: [
-            '/*',
-            ' * QRious',
-            ' * Copyright (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>',
-            ' * Copyright (C) 2010 Tom Zerucha',
-            ' *',
-            ' * This program is free software: you can redistribute it and/or modify',
-            ' * it under the terms of the GNU General Public License as published by',
-            ' * the Free Software Foundation, either version 3 of the License, or',
-            ' * (at your option) any later version.',
-            ' *',
-            ' * This program is distributed in the hope that it will be useful,',
-            ' * but WITHOUT ANY WARRANTY; without even the implied warranty of',
-            ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the',
-            ' * GNU General Public License for more details.',
-            ' *',
-            ' * You should have received a copy of the GNU General Public License',
-            ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.',
-            ' */'
-          ].join('\n'),
           browserifyOptions: {
             debug: true,
             standalone: 'QRious'
           },
           external: [ 'canvas' ],
           transform: [
-            [ 'babelify', { comments: false } ]
+            [ 'babelify' ]
           ]
         },
         files: {
@@ -63,8 +43,16 @@ module.exports = function(grunt) {
       target: [ 'src/**/*.js' ]
     },
 
+    exorcise: {
+      build: {
+        files: {
+          'dist/qrious.map': [ 'dist/qrious.js' ]
+        }
+      }
+    },
+
     uglify: {
-      all: {
+      dist: {
         files: {
           'dist/qrious.min.js': 'dist/qrious.js'
         },
@@ -91,8 +79,8 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt)
 
-  grunt.registerTask('default', [ 'test' ])
-  grunt.registerTask('build', [ 'eslint', 'browserify' ])
+  grunt.registerTask('default', [ 'build' ])
+  grunt.registerTask('build', [ 'eslint', 'browserify', 'exorcise' ])
   grunt.registerTask('dist', [ 'build', 'uglify' ])
   grunt.registerTask('test', [ 'eslint' ])
 }
