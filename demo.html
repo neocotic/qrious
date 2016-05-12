@@ -67,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     }
 
     main form {
-      padding-bottom: 50px;
+      padding: 25px 0 50px 0;
       text-align: left;
     }
 
@@ -82,6 +82,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     main form select {
       width: 100%;
     }
+
+    main form input:invalid {
+      outline: 2px solid #f00;
+      color: #f00;
+    }
   </style>
 </head>
 <body>
@@ -89,10 +94,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <section>
     <img id="qrious">
 
-    <form>
+    <form autocomplete="off">
       <label>
         value
-        <input type="text" name="value" value="QRious">
+        <input type="text" name="value" value="QRious" spellcheck="false">
       </label>
 
       <label>
@@ -152,6 +157,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     })
 
     $size.addEventListener('change', function() {
+      if (!$size.validity.valid) {
+        return
+      }
+
       qr.size = $size.value || null
 
       $section.style.minWidth = qr.size + 'px'
