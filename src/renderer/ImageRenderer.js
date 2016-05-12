@@ -20,7 +20,10 @@
 const Renderer = require('./Renderer')
 
 /**
- * TODO: Document
+ * An implementation of {@link Renderer} for working with <code>img</code> elements.
+ *
+ * This depends on {@link CanvasRenderer} being executed first as this implementation simply applies the data URL from
+ * the rendered <code>canvas</code> element as the <code>src</code> for the <code>img</code> element being rendered.
  *
  * @public
  * @extends Renderer

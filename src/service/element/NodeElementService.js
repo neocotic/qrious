@@ -27,7 +27,8 @@ try {
 const ElementService = require('./ElementService')
 
 /**
- * TODO: Document
+ * An implementation of {@link ElementService} intended for use within a Node.js environment but is only supported when
+ * the <code>canvas</code> module has also been depended on.
  *
  * @public
  * @extends ElementService

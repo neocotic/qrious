@@ -3194,7 +3194,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Renderer = require('./Renderer');
 
 /**
- * TODO: Document
+ * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
  *
  * @public
  * @extends Renderer
@@ -3217,7 +3217,7 @@ var CanvasRenderer = function (_Renderer) {
      */
     value: function draw(frame) {
       var qrious = this.qrious;
-      var pixels = this.getPixels(frame);
+      var moduleSize = this.getModuleSize(frame);
       var offset = this.getOffset(frame);
       var context = qrious.canvas.getContext('2d');
 
@@ -3226,7 +3226,7 @@ var CanvasRenderer = function (_Renderer) {
       for (var i = 0; i < frame.width; i++) {
         for (var j = 0; j < frame.width; j++) {
           if (frame.buffer[j * frame.width + i]) {
-            context.fillRect(pixels * i + offset, pixels * j + offset, pixels, pixels);
+            context.fillRect(moduleSize * i + offset, moduleSize * j + offset, moduleSize, moduleSize);
           }
         }
       }
@@ -3314,7 +3314,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Renderer = require('./Renderer');
 
 /**
- * TODO: Document
+ * An implementation of {@link Renderer} for working with <code>img</code> elements.
+ *
+ * This depends on {@link CanvasRenderer} being executed first as this implementation simply applies the data URL from
+ * the rendered <code>canvas</code> element as the <code>src</code> for the <code>img</code> element being rendered.
  *
  * @public
  * @extends Renderer
@@ -3452,44 +3455,52 @@ var Renderer = function () {
     }
 
     /**
+     * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
+     * <code>frame</code> provided.
+     *
+     * The returned value will be at least one, even in cases where the size of the QR code does not fit its contents.
+     * This is done so that the inevitable clipping is handled more gracefully since this way at least something is
+     * displayed instead of just a blank space filled by the background color.
+     *
+     * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
+     * @return {Number} The pixel size for each module in the QR code which will be no less than one.
+     * @protected
+     */
+
+  }, {
+    key: 'getModuleSize',
+    value: function getModuleSize(frame) {
+      var pixels = Math.floor(this.qrious.size / frame.width);
+
+      return Math.max(1, pixels);
+    }
+
+    /**
      * Calculates the offset/padding (in pixel units) to be inserted before the QR code based on the <code>frame</code>
      * provided.
      *
+     * The returned value will be zero if there is no available offset or if the size of the QR code does not fit its
+     * contents. It will never be a negative value. This is done so that the inevitable clipping appears more naturally
+     * and it is not clipped from all directions.
+     *
      * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
-     * @return {Number} The pixel offset for the QR code.
+     * @return {Number} The pixel offset for the QR code which will be no less than zero.
      * @protected
      */
 
   }, {
     key: 'getOffset',
     value: function getOffset(frame) {
-      var pixels = this.getPixels(frame);
+      var moduleSize = this.getModuleSize(frame);
+      var offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2);
 
-      return Math.floor((this.qrious.size - pixels * frame.width) / 2);
+      return Math.max(0, offset);
     }
 
     /**
-     * TODO: Document
+     * Renders a QR code on the underlying element based on the <code>frame</code> provided.
      *
-     * Calculates the
-     *
-     * @param {Frame} frame -
-     * @return {Number}
-     * @protected
-     */
-
-  }, {
-    key: 'getPixels',
-    value: function getPixels(frame) {
-      var pixels = this.qrious.size / frame.width;
-
-      return Math.floor(pixels);
-    }
-
-    /**
-     * TODO: Document
-     *
-     * @param {Frame} frame -
+     * @param {Frame} frame - the {@link Frame} to be rendered
      * @public
      */
 
@@ -3502,7 +3513,9 @@ var Renderer = function () {
     }
 
     /**
-     * TODO: Document
+     * Resets the underlying element, effectively clearing any previously rendered QR code.
+     *
+     * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
      * @protected
      */
@@ -3514,7 +3527,9 @@ var Renderer = function () {
     }
 
     /**
-     * TODO: Document
+     * Ensures that the size of the underlying element matches that defined on the associated {@link QRious} instance.
+     *
+     * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
      * @protected
      */

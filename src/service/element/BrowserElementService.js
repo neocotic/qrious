@@ -20,7 +20,7 @@
 const ElementService = require('./ElementService')
 
 /**
- * TODO: Document
+ * An implementation of {@link ElementService} intended for use within a browser environment.
  *
  * @public
  * @extends ElementService

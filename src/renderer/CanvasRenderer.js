@@ -20,7 +20,7 @@
 const Renderer = require('./Renderer')
 
 /**
- * TODO: Document
+ * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
  *
  * @public
  * @extends Renderer
@@ -32,7 +32,7 @@ class CanvasRenderer extends Renderer {
    */
   draw(frame) {
     const qrious = this.qrious
-    const pixels = this.getPixels(frame)
+    const moduleSize = this.getModuleSize(frame)
     const offset = this.getOffset(frame)
     const context = qrious.canvas.getContext('2d')
 
@@ -41,7 +41,7 @@ class CanvasRenderer extends Renderer {
     for (let i = 0; i < frame.width; i++) {
       for (let j = 0; j < frame.width; j++) {
         if (frame.buffer[j * frame.width + i]) {
-          context.fillRect(pixels * i + offset, pixels * j + offset, pixels, pixels)
+          context.fillRect(moduleSize * i + offset, moduleSize * j + offset, moduleSize, moduleSize)
         }
       }
     }

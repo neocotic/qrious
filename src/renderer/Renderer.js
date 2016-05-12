@@ -20,21 +20,23 @@
 const Utilities = require('../util/Utilities')
 
 /**
- * TODO: Document
+ * Responsible for rendering a QR code {@link Frame} on a specific type of element.
+ *
+ * A renderer may be dependant on the rendering of another element, so ordering of their execution is important.
  *
  * @public
  */
 class Renderer {
 
   /**
-   * TODO: Document
+   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance provided.
    *
-   * @param {QRious} qrious -
+   * @param {QRious} qrious - the {@link QRious} instance to be used
    * @public
    */
   constructor(qrious) {
     /**
-     * TODO: Document
+     * The {@link QRious} instance.
      *
      * @protected
      * @type {QRious}
@@ -43,9 +45,11 @@ class Renderer {
   }
 
   /**
-   * TODO: Document
+   * Draws the specified QR code <code>frame</code> on the underlying element.
    *
-   * @param {Frame} frame -
+   * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
+   *
+   * @param {Frame} frame - the {@link Frame} to be drawn
    * @protected
    */
   draw(frame) {
@@ -53,35 +57,46 @@ class Renderer {
   }
 
   /**
-   * TODO: Document
+   * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
+   * <code>frame</code> provided.
    *
-   * @param {Frame} frame -
-   * @return {Number}
+   * The returned value will be at least one, even in cases where the size of the QR code does not fit its contents.
+   * This is done so that the inevitable clipping is handled more gracefully since this way at least something is
+   * displayed instead of just a blank space filled by the background color.
+   *
+   * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
+   * @return {Number} The pixel size for each module in the QR code which will be no less than one.
+   * @protected
+   */
+  getModuleSize(frame) {
+    const pixels = Math.floor(this.qrious.size / frame.width)
+
+    return Math.max(1, pixels)
+  }
+
+  /**
+   * Calculates the offset/padding (in pixel units) to be inserted before the QR code based on the <code>frame</code>
+   * provided.
+   *
+   * The returned value will be zero if there is no available offset or if the size of the QR code does not fit its
+   * contents. It will never be a negative value. This is done so that the inevitable clipping appears more naturally
+   * and it is not clipped from all directions.
+   *
+   * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
+   * @return {Number} The pixel offset for the QR code which will be no less than zero.
    * @protected
    */
   getOffset(frame) {
-    const pixels = this.getPixels(frame)
+    const moduleSize = this.getModuleSize(frame)
+    const offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2)
 
-    return Math.floor((this.qrious.size - pixels * frame.width) / 2)
+    return Math.max(0, offset)
   }
 
   /**
-   * TODO: Document
+   * Renders a QR code on the underlying element based on the <code>frame</code> provided.
    *
-   * @param {Frame} frame -
-   * @return {Number}
-   * @protected
-   */
-  getPixels(frame) {
-    const pixels = this.qrious.size / frame.width
-
-    return Math.floor(pixels)
-  }
-
-  /**
-   * TODO: Document
-   *
-   * @param {Frame} frame -
+   * @param {Frame} frame - the {@link Frame} to be rendered
    * @public
    */
   render(frame) {
@@ -91,7 +106,9 @@ class Renderer {
   }
 
   /**
-   * TODO: Document
+   * Resets the underlying element, effectively clearing any previously rendered QR code.
+   *
+   * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
    * @protected
    */
@@ -100,7 +117,9 @@ class Renderer {
   }
 
   /**
-   * TODO: Document
+   * Ensures that the size of the underlying element matches that defined on the associated {@link QRious} instance.
+   *
+   * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
    * @protected
    */
