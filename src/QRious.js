@@ -24,7 +24,7 @@ const ImageRenderer = require('./renderer/ImageRenderer')
 const Utilities = require('./util/Utilities')
 
 /**
- * TODO: Document
+ * Enables configuration of a QR code generator which uses HTML5 <code>canvas</code> for rendering.
  *
  * @public
  */
@@ -60,10 +60,10 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Parses the <code>options</code> provided so that the appropriate defaults and transformations are applied.
    *
-   * @param {QRious~Options} [options] -
-   * @return {QRious~Options}
+   * @param {QRious~Options} [options] - the options to be parsed
+   * @return {QRious~Options} The parsed options.
    * @private
    * @static
    */
@@ -76,9 +76,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Creates a new instance of {@link QRious} based on the <code>options</code> provided.
    *
-   * @param {QRious~Options} [options] -
+   * @param {QRious~Options} [options] - the options to be used
    * @public
    */
   constructor(options) {
@@ -87,7 +87,7 @@ class QRious {
     Utilities.privatize(this, options)
 
     /**
-     * TODO: Document
+     * The element service being used to create and inspect elements being to be used by this {@link QRious}.
      *
      * @private
      * @type {ElementService}
@@ -95,7 +95,7 @@ class QRious {
     this._elementService = new ElementServiceProvider().getService()
 
     /**
-     * TODO: Document
+     * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
      *
      * @public
      * @type {*}
@@ -104,7 +104,7 @@ class QRious {
     this.canvas.qrious = this
 
     /**
-     * TODO: Document
+     * The <code>img</code> to contain the rendered QR code for this {@link QRious}.
      *
      * @public
      * @type {*}
@@ -113,7 +113,7 @@ class QRious {
     this.image.qrious = this
 
     /**
-     * TODO: Document
+     * A list of renderers being used to render the QR code for this {@link QRious}.
      *
      * @private
      * @type {Renderer[]}
@@ -127,12 +127,10 @@ class QRious {
   }
 
   /**
-   * TODO: Document
-   *
    * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
    *
-   * @param {String} [mime] -
-   * @return {String}
+   * @param {String} [mime] - the MIME type for the image
+   * @return {String} The image data URI for the QR code.
    * @public
    */
   toDataURL(mime) {
@@ -140,7 +138,7 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Updates this {@link QRious} by generating a new {@link Frame} and re-rendering the QR code.
    *
    * @protected
    */
@@ -154,9 +152,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the background color for the QR code.
    *
-   * @return {String}
+   * @return {String} The background color.
    * @public
    */
   get background() {
@@ -164,9 +162,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the background color for the QR code to <code>background</code>.
    *
-   * @param {String} background -
+   * @param {String} [background="white"] - the background color to be set
    * @public
    */
   set background(background) {
@@ -178,9 +176,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the foreground color for the QR code.
    *
-   * @return {String}
+   * @return {String} The foreground color.
    * @public
    */
   get foreground() {
@@ -188,9 +186,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the foreground color for the QR code to <code>foreground</code>.
    *
-   * @param {String} foreground -
+   * @param {String} [foreground="black"] - the foreground color to be set
    * @public
    */
   set foreground(foreground) {
@@ -202,9 +200,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the error correction level for the QR code.
    *
-   * @return {String}
+   * @return {String} The ECC level.
    * @public
    */
   get level() {
@@ -212,9 +210,11 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the error correction level for the QR code to <code>level</code>.
    *
-   * @param {String} level -
+   * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
+   *
+   * @param {String} [level="L"] - the ECC level to be set
    * @public
    */
   set level(level) {
@@ -226,9 +226,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the MIME type for the image rendered for the QR code.
    *
-   * @return {String}
+   * @return {String} The image MIME type.
    * @public
    */
   get mime() {
@@ -236,9 +236,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the MIME type for the image rendered for the QR code to <code>mime</code>.
    *
-   * @param {String} mime -
+   * @param {String} [mime="image/png"] - the image MIME type to be set
    * @public
    */
   set mime(mime) {
@@ -250,9 +250,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the size of the QR code.
    *
-   * @return {Number}
+   * @return {Number} The size in pixels.
    * @public
    */
   get size() {
@@ -260,9 +260,12 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the size of the QR code to <code>size</code>.
    *
-   * @param {Number} size -
+   * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
+   * <code>-100</code> would become <code>100</code>).
+   *
+   * @param {Number} [size=100] - the size in pixels to be set
    * @public
    */
   set size(size) {
@@ -274,9 +277,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Returns the value of the QR code.
    *
-   * @return {String}
+   * @return {String} The value.
    * @public
    */
   get value() {
@@ -284,9 +287,9 @@ class QRious {
   }
 
   /**
-   * TODO: Document
+   * Sets the value of the QR code to <code>value</code>.
    *
-   * @param {String} value -
+   * @param {String} [value=""] - the value to be set
    * @public
    */
   set value(value) {
@@ -301,14 +304,15 @@ class QRious {
 module.exports = QRious
 
 /**
- * TODO: Document
+ * The options used by {@link QRious}.
  *
  * @typedef {Object} QRious~Options
  * @property {String} [background="white"] - The background color to be applied to the QR code.
- * @property {*} [element] - TODO: Document
+ * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
+ * <code>img</code>. The element(s) will be created if needed.
  * @property {String} [foreground="black"] - The foreground color to be applied to the QR code.
  * @property {String} [level="L"] - The error correction level to be applied to the QR code.
- * @property {String} [mime="image/png"] - TODO: Document
+ * @property {String} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
  * @property {Number} [size=100] - The size of the QR code in pixels.
  * @property {String} [value=""] - The value to be encoded within the QR code.
  */

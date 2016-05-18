@@ -20,7 +20,7 @@
 /* eslint no-multi-spaces: 0 */
 
 /**
- * TODO: Document
+ * Contains error correction information.
  *
  * @public
  */

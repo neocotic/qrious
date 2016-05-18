@@ -18,7 +18,7 @@
  */
 
 /**
- * TODO: Document
+ * Contains version pattern information.
  *
  * @public
  */

@@ -18,18 +18,19 @@
  */
 
 /**
- * TODO: Document
+ * Contains utility methods that are useful throughout the library.
  *
  * @public
  */
 class Utilities {
 
   /**
-   * TODO: Document
+   * Copies all properties from the <code>source</code> object to the <code>target</code> object, however, all property
+   * names on the <code>target</code> will be prefixed with an underscore, used to indicate that they are private.
    *
-   * @param {Object} target -
-   * @param {Object} source -
-   * @return {Object}
+   * @param {Object} target - the object to which the private fields are to be copied
+   * @param {Object} source - the object from which the fields are to be copied
+   * @return {Object} A reference to the <code>target</code> object.
    * @public
    * @static
    */
@@ -44,14 +45,20 @@ class Utilities {
   }
 
   /**
-   * TODO: Document
+   * Sets the specified <code>value</code> on a given field on the <code>object</code> provided.
    *
-   * @param {Object} object -
-   * @param {String} fieldName -
-   * @param {*} value -
-   * @param {*} [defaultValue] -
-   * @param {Function} [transformer] -
-   * @return {Boolean}
+   * If <code>value</code> is <code>null</code>, the specified default value will be used instead.
+   *
+   * An optional <code>transformer</code> can be specified which will be used to transform the value (or default value)
+   * before it is assigned to the field.
+   *
+   * @param {Object} object - the object whose field is to be set with <code>value</code>
+   * @param {String} fieldName - the field to be set with <code>value</code>
+   * @param {*} value - the value to be set on the named field
+   * @param {*} [defaultValue] - the value to be used if <code>value</code> is <code>null</code>
+   * @param {Function} [transformer] - a function used to transform the value before it is assigned to the named field
+   * @return {Boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
+   * <code>false</code>.
    * @public
    * @static
    */
@@ -68,11 +75,11 @@ class Utilities {
   }
 
   /**
-   * TODO: Document
+   * Throws an error indicating that the a given method on a specific class has not been implemented.
    *
-   * @param {String} className -
-   * @param {String} methodName -
-   * @throws {Error}
+   * @param {String} className - the name of the class on which the method has not been implemented
+   * @param {String} methodName - the name of the method which has not been implemented
+   * @throws {Error} The error describing the class method which has not been implemented.
    * @public
    * @static
    */
@@ -81,10 +88,10 @@ class Utilities {
   }
 
   /**
-   * TODO: Document
+   * Transforms the specified <code>string</code> to upper case while remaining null-safe.
    *
-   * @param {String} string -
-   * @return {String}
+   * @param {String} string - the string to be transformed to upper case
+   * @return {String} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
    * @public
    * @static
    */

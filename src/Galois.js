@@ -18,7 +18,7 @@
  */
 
 /**
- * TODO: Document
+ * Contains Galois field information.
  *
  * @public
  */
