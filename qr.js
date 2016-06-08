@@ -190,9 +190,20 @@
   // this is not an asynchronous operation, this is merely convenient and helps simplify the
   // calling code.
   function download(cvs, data, callback) {
-    var mime = data.mime || DEFAULT_MIME;
+    var mime = data.mime || DEFAULT_MIME,
+        extension = 'bin',
+        link = document.createElement('a');
 
-    root.location.href = cvs.toDataURL(mime).replace(mime, DOWNLOAD_MIME);
+    if(mime.match(/^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/)) {
+        var split = mime.split('/');
+        extension = split[1];
+    }
+
+    link.href = cvs.toDataURL(mime).replace(mime, DOWNLOAD_MIME);
+    link.download = 'Download.' + extension;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
 
     if (typeof callback === 'function') callback();
   }
