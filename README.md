@@ -1,30 +1,53 @@
-                    __
-       __   _ __   /\_\    ____
-     /'__`\/\`'__\ \/\ \  /',__\
-    /\ \L\ \ \ \/__ \ \ \/\__, `\
-    \ \___, \ \_\\_\_\ \ \/\____/
-     \/___/\ \/_//_/\ \_\ \/___/
-          \ \_\    \ \____/
-           \/_/     \/___/
+      .oooooo.      ooooooooo.    o8o
+     d8P'  `Y8b     `888   `Y88.  `"'
+    888      888     888   .d88' oooo   .ooooo.  oooo  oooo   .oooo.o
+    888      888     888ooo88P'  `888  d88' `88b `888  `888  d88(  "8
+    888      888     888`88b.     888  888   888  888   888  `"Y88b.
+    `88b    d88b     888  `88b.   888  888   888  888   888  o.  )88b
+     `Y8bood8P'Ybd' o888o  o888o o888o `Y8bod8P'  `V88V"V8P' 8""888P'
 
-[qr.js][] is a pure JavaScript library for [QR code][] generation using canvas.
+[QRious](https://github.com/neocotic/qrious) is a pure JavaScript library for generating QR codes using HTML5 canvas.
 
-* [Install](#install)
-* [Examples](#examples)
-* [API](#api)
-* [Canvas Support](#canvas-support)
-* [Bugs](#bugs)
-* [Questions](#questions)
+[![Build Status](https://img.shields.io/travis/neocotic/qrious/develop.svg?style=flat-square)](https://travis-ci.org/neocotic/qrious)
+[![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
+[![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious#info=devDependencies)
+[![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
+[![Release](https://img.shields.io/npm/v/qrious.svg?style=flat-square)](https://www.npmjs.com/package/qrious)
 
 ## Install
 
 Install using the package manager for your desired environment(s):
 
 ``` bash
-# for node.js:
-$ npm install qr-js
-# OR; for the browser:
-$ bower install qr-js
+$ npm install --save qrious
+# OR:
+$ bower install --save qrious
+```
+
+You'll need to have at least [Node.js](https://nodejs.org) installed and you'll only need [Bower](https://bower.io) if
+you want to install that way instead of using `npm`.
+
+If you want to simply download the file to be used in the browser you can find them below:
+
+* [Development Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.js)
+* [Production Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.min.js)
+
+### Node.js Dependencies
+
+If you plan on using QRious in the browser then you're good to go!
+
+However, if you plan on using it on a server using Node.js, then you'll find that QRious depends heavily on [node-canvas](https://github.com/Automattic/node-canvas)
+to provide HTML5 canvas support, however, since his library is entirely dependant on [Cairo](http://cairographics.org)
+being installed as an external dependency, QRious only has this marked as an `optionalDependency`. That said; it won't
+work without it on Node.js. Sorry. Please see their wiki on steps on how to do this on various platforms:
+
+https://github.com/LearnBoost/node-canvas/wiki/_pages
+
+If you are planning on installing QRious through `npm` for use in the browser, then you can avoid unnecessarily
+installing the `canvas` dependency by using the following:
+
+``` bash
+$ npm install --save --no-optional qrious
 ```
 
 ## Examples
@@ -32,259 +55,143 @@ $ bower install qr-js
 In the browser:
 
 ``` html
+<!DOCTYPE html>
 <html>
   <body>
-    <canvas id="qr-code"></canvas>
-    <script src="/path/to/qr.min.js"></script>
+    <canvas id="qr"></canvas>
+
+    <script src="/path/to/qrious.js"></script>
     <script>
-      qr.canvas({
-        canvas: document.getElementById('qr-code'),
-        value: 'http://neocotic.com/qr.js'
-      });
+      (function() {
+        const qr = new QRious({
+          element: document.getElementById('qr'),
+          value: 'https://github.com/neocotic/qrious'
+        })
+      })()
     </script>
   </body>
 </html>
 ```
 
-In [node.js][]:
+In Node.js:
 
 ``` javascript
-var qr = require('qr-js');
+const express = require('express')
+const QRious = require('qrious')
 
-qr.saveSync('http://neocotic.com/qr.js', 'qrcode.png');
+const app = express()
+
+app.get('/qr', (req, res) => {
+  const qr = new QRious({ value: 'https://github.com/neocotic/qrious' })
+
+  res.end(new Buffer(qr.toDataURL(), 'base64'))
+})
+
+app.listen(3000)
 ```
 
 ## API
 
-### Standard Data
+Simply create an instance of `QRious` and you've done most of the work. You can control many aspects of the QR code
+using the following fields on your instance:
 
-The following configuration data options are recognised by all of the core API methods (all of
-which are optional):
-
-<table>
-  <tr>
-    <th>Property</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td>background</td>
-    <td>Background colour to be used</td>
-    <td><code>#fff</code></td>
-  </tr>
-  <tr>
-    <td>canvas</td>
-    <td><code>&lt;canvas&gt;</code> element in which the QR code should be rendered</td>
-    <td>Creates a new element</td>
-  </tr>
-  <tr>
-    <td>foreground</td>
-    <td>Foreground colour to be used</td>
-    <td><code>#000</code></td>
-  </tr>
-  <tr>
-    <td>level</td>
-    <td>ECC (error correction capacity) level to be applied</td>
-    <td><code>L</code></td>
-  </tr>
-  <tr>
-    <td>size</td>
-    <td>Module size of the generated QR code</td>
-    <td><code>4</code></td>
-  </tr>
-  <tr>
-    <td>value</td>
-    <td>Value to be encoded in the generated QR code</td>
-    <td><code>""</code></td>
-  </tr>
-</table>
-
-### `canvas([data|value])`
-Renders a QR code in an HTML5 `<canvas>` element for a given value.
+| Field      | Type   | Description                                        | Default       |
+| ---------- | ------ | -------------------------------------------------- | ------------- |
+| background | String | Background color of the QR code                    | `"white"`     |
+| foreground | String | Foreground color of the QR code                    | `"black"`     |
+| level      | String | Error correction level of the QR code (L, M, Q, H) | `"L"`         |
+| mime       | String | MIME type used to render the image for the QR code | `"image/png"` |
+| size       | Number | Size of the QR code (pixels)                       | `100`         |
+| value      | String | Value encoded within the QR code                   | `""`          |
 
 ``` javascript
-// Render the QR code on a newly created canvas element
-var canvas = qr.canvas('http://neocotic.com/qr.js');
-// Re-render the QR code on an existing element
-qr.canvas({
-  canvas: canvas,
-  value: 'https://github.com/neocotic/qr.js'
-});
+const qr = new QRious()
+qr.background = '#000'
+qr.foreground = '#fff'
+qr.level = 'H'
+qr.size = 500
+qr.value = 'https://github.com/neocotic/qrious'
 ```
 
-### `image([data|value])`
-Renders a QR code in an HTML `<img>` element for a given value.
+These can also be passed as options to the constructor itself:
 
 ``` javascript
-// Render the QR code on a newly created img element
-var img = qr.image('http://neocotic.com/qr.js');
-// Re-render the QR code on an existing element
-qr.image({
-  image: img,
-  value: 'https://github.com/neocotic/qr.js'
-});
+const qr = new QRious({
+  background: '#000',
+  foreground: '#fff',
+  level: 'H',
+  size: 500,
+  value: 'https://github.com/neocotic/qrious'
+})
 ```
 
-#### Additional Data
-As well as the [Standard Data](#standard-data), this method also accepts the following additional
-data options:
-
-<table>
-  <tr>
-    <th>Property</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td>image</td>
-    <td><code>&lt;img&gt;</code> element in which the QR code should be rendered</td>
-    <td>Creates a new element</td>
-  </tr>
-  <tr>
-    <td>mime</td>
-    <td>MIME type to process the QR code image</td>
-    <td><code>image/png</code></td>
-  </tr>
-</table>
-
-### `save([data|value][, path], callback)`
-Saves a QR code, which has been rendered for a given value, to the user's file system.
+You can also pass in an `element` option to the constructor which can be used to generate the QR code using an existing
+DOM element. `element` must either be a `<canvas>` element or an `<img>` element which can then be accessed via the
+`canvas` or `image` fields on the instance respectively. An element will be created for whichever one isn't provided or
+for both if no `element` is specified, which means that they can be appeneded to the document at a later time.
 
 ``` javascript
-// Render a QR code to a PNG file
-qr.save('http://neocotic.com/qr.js', 'qr.png', function(err) {
-  if (err) throw err;
+const qr = new QRious({
+  element: document.querySelector('canvas'),
+  value: 'https://github.com/neocotic/qrious'
+})
 
-  // ...
-});
-// Render a QR code to a JPEG file
-qr.save({
-  mime: 'image/jpeg',
-  path: 'qr.jpg',
-  value: 'https://github.com/neocotic/qr.js'
-}, function(err) {
-  if (err) throw err;
-
-  // ...
-});
+qr.canvas.parentNode.appendChild(qr.image)
 ```
 
-**Note:** Currently, in the browser, this just does it's best to force a download prompt. We will
-try to improve on this in the future.
-
-#### Additional Data
-As well as the [Standard Data](#standard-data), this method also accepts the following additional
-data options:
-
-<table>
-  <tr>
-    <th>Property</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td>mime</td>
-    <td>MIME type to process the QR code image</td>
-    <td><code>image/png</code></td>
-  </tr>
-  <tr>
-    <td>path</td>
-    <td>Path to which the QR code should be saved<br><strong>Ignored in browsers</strong></td>
-    <td><em>Required if not specified as an argument</em></td>
-  </tr>
-</table>
-
-### `saveSync([data|value][, path])`
-Synchronous [`save(3)`](#savedatavalue-path-callback).
-
-### `toDataURL([data|value])`
-Returns a data URL for rendered QR code. This is a convenient shorthand for dealing with the native
-`HTMLCanvasElement.prototype.toDataURL` function.
+A reference to the `QRious` instance is also stored on both of the elements for convenience.
 
 ``` javascript
-console.log(qr.toDataURL('http://neocotic.com/qr.js')); // "data:image/png;base64,iVBORw0KGgoAAAA..."
-console.log(qr.toDataURL({
-  mime: 'image/jpeg',
-  value: 'https://github.com/neocotic/qr.js'
-})); // "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+const canvas = document.querySelector('canvas')
+const qr = new QRious({
+  element: canvas,
+  value: 'https://github.com/neocotic/qrious'
+})
+
+console.log(qr === canvas.qrious)
+//=> true
 ```
 
-#### Additional Data
-As well as the [Standard Data](#standard-data), this method also accepts the following additional
-data options:
+### `toDataURL([mime])`
 
-<table>
-  <tr>
-    <th>Property</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td>mime</td>
-    <td>MIME type to process the QR code image</td>
-    <td><code>image/png</code></td>
-  </tr>
-</table>
-
-### Miscellaneous
-
-#### `noConflict()`
-Returns `qr` in a no-conflict state, reallocating the `qr` global variable name to its previous
-owner, where possible.
-
-This is really just intended for use within a browser.
-
-``` html
-<script src="/path/to/conflict-lib.js"></script>
-<script src="/path/to/qr.min.js"></script>
-<script>
-  var qrNC = qr.noConflict();
-  // Conflicting lib works again and use qrNC for this library onwards...
-</script>
-```
-
-#### `VERSION`
-The current version of `qr`.
+Generates a base64 encoded data URI for the QR code. If you don't specify a MIME type, it will default to the one
+passed to the constructor as an option or the default value for the `mime` option.
 
 ``` javascript
-console.log(qr.VERSION); // "1.1.4"
+const qr = new QRious({
+  value: 'https://github.com/neocotic/qrious'
+})
+
+console.log(qr.toDataURL())
+//=> "data:image/png;base64,iVBOR...AIpqDnseH86KAAAAAElFTkSuQmCC"
+console.log(qr.toDataURL('image/jpeg'))
+//=> "data:image/jpeg;base64,/9j/...xqAqIqgKFAAAAAq3RRQAUUUUAf/Z"
 ```
 
-## Canvas Support
+### `VERSION`
 
-For browser users; their browser must support the HTML5 canvas element or the API will throw an
-error immediately.
+The current version of `QRious`.
 
-For [node.js][] users; [qr.js][] heavily depends on [node-canvas][] to support the HTML5 canvas
-element in the [node.js][] environment. Unfortunately, this library is dependant on [Cairo][],
-which is not managed by [npm][]. Before you are able to install [qr.js][] (and it's dependencies),
-you must have [Cairo][] installed. Please see their wiki on steps on how to do this on various
-platforms:
-
-https://github.com/LearnBoost/node-canvas/wiki/_pages
+``` javascript
+console.log(QRious.VERSION)
+//=> "2.0.0"
+```
 
 ## Bugs
 
-If you have any problems with this library or would like to see the changes currently in
-development you can do so here;
+If you have any problems with QRious or would like to see changes currently in development you can do so
+[here](https://github.com/neocotic/qrious/issues).
 
-https://github.com/neocotic/qr.js/issues
+## Contributors
 
-## Questions?
+If you want to contribute, you're a legend! Information on how you can do so can be found in
+[CONTRIBUTING.md](https://github.com/neocotic/qrious/blob/master/CONTRIBUTING.md). We want your suggestions and pull
+requests!
 
-Take a look at `docs/qr.html` to get a better understanding of what the code is doing.
+A list of QRious contributors can be found in [AUTHORS.md](https://github.com/neocotic/qrious/blob/master/AUTHORS.md).
 
-If that doesn't help, feel free to follow me on Twitter, [@neocotic][].
+## License
 
-However, if you want more information or examples of using this library please visit the project's
-homepage;
+Copyright (c) 2016 Alasdair Mercer
 
-http://neocotic.com/qr.js
-
-[@neocotic]: https://twitter.com/neocotic
-[cairo]: http://cairographics.org
-[node.js]: http://nodejs.org
-[node-canvas]: https://github.com/LearnBoost/node-canvas
-[npm]: http://npmjs.org
-[qr.js]: http://neocotic.com/qr.js
-[qr code]: http://en.wikipedia.org/wiki/QR_code
+See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our MIT license.
