@@ -75,7 +75,6 @@ module.exports = function(grunt) {
               }),
               nodeResolve({
                 browser: true,
-                extensions: [ '.js', '.json' ],
                 jsnext: true,
                 skip: [ 'canvas' ]
               })
@@ -102,7 +101,6 @@ module.exports = function(grunt) {
                 babelrc: false
               }),
               nodeResolve({
-                extensions: [ '.js', '.json' ],
                 main: true,
                 jsnext: true
               })
@@ -130,7 +128,6 @@ module.exports = function(grunt) {
               }),
               nodeResolve({
                 browser: true,
-                extensions: [ '.js', '.json' ],
                 jsnext: true
               }),
               uglify({
