@@ -100,4 +100,4 @@ class Utilities {
   }
 }
 
-module.exports = Utilities
+export default Utilities

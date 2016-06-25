@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Utilities = require('../util/Utilities')
+import Utilities from '../util/Utilities'
 
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
@@ -128,4 +128,4 @@ class Renderer {
   }
 }
 
-module.exports = Renderer
+export default Renderer

@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Alignment = require('./Alignment')
-const ErrorCorrection = require('./ErrorCorrection')
-const Galois = require('./Galois')
-const Version = require('./Version')
+import Alignment from './Alignment'
+import ErrorCorrection from './ErrorCorrection'
+import Galois from './Galois'
+import Version from './Version'
 
 /**
  * TODO: Document
@@ -1108,7 +1108,7 @@ class Frame {
   }
 }
 
-module.exports = Frame
+export default Frame
 
 /**
  * TODO: Document

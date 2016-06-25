@@ -118,4 +118,4 @@ class ErrorCorrection {
   }
 }
 
-module.exports = ErrorCorrection
+export default ErrorCorrection

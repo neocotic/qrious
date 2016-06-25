@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const ElementService = require('./ElementService')
+import ElementService from './ElementService'
 
 /**
  * An implementation of {@link ElementService} intended for use within a browser environment.
@@ -56,4 +56,4 @@ class BrowserElementService extends ElementService {
   }
 }
 
-module.exports = BrowserElementService
+export default BrowserElementService

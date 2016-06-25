@@ -81,4 +81,4 @@ class Galois {
   }
 }
 
-module.exports = Galois
+export default Galois

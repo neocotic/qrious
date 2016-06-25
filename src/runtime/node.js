@@ -17,26 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const BrowserElementService = require('./BrowserElementService')
-const NodeElementService = require('./NodeElementService')
-const ServiceProvider = require('../ServiceProvider')
+import NodeElementService from '../service/element/NodeElementService'
+import QRious from '../QRious'
 
-/**
- * A service provider for the {@link ElementService}.
- *
- * @public
- * @extends ServiceProvider
- */
-class ElementServiceProvider extends ServiceProvider {
+QRious.use(new NodeElementService())
 
-  /**
-   * Creates a new instance of {@link ElementServiceProvider}.
-   *
-   * @public
-   */
-  constructor() {
-    super([ NodeElementService, BrowserElementService ])
-  }
-}
-
-module.exports = ElementServiceProvider
+export default QRious

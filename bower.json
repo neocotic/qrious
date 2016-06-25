@@ -22,16 +22,17 @@
     "type": "git",
     "url": "https://github.com/neocotic/qrious.git"
   },
-  "main": "dist/qrious.js",
+  "main": "dist/umd/qrious.js",
   "ignore": [
-    "**/.*",
+    "src/",
+    ".*",
     "AUTHORS.md",
     "CHANGES.md",
     "CONTRIBUTING.md",
+    "demo.html",
     "Gruntfile.js",
     "INSTALL.md",
-    "README.md",
-    "bower.json",
-    "package.json"
+    "package.json",
+    "README.md"
   ]
 }

@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const CanvasRenderer = require('./renderer/CanvasRenderer')
-const ElementServiceProvider = require('./service/element/ElementServiceProvider')
-const Frame = require('./Frame')
-const ImageRenderer = require('./renderer/ImageRenderer')
-const Utilities = require('./util/Utilities')
+import CanvasRenderer from './renderer/CanvasRenderer'
+import Frame from './Frame'
+import ImageRenderer from './renderer/ImageRenderer'
+import ServiceManager from './service/ServiceManager'
+import Utilities from './util/Utilities'
 
 /**
  * Enables configuration of a QR code generator which uses HTML5 <code>canvas</code> for rendering.
@@ -60,6 +60,18 @@ class QRious {
   }
 
   /**
+   * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
+   *
+   * @param {Service} service - the {@link Service} to be configured
+   * @throws {Error} If a {@link Service} has already been configured with the same name.
+   * @public
+   * @static
+   */
+  static use(service) {
+    QRious._serviceManager.setService(service.getName(), service)
+  }
+
+  /**
    * Parses the <code>options</code> provided so that the appropriate defaults and transformations are applied.
    *
    * @param {QRious~Options} [options] - the options to be parsed
@@ -86,13 +98,8 @@ class QRious {
 
     Utilities.privatize(this, options)
 
-    /**
-     * The element service being used to create and inspect elements being to be used by this {@link QRious}.
-     *
-     * @private
-     * @type {ElementService}
-     */
-    this._elementService = new ElementServiceProvider().getService()
+    let element = this._element
+    let elementService = QRious._serviceManager.getService('element')
 
     /**
      * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
@@ -100,7 +107,7 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.canvas = this._element && this._elementService.isCanvas(this._element) ? this._element : this._elementService.createCanvas()
+    this.canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas()
     this.canvas.qrious = this
 
     /**
@@ -109,7 +116,7 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.image = this._element && this._elementService.isImage(this._element) ? this._element : this._elementService.createImage()
+    this.image = element && elementService.isImage(element) ? element : elementService.createImage()
     this.image.qrious = this
 
     /**
@@ -301,7 +308,16 @@ class QRious {
   }
 }
 
-module.exports = QRious
+/**
+ * The {@link ServiceManager} managing the services shared by all {@link QRious} instances.
+ *
+ * @private
+ * @static
+ * @type {ServiceManager}
+ */
+QRious._serviceManager = new ServiceManager()
+
+export default QRious
 
 /**
  * The options used by {@link QRious}.

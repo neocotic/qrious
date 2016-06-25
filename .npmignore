@@ -1,9 +1,9 @@
 .*
 AUTHORS.md
+bower.json
 CHANGES.md
 CONTRIBUTING.md
+demo.html
 Gruntfile.js
 INSTALL.md
 README.md
-bower.json
-dist/qrious.min.*

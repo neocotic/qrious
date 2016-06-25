@@ -17,14 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-let Canvas
-try {
-  Canvas = require('canvas')
-} catch (error) {
-  // Do nothing...
-}
+import Canvas, { Image } from 'canvas'
 
-const ElementService = require('./ElementService')
+import ElementService from './ElementService'
 
 /**
  * An implementation of {@link ElementService} intended for use within a Node.js environment but is only supported when
@@ -53,7 +48,7 @@ class NodeElementService extends ElementService {
    * @override
    */
   createImage() {
-    return new Canvas.Image()
+    return new Image()
   }
 
   /**
@@ -67,8 +62,8 @@ class NodeElementService extends ElementService {
    * @override
    */
   isImage(element) {
-    return element instanceof Canvas.Image
+    return element instanceof Image
   }
 }
 
-module.exports = NodeElementService
+export default NodeElementService

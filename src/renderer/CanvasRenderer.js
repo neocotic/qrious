@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Renderer = require('./Renderer')
+import Renderer from './Renderer'
 
 /**
  * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
@@ -72,4 +72,4 @@ class CanvasRenderer extends Renderer {
   }
 }
 
-module.exports = CanvasRenderer
+export default CanvasRenderer

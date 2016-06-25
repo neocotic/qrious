@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Utilities from '../util/Utilities'
+
 /**
  * Defines a service contract that must be met by all implementations.
  *
@@ -25,21 +27,14 @@
 class Service {
 
   /**
-   * Returns whether or not the {@link Service} is supported in the current context.
+   * Returns the name of this {@link Service}.
    *
-   * By default, this method will always return <code>true</code> but implementations are free to override this method
-   * as and when needed to control the usage of the {@link Service}.
-   *
-   * Also, the default logic for a {@link ServiceProvider} is to ignore unsupported implementations.
-   *
-   * @return {Boolean} <code>true</code> if the {@link Service} implementation is supported in the current context;
-   * otherwise <code>false</code>.
+   * @return {String} The service name.
    * @public
-   * @static
    */
-  static isSupported() {
-    return true
+  getName() {
+    Utilities.throwUnimplemented('Service', 'getName')
   }
 }
 
-module.exports = Service
+export default Service

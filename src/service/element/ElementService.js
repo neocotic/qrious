@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Service = require('../Service')
-const Utilities = require('../../util/Utilities')
+import Service from '../Service'
+import Utilities from '../../util/Utilities'
 
 /**
  * A service for working with elements.
@@ -49,6 +49,13 @@ class ElementService extends Service {
   }
 
   /**
+   * @override
+   */
+  getName() {
+    return 'element'
+  }
+
+  /**
    * Returns whether the specified <code>element</code> is a canvas.
    *
    * @param {*} element - the element to be checked
@@ -71,4 +78,4 @@ class ElementService extends Service {
   }
 }
 
-module.exports = ElementService
+export default ElementService

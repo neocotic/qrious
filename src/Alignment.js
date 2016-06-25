@@ -42,4 +42,4 @@ class Alignment {
   }
 }
 
-module.exports = Alignment
+export default Alignment
