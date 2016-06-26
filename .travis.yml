@@ -6,11 +6,13 @@ node_js:
   - "6.0"
 script:
   - npm test
+env:
+  - CXX=g++-4.8
 addons:
   apt:
     packages:
       - build-essential
-      - g++
+      - g++-4.8
       - libcairo2-dev
       - libgif-dev
       - libjpeg-dev
