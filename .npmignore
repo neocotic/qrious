@@ -1,11 +1,8 @@
-docs
-.jshintrc
+.*
 AUTHORS.md
+bower.json
 CHANGES.md
 CONTRIBUTING.md
+demo.html
 Gruntfile.js
-INSTALL.md
 README.md
-bower.json
-qr.min.js
-qr.min.map
