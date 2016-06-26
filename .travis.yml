@@ -15,3 +15,5 @@ addons:
       - libgif-dev
       - libjpeg-dev
       - libpango1.0-dev
+      - make
+      - python
