@@ -14,6 +14,14 @@
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/npm/v/qrious.svg?style=flat-square)](https://www.npmjs.com/package/qrious)
 
+* [Install](#install)
+* [Examples](#examples)
+* [API](#api)
+* [Migrating from v1](#migrating-from-v1)
+* [Bugs](#bugs)
+* [Contributors](#contributors)
+* [License](#license)
+
 ## Install
 
 Install using the package manager for your desired environment(s):
