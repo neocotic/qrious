@@ -90,6 +90,8 @@ app.get('/qr', (req, res) => {
 app.listen(3000)
 ```
 
+Open up `demo.html` in your browser to play around a bit.
+
 ## API
 
 Simply create an instance of `QRious` and you've done most of the work. You can control many aspects of the QR code
