@@ -11,6 +11,7 @@
 * Add `demo.html` to allow contributors to experiment and test with changes due to lack of unit tests
 * Remove `INSTALL.md` and consolidate contents into `README.md` and `CONTRIBUTING.md`
 * Add [EditorConfig](http://editorconfig.org) file
+* Add support for [Travis CI](https://travis-ci.org)
 
 ## Version 1.1.4, 2015.11.11
 
