@@ -10,6 +10,7 @@
 * Switch from [JSHint](https://github.com/jshint/jshint) to [ESLint](http://eslint.org)
 * Add `demo.html` to allow contributors to experiment and test with changes due to lack of unit tests
 * Remove `INSTALL.md` and consolidate contents into `README.md` and `CONTRIBUTING.md`
+* Add [EditorConfig](http://editorconfig.org) file
 
 ## Version 1.1.4, 2015.11.11
 
