@@ -71,14 +71,6 @@ class QRious {
     QRious._serviceManager.setService(service.getName(), service)
   }
 
-  /**
-   * Parses the <code>options</code> provided so that the appropriate defaults and transformations are applied.
-   *
-   * @param {QRious~Options} [options] - the options to be parsed
-   * @return {QRious~Options} The parsed options.
-   * @private
-   * @static
-   */
   static _parseOptions(options) {
     options = Object.assign({}, QRious.DEFAULTS, options)
     options.level = Utilities.toUpperCase(options.level)
@@ -119,12 +111,6 @@ class QRious {
     this.image = element && elementService.isImage(element) ? element : elementService.createImage()
     this.image.qrious = this
 
-    /**
-     * A list of renderers being used to render the QR code for this {@link QRious}.
-     *
-     * @private
-     * @type {Renderer[]}
-     */
     this._renderers = [
       new CanvasRenderer(this),
       new ImageRenderer(this)
@@ -308,13 +294,6 @@ class QRious {
   }
 }
 
-/**
- * The {@link ServiceManager} managing the services shared by all {@link QRious} instances.
- *
- * @private
- * @static
- * @type {ServiceManager}
- */
 QRious._serviceManager = new ServiceManager()
 
 export default QRious

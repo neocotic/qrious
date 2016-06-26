@@ -834,7 +834,7 @@ var Version = function () {
 }();
 
 /**
- * TODO: Document
+ * Generates information for a QR code frame based on a specific value to be encoded.
  *
  * @public
  */
@@ -842,16 +842,6 @@ var Version = function () {
 var Frame = function () {
   createClass(Frame, null, [{
     key: '_createArray',
-
-
-    /**
-     * TODO: Document
-     *
-     * @param {Number} length -
-     * @return {Number[]}
-     * @private
-     * @static
-     */
     value: function _createArray(length) {
       var array = [];
 
@@ -861,17 +851,6 @@ var Frame = function () {
 
       return array;
     }
-
-    /**
-     * TODO: Document
-     *
-     * @param {Number} x -
-     * @param {Number} y -
-     * @return {Number}
-     * @private
-     * @static
-     */
-
   }, {
     key: '_getMaskBit',
     value: function _getMaskBit(x, y) {
@@ -890,18 +869,6 @@ var Frame = function () {
 
       return bit;
     }
-
-    /**
-     * TODO: Document
-     *
-     * Returns the exponentiation mod N.
-     *
-     * @param {Number} x -
-     * @return {Number}
-     * @private
-     * @static
-     */
-
   }, {
     key: '_modN',
     value: function _modN(x) {
@@ -937,9 +904,9 @@ var Frame = function () {
     }
 
     /**
-     * TODO: Document
+     * Creates an instance of {@link Frame} based on the <code>options</code> provided.
      *
-     * @param {Frame~Options} options -
+     * @param {Frame~Options} options - the options to be used
      * @public
      */
 
@@ -948,60 +915,12 @@ var Frame = function () {
   function Frame(options) {
     classCallCheck(this, Frame);
 
-    /**
-     * The run lengths for badness.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._badness = [];
-
-    /**
-     * Determine the ECC level to be applied.
-     *
-     * @private
-     * @type {Number}
-     */
     this._level = ErrorCorrection.LEVELS[options.level];
-
-    /**
-     * The generator polynomial.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._polynomial = [];
-
-    /**
-     * TODO: Document
-     *
-     * @private
-     * @type {String}
-     */
     this._value = options.value;
-
-    /**
-     * TODO: Document
-     *
-     * @private
-     * @type {Number}
-     */
     this._valueLength = this._value.length;
-
-    /**
-     * The version for the data.
-     *
-     * @private
-     * @type {Number}
-     */
     this._version = 0;
-
-    /**
-     * The data input buffer.
-     *
-     * @private
-     * @type {String}
-     */
     this._stringBuffer = this._value.slice(0);
 
     var dataBlock = void 0;
@@ -1026,14 +945,7 @@ var Frame = function () {
       }
     }
 
-    /**
-     * The data block.
-     *
-     * @private
-     * @type {Number}
-     */
     this._dataBlock = dataBlock;
-
     this._eccBlock = eccBlock;
     this._neccBlock1 = neccBlock1;
     this._neccBlock2 = neccBlock2;
@@ -1055,20 +967,7 @@ var Frame = function () {
      */
     this.buffer = Frame._createArray(this.width * this.width);
 
-    /**
-     * The error correction buffer.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._ecc = Frame._createArray(this._dataBlock + (this._dataBlock + this._eccBlock) * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2);
-
-    /**
-     * The fixed part of the image.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._mask = Frame._createArray((this.width * (this.width + 1) + 1) / 2);
 
     this._insertFinders();
@@ -1090,17 +989,6 @@ var Frame = function () {
     this._finish();
   }
 
-  /**
-   * TODO: Document
-   *
-   * Enters alignment pattern. Foreground color to frame, background to mask. Frame will be merged with mask later.
-   *
-   * @param {Number} x -
-   * @param {Number} y -
-   * @private
-   */
-
-
   createClass(Frame, [{
     key: '_addAlignment',
     value: function _addAlignment(x, y) {
@@ -1120,20 +1008,6 @@ var Frame = function () {
         this._setMask(x + _i, y + 1);
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Calculates and appends <code>ecc</code> data to the <code>data</code> block. If block is in the string buffer the
-     * indices to buffers are used.
-     *
-     * @param {Number} data -
-     * @param {Number} dataLength -
-     * @param {Number} ecc -
-     * @param {Number} eccLength -
-     * @private
-     */
-
   }, {
     key: '_appendData',
     value: function _appendData(data, dataLength, ecc, eccLength) {
@@ -1157,13 +1031,6 @@ var Frame = function () {
         this._stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0 : Galois.EXPONENT[Frame._modN(bit + this._polynomial[0])];
       }
     }
-
-    /**
-     * Appends the ECC buffer to the data buffer.
-     *
-     * @private
-     */
-
   }, {
     key: '_appendEccToData',
     value: function _appendEccToData() {
@@ -1184,16 +1051,6 @@ var Frame = function () {
         ecc += this._eccBlock;
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Applies the selected mask out of the 8 options.
-     *
-     * @param {Number} mask -
-     * @private
-     */
-
   }, {
     key: '_applyMask',
     value: function _applyMask(mask) {
@@ -1323,26 +1180,11 @@ var Frame = function () {
           break;
       }
     }
-
-    /**
-     * Calculates the maximum string length.
-     *
-     * @return {Number} The maximum string length.
-     * @private
-     */
-
   }, {
     key: '_calculateMaxLength',
     value: function _calculateMaxLength() {
       return this._dataBlock * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2;
     }
-
-    /**
-     * Calculates the generator polynomial.
-     *
-     * @private
-     */
-
   }, {
     key: '_calculatePolynomial',
     value: function _calculatePolynomial() {
@@ -1363,16 +1205,6 @@ var Frame = function () {
         this._polynomial[_i4] = Galois.LOG[this._polynomial[_i4]];
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Calculates how bad the masked image is (e.g. blocks, imbalance, runs, or finders).
-     *
-     * @return {Number}
-     * @private
-     */
-
   }, {
     key: '_checkBadness',
     value: function _checkBadness() {
@@ -1454,17 +1286,6 @@ var Frame = function () {
 
       return bad;
     }
-
-    /**
-     * TODO: Document
-     *
-     * Converts the string buffer into a bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not
-     * supported).
-     *
-     * @param {Number} length -
-     * @private
-     */
-
   }, {
     key: '_convertBitStream',
     value: function _convertBitStream(length) {
@@ -1527,18 +1348,6 @@ var Frame = function () {
         this._stringBuffer[index++] = 0x11;
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Using the table for the length of each run, calculate the amount of bad image. Long runs or those that look like
-     * finders are called twice; once for X and Y.
-     *
-     * @param {Number} length -
-     * @returns {Number}
-     * @private
-     */
-
   }, {
     key: '_getBadness',
     value: function _getBadness(length) {
@@ -1561,13 +1370,6 @@ var Frame = function () {
 
       return badRuns;
     }
-
-    /**
-     * TODO: Document
-     *
-     * @private
-     */
-
   }, {
     key: '_finish',
     value: function _finish() {
@@ -1637,13 +1439,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * Interleaves blocks.
-     *
-     * @private
-     */
-
   }, {
     key: '_interleaveBlocks',
     value: function _interleaveBlocks() {
@@ -1673,15 +1468,6 @@ var Frame = function () {
 
       this._stringBuffer = this._ecc;
     }
-
-    /**
-     * TODO: Document
-     *
-     * Inserts alignment blocks.
-     *
-     * @private
-     */
-
   }, {
     key: '_insertAlignments',
     value: function _insertAlignments() {
@@ -1715,15 +1501,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Inserts finders: foreground colour to frame and background to mask.
-     *
-     * @private
-     */
-
   }, {
     key: '_insertFinders',
     value: function _insertFinders() {
@@ -1764,15 +1541,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Inserts timing gap into mask.
-     *
-     * @private
-     */
-
   }, {
     key: '_insertTimingGap',
     value: function _insertTimingGap() {
@@ -1790,15 +1558,6 @@ var Frame = function () {
         this._setMask(x, width - 8);
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Inserts timing row and column.
-     *
-     * @private
-     */
-
   }, {
     key: '_insertTimingRowAndColumn',
     value: function _insertTimingRowAndColumn() {
@@ -1814,15 +1573,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Inserts the version block.
-     *
-     * @private
-     */
-
   }, {
     key: '_insertVersion',
     value: function _insertVersion() {
@@ -1845,18 +1595,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Checks mask since symmetrical cells use half.
-     *
-     * @param {Number} x -
-     * @param {Number} y -
-     * @return {Boolean}
-     * @private
-     */
-
   }, {
     key: '_isMasked',
     value: function _isMasked(x, y) {
@@ -1864,13 +1602,6 @@ var Frame = function () {
 
       return this._mask[bit] === 1;
     }
-
-    /**
-     * Packs the bits into the frame buffer while avoiding the masked area.
-     *
-     * @private
-     */
-
   }, {
     key: '_pack',
     value: function _pack() {
@@ -1927,15 +1658,6 @@ var Frame = function () {
         }
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Reverses the mask and formats the area.
-     *
-     * @private
-     */
-
   }, {
     key: '_reverseMask',
     value: function _reverseMask() {
@@ -1954,17 +1676,6 @@ var Frame = function () {
         this._setMask(8, y + width - 7);
       }
     }
-
-    /**
-     * TODO: Document
-     *
-     * Sets bit to indicate cell in frame is immutable (symmetric around diagonal).
-     *
-     * @param {Number} x -
-     * @param {Number} y -
-     * @private
-     */
-
   }, {
     key: '_setMask',
     value: function _setMask(x, y) {
@@ -1972,15 +1683,6 @@ var Frame = function () {
 
       this._mask[bit] = 1;
     }
-
-    /**
-     * TODO: Document
-     *
-     * Synchronizes mask bits. Only set above for background cells, so now add the foreground.
-     *
-     * @private
-     */
-
   }, {
     key: '_syncMask',
     value: function _syncMask() {
@@ -2094,12 +1796,6 @@ var ServiceManager = function () {
   function ServiceManager() {
     classCallCheck(this, ServiceManager);
 
-    /**
-     * A map of all {@link Service} implementations that are being managed by this {@link ServiceManager}.
-     *
-     * @private
-     * @type {Object<String, Service>}
-     */
     this._services = {};
   }
 
@@ -2171,16 +1867,6 @@ var QRious = function () {
     value: function use(service) {
       QRious._serviceManager.setService(service.getName(), service);
     }
-
-    /**
-     * Parses the <code>options</code> provided so that the appropriate defaults and transformations are applied.
-     *
-     * @param {QRious~Options} [options] - the options to be parsed
-     * @return {QRious~Options} The parsed options.
-     * @private
-     * @static
-     */
-
   }, {
     key: '_parseOptions',
     value: function _parseOptions(options) {
@@ -2263,12 +1949,6 @@ var QRious = function () {
     this.image = element && elementService.isImage(element) ? element : elementService.createImage();
     this.image.qrious = this;
 
-    /**
-     * A list of renderers being used to render the QR code for this {@link QRious}.
-     *
-     * @private
-     * @type {Renderer[]}
-     */
     this._renderers = [new CanvasRenderer(this), new ImageRenderer(this)];
 
     this.update();
@@ -2483,15 +2163,6 @@ var QRious = function () {
   }]);
   return QRious;
 }();
-
-/**
- * The {@link ServiceManager} managing the services shared by all {@link QRious} instances.
- *
- * @private
- * @static
- * @type {ServiceManager}
- */
-
 
 QRious._serviceManager = new ServiceManager();
 

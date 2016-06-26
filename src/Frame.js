@@ -23,20 +23,12 @@ import Galois from './Galois'
 import Version from './Version'
 
 /**
- * TODO: Document
+ * Generates information for a QR code frame based on a specific value to be encoded.
  *
  * @public
  */
 class Frame {
 
-  /**
-   * TODO: Document
-   *
-   * @param {Number} length -
-   * @return {Number[]}
-   * @private
-   * @static
-   */
   static _createArray(length) {
     const array = []
 
@@ -47,15 +39,6 @@ class Frame {
     return array
   }
 
-  /**
-   * TODO: Document
-   *
-   * @param {Number} x -
-   * @param {Number} y -
-   * @return {Number}
-   * @private
-   * @static
-   */
   static _getMaskBit(x, y) {
     let bit
 
@@ -73,16 +56,6 @@ class Frame {
     return bit
   }
 
-  /**
-   * TODO: Document
-   *
-   * Returns the exponentiation mod N.
-   *
-   * @param {Number} x -
-   * @return {Number}
-   * @private
-   * @static
-   */
   static _modN(x) {
     while (x >= 255) {
       x -= 255
@@ -107,66 +80,18 @@ class Frame {
   }
 
   /**
-   * TODO: Document
+   * Creates an instance of {@link Frame} based on the <code>options</code> provided.
    *
-   * @param {Frame~Options} options -
+   * @param {Frame~Options} options - the options to be used
    * @public
    */
   constructor(options) {
-    /**
-     * The run lengths for badness.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._badness = []
-
-    /**
-     * Determine the ECC level to be applied.
-     *
-     * @private
-     * @type {Number}
-     */
     this._level = ErrorCorrection.LEVELS[options.level]
-
-    /**
-     * The generator polynomial.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._polynomial = []
-
-    /**
-     * TODO: Document
-     *
-     * @private
-     * @type {String}
-     */
     this._value = options.value
-
-    /**
-     * TODO: Document
-     *
-     * @private
-     * @type {Number}
-     */
     this._valueLength = this._value.length
-
-    /**
-     * The version for the data.
-     *
-     * @private
-     * @type {Number}
-     */
     this._version = 0
-
-    /**
-     * The data input buffer.
-     *
-     * @private
-     * @type {String}
-     */
     this._stringBuffer = this._value.slice(0)
 
     let dataBlock
@@ -191,14 +116,7 @@ class Frame {
       }
     }
 
-    /**
-     * The data block.
-     *
-     * @private
-     * @type {Number}
-     */
     this._dataBlock = dataBlock
-
     this._eccBlock = eccBlock
     this._neccBlock1 = neccBlock1
     this._neccBlock2 = neccBlock2
@@ -220,20 +138,7 @@ class Frame {
      */
     this.buffer = Frame._createArray(this.width * this.width)
 
-    /**
-     * The error correction buffer.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._ecc = Frame._createArray(this._dataBlock + (this._dataBlock + this._eccBlock) * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2)
-
-    /**
-     * The fixed part of the image.
-     *
-     * @private
-     * @type {Number[]}
-     */
     this._mask = Frame._createArray((this.width * (this.width + 1) + 1) / 2)
 
     this._insertFinders()
@@ -255,15 +160,6 @@ class Frame {
     this._finish()
   }
 
-  /**
-   * TODO: Document
-   *
-   * Enters alignment pattern. Foreground color to frame, background to mask. Frame will be merged with mask later.
-   *
-   * @param {Number} x -
-   * @param {Number} y -
-   * @private
-   */
   _addAlignment(x, y) {
     this.buffer[x + this.width * y] = 1
 
@@ -282,18 +178,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Calculates and appends <code>ecc</code> data to the <code>data</code> block. If block is in the string buffer the
-   * indices to buffers are used.
-   *
-   * @param {Number} data -
-   * @param {Number} dataLength -
-   * @param {Number} ecc -
-   * @param {Number} eccLength -
-   * @private
-   */
   _appendData(data, dataLength, ecc, eccLength) {
     for (let i = 0; i < eccLength; i++) {
       this._stringBuffer[ecc + i] = 0
@@ -316,11 +200,6 @@ class Frame {
     }
   }
 
-  /**
-   * Appends the ECC buffer to the data buffer.
-   *
-   * @private
-   */
   _appendEccToData() {
     let data = 0
     let ecc = this._calculateMaxLength()
@@ -340,14 +219,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Applies the selected mask out of the 8 options.
-   *
-   * @param {Number} mask -
-   * @private
-   */
   _applyMask(mask) {
     const width = this.width
 
@@ -476,21 +347,10 @@ class Frame {
     }
   }
 
-  /**
-   * Calculates the maximum string length.
-   *
-   * @return {Number} The maximum string length.
-   * @private
-   */
   _calculateMaxLength() {
     return this._dataBlock * (this._neccBlock1 + this._neccBlock2) + this._neccBlock2
   }
 
-  /**
-   * Calculates the generator polynomial.
-   *
-   * @private
-   */
   _calculatePolynomial() {
     this._polynomial[0] = 1
 
@@ -510,14 +370,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Calculates how bad the masked image is (e.g. blocks, imbalance, runs, or finders).
-   *
-   * @return {Number}
-   * @private
-   */
   _checkBadness() {
     let bad = 0
     const width = this.width
@@ -604,15 +456,6 @@ class Frame {
     return bad
   }
 
-  /**
-   * TODO: Document
-   *
-   * Converts the string buffer into a bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not
-   * supported).
-   *
-   * @param {Number} length -
-   * @private
-   */
   _convertBitStream(length) {
     // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji
     // not supported).
@@ -674,16 +517,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Using the table for the length of each run, calculate the amount of bad image. Long runs or those that look like
-   * finders are called twice; once for X and Y.
-   *
-   * @param {Number} length -
-   * @returns {Number}
-   * @private
-   */
   _getBadness(length) {
     let badRuns = 0
 
@@ -710,11 +543,6 @@ class Frame {
     return badRuns
   }
 
-  /**
-   * TODO: Document
-   *
-   * @private
-   */
   _finish() {
     // Save pre-mask copy of frame.
     this._stringBuffer = this.buffer.slice(0)
@@ -783,11 +611,6 @@ class Frame {
     }
   }
 
-  /**
-   * Interleaves blocks.
-   *
-   * @private
-   */
   _interleaveBlocks() {
     const maxLength = this._calculateMaxLength()
     let i
@@ -816,13 +639,6 @@ class Frame {
     this._stringBuffer = this._ecc
   }
 
-  /**
-   * TODO: Document
-   *
-   * Inserts alignment blocks.
-   *
-   * @private
-   */
   _insertAlignments() {
     const width = this.width
 
@@ -855,13 +671,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Inserts finders: foreground colour to frame and background to mask.
-   *
-   * @private
-   */
   _insertFinders() {
     const width = this.width
 
@@ -901,13 +710,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Inserts timing gap into mask.
-   *
-   * @private
-   */
   _insertTimingGap() {
     const width = this.width
 
@@ -924,13 +726,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Inserts timing row and column.
-   *
-   * @private
-   */
   _insertTimingRowAndColumn() {
     const width = this.width
 
@@ -945,13 +740,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Inserts the version block.
-   *
-   * @private
-   */
   _insertVersion() {
     const width = this.width
 
@@ -973,27 +761,12 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Checks mask since symmetrical cells use half.
-   *
-   * @param {Number} x -
-   * @param {Number} y -
-   * @return {Boolean}
-   * @private
-   */
   _isMasked(x, y) {
     const bit = Frame._getMaskBit(x, y)
 
     return this._mask[bit] === 1
   }
 
-  /**
-   * Packs the bits into the frame buffer while avoiding the masked area.
-   *
-   * @private
-   */
   _pack() {
     let x = this.width - 1
     let y = this.width - 1
@@ -1049,13 +822,6 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Reverses the mask and formats the area.
-   *
-   * @private
-   */
   _reverseMask() {
     const width = this.width
 
@@ -1073,28 +839,12 @@ class Frame {
     }
   }
 
-  /**
-   * TODO: Document
-   *
-   * Sets bit to indicate cell in frame is immutable (symmetric around diagonal).
-   *
-   * @param {Number} x -
-   * @param {Number} y -
-   * @private
-   */
   _setMask(x, y) {
     const bit = Frame._getMaskBit(x, y)
 
     this._mask[bit] = 1
   }
 
-  /**
-   * TODO: Document
-   *
-   * Synchronizes mask bits. Only set above for background cells, so now add the foreground.
-   *
-   * @private
-   */
   _syncMask() {
     const width = this.width
 
@@ -1111,9 +861,9 @@ class Frame {
 export default Frame
 
 /**
- * TODO: Document
+ * The options used by {@link Frame}.
  *
  * @typedef {Object} Frame~Options
- * @property {String} level -
- * @property {String} value -
+ * @property {String} level - The ECC level to be used.
+ * @property {String} value - The value to be encoded.
  */

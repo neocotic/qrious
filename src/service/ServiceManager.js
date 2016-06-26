@@ -30,12 +30,6 @@ class ServiceManager {
    * @public
    */
   constructor() {
-    /**
-     * A map of all {@link Service} implementations that are being managed by this {@link ServiceManager}.
-     *
-     * @private
-     * @type {Object<String, Service>}
-     */
     this._services = {}
   }
 
