@@ -181,7 +181,7 @@ console.log(QRious.VERSION)
 
 ## Migrating from v1
 
-If you've been using v1 (`qr.js`) then you can find details about what's changed and a guide on how to migrate to v2
+If you've been using v1 (`qr`) then you can find details about what's changed and a guide on how to migrate to v2
 (`Qrious`) below:
 
 https://github.com/neocotic/qrious/wiki/Migrating-from-v1
