@@ -6,3 +6,12 @@ node_js:
   - "6.0"
 script:
   - npm test
+addons:
+  apt:
+    packages:
+      - build-essential
+      - g++
+      - libcairo2-dev
+      - libgif-dev
+      - libjpeg-dev
+      - libpango1.0-dev
