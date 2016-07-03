@@ -33,7 +33,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
+    "grunt-eslint": "^18.1.0",
     "grunt-rollup": "^0.7.1",
     "load-grunt-tasks": "^3.5.0",
     "rollup-plugin-babel": "^2.6.1",
