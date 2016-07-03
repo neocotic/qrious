@@ -1,5 +1,5 @@
 /*
- * QRious v2.0.0
+ * QRious v2.0.1
  * Copyright (C) 2016 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -1905,7 +1905,7 @@
     }, {
       key: 'VERSION',
       get: function get() {
-        return '2.0.0';
+        return '2.0.1';
       }
     }]);
 

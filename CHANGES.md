@@ -1,3 +1,7 @@
+## Version 2.0.1, 2016.07.03
+
+* Correct license mentioned into `README.md`
+
 ## Version 2.0.0, 2016.06.26
 
 * Rename library to QRious and move package from `qr-js` to `qrious`

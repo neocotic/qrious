@@ -215,4 +215,4 @@ A list of QRious contributors can be found in [AUTHORS.md](https://github.com/ne
 
 Copyright (c) 2016 Alasdair Mercer
 
-See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our MIT license.
+See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our GPLv3 license.
