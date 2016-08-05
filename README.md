@@ -184,7 +184,7 @@ The current version of `QRious`.
 
 ``` javascript
 console.log(QRious.VERSION)
-//=> "2.0.0"
+//=> "2.0.2"
 ```
 
 ## Migrating from v1
@@ -213,6 +213,7 @@ A list of QRious contributors can be found in [AUTHORS.md](https://github.com/ne
 
 ## License
 
-Copyright (c) 2016 Alasdair Mercer
+Copyright © 2016 Alasdair Mercer  
+Copyright © 2010 Tom Zerucha
 
 See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our GPLv3 license.

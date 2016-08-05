@@ -92,7 +92,7 @@ class Frame {
     this._value = options.value
     this._valueLength = this._value.length
     this._version = 0
-    this._stringBuffer = this._value.slice(0)
+    this._stringBuffer = []
 
     let dataBlock
     let eccBlock
@@ -152,7 +152,7 @@ class Frame {
     this._insertTimingRowAndColumn()
     this._insertVersion()
     this._syncMask()
-    this._convertBitStream(this._stringBuffer.length)
+    this._convertBitStream(this._value.length)
     this._calculatePolynomial()
     this._appendEccToData()
     this._interleaveBlocks()
@@ -319,7 +319,7 @@ class Frame {
             r3x = 0
           }
 
-          if (!(x & y & 1 + (r3x && r3x === r3y) & 1) && !this._isMasked(x, y)) {
+          if (!((x & y & 1) + (r3x && r3x === r3y) & 1) && !this._isMasked(x, y)) {
             this.buffer[x + y * width] ^= 1
           }
         }
@@ -457,11 +457,9 @@ class Frame {
   }
 
   _convertBitStream(length) {
-    // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji
-    // not supported).
-
+    // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not supported).
     for (let i = 0; i < length; i++) {
-      this._ecc[i] = this._stringBuffer.charCodeAt(i)
+      this._ecc[i] = this._value.charCodeAt(i)
     }
 
     this._stringBuffer = this._ecc.slice(0)

@@ -1,3 +1,7 @@
+## Version 2.0.2, 2016.08.05
+
+* Fix bug where mask is incorrectly applied [#50](https://github.com/neocotic/qrious/issues/50)
+
 ## Version 2.0.1, 2016.07.03
 
 * Correct license mentioned into `README.md`

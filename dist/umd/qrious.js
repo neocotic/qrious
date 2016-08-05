@@ -1,5 +1,5 @@
 /*
- * QRious v2.0.1
+ * QRious v2.0.2
  * Copyright (C) 2016 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -909,7 +909,7 @@
       this._value = options.value;
       this._valueLength = this._value.length;
       this._version = 0;
-      this._stringBuffer = this._value.slice(0);
+      this._stringBuffer = [];
 
       var dataBlock = void 0;
       var eccBlock = void 0;
@@ -969,7 +969,7 @@
       this._insertTimingRowAndColumn();
       this._insertVersion();
       this._syncMask();
-      this._convertBitStream(this._stringBuffer.length);
+      this._convertBitStream(this._value.length);
       this._calculatePolynomial();
       this._appendEccToData();
       this._interleaveBlocks();
@@ -1141,7 +1141,7 @@
                   _r3x4 = 0;
                 }
 
-                if (!(_x6 & _y6 & 1 + (_r3x4 && _r3x4 === _r3y3) & 1) && !this._isMasked(_x6, _y6)) {
+                if (!((_x6 & _y6 & 1) + (_r3x4 && _r3x4 === _r3y3) & 1) && !this._isMasked(_x6, _y6)) {
                   this.buffer[_x6 + _y6 * width] ^= 1;
                 }
               }
@@ -1277,11 +1277,9 @@
     }, {
       key: '_convertBitStream',
       value: function _convertBitStream(length) {
-        // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji
-        // not supported).
-
+        // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not supported).
         for (var i = 0; i < length; i++) {
-          this._ecc[i] = this._stringBuffer.charCodeAt(i);
+          this._ecc[i] = this._value.charCodeAt(i);
         }
 
         this._stringBuffer = this._ecc.slice(0);
@@ -1905,7 +1903,7 @@
     }, {
       key: 'VERSION',
       get: function get() {
-        return '2.0.1';
+        return '2.0.2';
       }
     }]);
 
