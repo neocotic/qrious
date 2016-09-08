@@ -38,7 +38,7 @@ class CanvasRenderer extends Renderer {
 
     context.fillStyle = qrious.foreground
     
-    var fix = 0
+    let fix = 0
     if ("_padding" in this.qrious) {
       // this is to avoids small spaces between modules / qr pixes 
       fix = 0.25
