@@ -69,8 +69,13 @@ class Renderer {
    * @protected
    */
   getModuleSize(frame) {
-    const pixels = Math.floor(this.qrious.size / frame.width)
-
+    let pixels = 0
+    if ('_padding' in this.qrious) {
+      const padding = this.qrious._padding
+      pixels = (this.qrious.size - 2 * padding) / frame.width
+    } else {
+      pixels = Math.floor(this.qrious.size / frame.width)
+    }
     return Math.max(1, pixels)
   }
 
@@ -87,9 +92,12 @@ class Renderer {
    * @protected
    */
   getOffset(frame) {
+    if ('_padding' in this.qrious) {
+      const padding = this.qrious._padding
+      return padding
+    }
     const moduleSize = this.getModuleSize(frame)
     const offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2)
-
     return Math.max(0, offset)
   }
 
