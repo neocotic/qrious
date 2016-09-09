@@ -37,12 +37,12 @@ class CanvasRenderer extends Renderer {
     const context = qrious.canvas.getContext('2d')
 
     context.fillStyle = qrious.foreground
-    
+
     let fix = 0
-    if ("_padding" in this.qrious) {
-      // this is to avoids small spaces between modules / qr pixes 
+    if ('_padding' in this.qrious) {
+      // this is to avoids small spaces between modules / qr pixes
       fix = 0.25
-      context['imageSmoothingEnabled'] = false
+      context.imageSmoothingEnabled = false
     }
 
     for (let i = 0; i < frame.width; i++) {
