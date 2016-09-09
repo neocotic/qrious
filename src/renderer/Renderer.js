@@ -70,7 +70,7 @@ class Renderer {
    */
   getModuleSize(frame) {
     let pixels = 0
-    if ("_padding" in this.qrious) {
+    if ('_padding' in this.qrious) {
       const padding = this.qrious._padding
       pixels = (this.qrious.size - 2 * padding) / frame.width
     } else {
@@ -92,7 +92,7 @@ class Renderer {
    * @protected
    */
   getOffset(frame) {
-    if ("_padding" in this.qrious) {
+    if ('_padding' in this.qrious) {
       const padding = this.qrious._padding
       return padding
     }
