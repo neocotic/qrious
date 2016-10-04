@@ -85,6 +85,7 @@ module.exports = function(grunt) {
             sourceMap: true,
             sourceMapRelativePaths: true,
             banner: bannerLarge,
+            external: [ 'canvas' ],
             plugins: function() {
               return [
                 nodeResolve({
