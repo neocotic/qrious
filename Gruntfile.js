@@ -89,17 +89,13 @@ module.exports = function(grunt) {
             plugins: function() {
               return [
                 nodeResolve({
-                  browser: true,
                   jsnext: true,
+                  main: true,
                   skip: [ 'canvas' ]
                 }),
                 commonjs(),
                 babel({
-                  exclude: [
-                    'node_modules/babel-runtime/**',
-                    'node_modules/core-js/**',
-                    'node_modules/regenerator-runtime/**'
-                  ],
+                  exclude: [ 'node_modules/**' ],
                   runtimeHelpers: true
                 })
               ]
@@ -125,11 +121,7 @@ module.exports = function(grunt) {
                 }),
                 commonjs(),
                 babel({
-                  exclude: [
-                    'node_modules/babel-runtime/**',
-                    'node_modules/core-js/**',
-                    'node_modules/regenerator-runtime/**'
-                  ],
+                  exclude: [ 'node_modules/**' ],
                   runtimeHelpers: true
                 })
               ]
@@ -155,11 +147,7 @@ module.exports = function(grunt) {
                 }),
                 commonjs(),
                 babel({
-                  exclude: [
-                    'node_modules/babel-runtime/**',
-                    'node_modules/core-js/**',
-                    'node_modules/regenerator-runtime/**'
-                  ],
+                  exclude: [ 'node_modules/**' ],
                   runtimeHelpers: true
                 }),
                 uglify({
