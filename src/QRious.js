@@ -43,6 +43,7 @@ class QRious {
       foreground: 'black',
       level: 'L',
       mime: 'image/png',
+      padding: null,
       size: 100,
       value: ''
     }
@@ -75,7 +76,8 @@ class QRious {
   static _parseOptions(options) {
     options = Object.assign({}, QRious.DEFAULTS, options)
     options.level = Utilities.toUpperCase(options.level)
-    options.size = Math.abs(options.size)
+    options.padding = Utilities.abs(options.padding)
+    options.size = Utilities.abs(options.size)
 
     return options
   }
@@ -245,6 +247,33 @@ class QRious {
   }
 
   /**
+   * Returns the padding for the QR code.
+   *
+   * @return {number} The padding in pixels.
+   * @public
+   */
+  get padding() {
+    return this._padding
+  }
+
+  /**
+   * Sets the padding for the QR code to <code>padding</code>.
+   *
+   * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
+   * <code>-10</code> would become <code>10</code>).
+   *
+   * @param {number} [padding] - the padding in pixels to be set
+   * @public
+   */
+  set padding(padding) {
+    const changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs)
+
+    if (changed) {
+      this.update()
+    }
+  }
+
+  /**
    * Returns the size of the QR code.
    *
    * @return {number} The size in pixels.
@@ -264,7 +293,7 @@ class QRious {
    * @public
    */
   set size(size) {
-    const changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Math.abs)
+    const changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs)
 
     if (changed) {
       this.update()
@@ -311,6 +340,7 @@ export default QRious
  * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
  * @property {string} [level="L"] - The error correction level to be applied to the QR code.
  * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
+ * @property {number} [padding] - The padding for the QR code in pixels.
  * @property {number} [size=100] - The size of the QR code in pixels.
  * @property {string} [value=""] - The value to be encoded within the QR code.
  */

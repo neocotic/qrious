@@ -25,6 +25,22 @@
 class Utilities {
 
   /**
+   * Returns the absolute value of a given number.
+   *
+   * This method is simply a convenient shorthand for <code>Math.abs</code> while ensuring that nulls are returned as
+   * <code>null</code> instead of zero.
+   *
+   * @param {number} value - the number whose absolute value is to be returned
+   * @return {number} The absolute value of <code>value</code> or <code>null</code> if <code>value</code> is
+   * <code>null</code>.
+   * @public
+   * @static
+   */
+  static abs(value) {
+    return value != null ? Math.abs(value) : null
+  }
+
+  /**
    * Copies all properties from the <code>source</code> object to the <code>target</code> object, however, all property
    * names on the <code>target</code> will be prefixed with an underscore, used to indicate that they are private.
    *

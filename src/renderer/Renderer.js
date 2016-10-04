@@ -61,6 +61,8 @@ class Renderer {
    * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
    * <code>frame</code> provided.
    *
+   * Any configured padding will be excluded from the returned size.
+   *
    * The returned value will be at least one, even in cases where the size of the QR code does not fit its contents.
    * This is done so that the inevitable clipping is handled more gracefully since this way at least something is
    * displayed instead of just a blank space filled by the background color.
@@ -70,7 +72,8 @@ class Renderer {
    * @protected
    */
   getModuleSize(frame) {
-    const pixels = Math.floor(this.qrious.size / frame.width)
+    const padding = this.qrious.padding || 0
+    const pixels = Math.floor((this.qrious.size - (padding * 2)) / frame.width)
 
     return Math.max(1, pixels)
   }
@@ -88,6 +91,10 @@ class Renderer {
    * @protected
    */
   getOffset(frame) {
+    if (this.qrious.padding != null) {
+      return this.qrious.padding
+    }
+
     const moduleSize = this.getModuleSize(frame)
     const offset = Math.floor((this.qrious.size - (moduleSize * frame.width)) / 2)
 

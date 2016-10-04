@@ -1294,8 +1294,24 @@ var Utilities = function () {
   }
 
   _createClass(Utilities, null, [{
-    key: 'privatize',
+    key: 'abs',
 
+
+    /**
+     * Returns the absolute value of a given number.
+     *
+     * This method is simply a convenient shorthand for <code>Math.abs</code> while ensuring that nulls are returned as
+     * <code>null</code> instead of zero.
+     *
+     * @param {number} value - the number whose absolute value is to be returned
+     * @return {number} The absolute value of <code>value</code> or <code>null</code> if <code>value</code> is
+     * <code>null</code>.
+     * @public
+     * @static
+     */
+    value: function abs(value) {
+      return value != null ? Math.abs(value) : null;
+    }
 
     /**
      * Copies all properties from the <code>source</code> object to the <code>target</code> object, however, all property
@@ -1307,6 +1323,9 @@ var Utilities = function () {
      * @public
      * @static
      */
+
+  }, {
+    key: 'privatize',
     value: function privatize(target, source) {
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -1743,6 +1762,8 @@ var Renderer = function () {
      * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
      * <code>frame</code> provided.
      *
+     * Any configured padding will be excluded from the returned size.
+     *
      * The returned value will be at least one, even in cases where the size of the QR code does not fit its contents.
      * This is done so that the inevitable clipping is handled more gracefully since this way at least something is
      * displayed instead of just a blank space filled by the background color.
@@ -1755,7 +1776,8 @@ var Renderer = function () {
   }, {
     key: 'getModuleSize',
     value: function getModuleSize(frame) {
-      var pixels = Math.floor(this.qrious.size / frame.width);
+      var padding = this.qrious.padding || 0;
+      var pixels = Math.floor((this.qrious.size - padding * 2) / frame.width);
 
       return Math.max(1, pixels);
     }
@@ -1776,6 +1798,10 @@ var Renderer = function () {
   }, {
     key: 'getOffset',
     value: function getOffset(frame) {
+      if (this.qrious.padding != null) {
+        return this.qrious.padding;
+      }
+
       var moduleSize = this.getModuleSize(frame);
       var offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2);
 
@@ -3287,7 +3313,8 @@ var QRious$1 = function () {
     value: function _parseOptions(options) {
       options = _Object$assign({}, QRious.DEFAULTS, options);
       options.level = Utilities.toUpperCase(options.level);
-      options.size = Math.abs(options.size);
+      options.padding = Utilities.abs(options.padding);
+      options.size = Utilities.abs(options.size);
 
       return options;
     }
@@ -3316,6 +3343,7 @@ var QRious$1 = function () {
         foreground: 'black',
         level: 'L',
         mime: 'image/png',
+        padding: null,
         size: 100,
         value: ''
       };
@@ -3519,6 +3547,37 @@ var QRious$1 = function () {
     }
 
     /**
+     * Returns the padding for the QR code.
+     *
+     * @return {number} The padding in pixels.
+     * @public
+     */
+
+  }, {
+    key: 'padding',
+    get: function get() {
+      return this._padding;
+    }
+
+    /**
+     * Sets the padding for the QR code to <code>padding</code>.
+     *
+     * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
+     * <code>-10</code> would become <code>10</code>).
+     *
+     * @param {number} [padding] - the padding in pixels to be set
+     * @public
+     */
+    ,
+    set: function set(padding) {
+      var changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs);
+
+      if (changed) {
+        this.update();
+      }
+    }
+
+    /**
      * Returns the size of the QR code.
      *
      * @return {number} The size in pixels.
@@ -3542,7 +3601,7 @@ var QRious$1 = function () {
      */
     ,
     set: function set(size) {
-      var changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Math.abs);
+      var changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs);
 
       if (changed) {
         this.update();
@@ -3595,6 +3654,7 @@ QRious$1._serviceManager = new ServiceManager();
  * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
  * @property {string} [level="L"] - The error correction level to be applied to the QR code.
  * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
+ * @property {number} [padding] - The padding for the QR code in pixels.
  * @property {number} [size=100] - The size of the QR code in pixels.
  * @property {string} [value=""] - The value to be encoded within the QR code.
  */
