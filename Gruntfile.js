@@ -19,6 +19,7 @@
 
 module.exports = function(grunt) {
   var babel = require('rollup-plugin-babel')
+  var commonjs = require('rollup-plugin-commonjs')
   var nodeResolve = require('rollup-plugin-node-resolve')
   var uglify = require('rollup-plugin-uglify')
 
@@ -68,15 +69,19 @@ module.exports = function(grunt) {
           banner: bannerLarge,
           plugins: function() {
             return [
-              babel({
-                exclude: './node_modules/**',
-                presets: [ 'es2015-rollup' ],
-                babelrc: false
-              }),
               nodeResolve({
                 browser: true,
                 jsnext: true,
                 skip: [ 'canvas' ]
+              }),
+              commonjs(),
+              babel({
+                exclude: [
+                  'node_modules/babel-runtime/**',
+                  'node_modules/core-js/**',
+                  'node_modules/regenerator-runtime/**'
+                ],
+                runtimeHelpers: true
               })
             ]
           }
@@ -95,14 +100,18 @@ module.exports = function(grunt) {
           banner: bannerLarge,
           plugins: function() {
             return [
-              babel({
-                exclude: './node_modules/**',
-                presets: [ 'es2015-rollup' ],
-                babelrc: false
-              }),
               nodeResolve({
-                main: true,
-                jsnext: true
+                jsnext: true,
+                main: true
+              }),
+              commonjs(),
+              babel({
+                exclude: [
+                  'node_modules/babel-runtime/**',
+                  'node_modules/core-js/**',
+                  'node_modules/regenerator-runtime/**'
+                ],
+                runtimeHelpers: true
               })
             ]
           }
@@ -121,14 +130,18 @@ module.exports = function(grunt) {
           banner: bannerSmall,
           plugins: function() {
             return [
-              babel({
-                exclude: './node_modules/**',
-                presets: [ 'es2015-rollup' ],
-                babelrc: false
-              }),
               nodeResolve({
-                browser: true,
-                jsnext: true
+                jsnext: true,
+                main: true
+              }),
+              commonjs(),
+              babel({
+                exclude: [
+                  'node_modules/babel-runtime/**',
+                  'node_modules/core-js/**',
+                  'node_modules/regenerator-runtime/**'
+                ],
+                runtimeHelpers: true
               }),
               uglify({
                 output: {
