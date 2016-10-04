@@ -111,6 +111,7 @@ using the following fields on your instance:
 | foreground | String | Foreground color of the QR code                    | `"black"`     |
 | level      | String | Error correction level of the QR code (L, M, Q, H) | `"L"`         |
 | mime       | String | MIME type used to render the image for the QR code | `"image/png"` |
+| padding    | Number | Padding for the QR code (pixels)                   | `null` (auto) |
 | size       | Number | Size of the QR code (pixels)                       | `100`         |
 | value      | String | Value encoded within the QR code                   | `""`          |
 
@@ -119,6 +120,7 @@ const qr = new QRious()
 qr.background = '#000'
 qr.foreground = '#fff'
 qr.level = 'H'
+qr.padding = 25
 qr.size = 500
 qr.value = 'https://github.com/neocotic/qrious'
 ```
@@ -130,6 +132,7 @@ const qr = new QRious({
   background: '#000',
   foreground: '#fff',
   level: 'H',
+  padding: 25,
   size: 500,
   value: 'https://github.com/neocotic/qrious'
 })
@@ -184,7 +187,7 @@ The current version of `QRious`.
 
 ``` javascript
 console.log(QRious.VERSION)
-//=> "2.0.2"
+//=> "2.1.0"
 ```
 
 ## Migrating from v1

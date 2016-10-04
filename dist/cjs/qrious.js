@@ -1,5 +1,5 @@
 /*
- * QRious v2.0.2
+ * QRious v2.1.0
  * Copyright (C) 2016 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -23,20 +23,325 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var Canvas = require('canvas');
 var Canvas__default = _interopDefault(Canvas);
 
-var classCallCheck = function (instance, Constructor) {
+function unwrapExports (x) {
+	return x && x.__esModule ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+// 7.2.1 RequireObjectCoercible(argument)
+var _defined = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+// 7.1.13 ToObject(argument)
+var defined = _defined;
+var _toObject = function(it){
+  return Object(defined(it));
+};
+
+var hasOwnProperty = {}.hasOwnProperty;
+var _has = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+
+var _global = createCommonjsModule(function (module) {
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+});
+
+var global$1 = _global;
+var SHARED = '__core-js_shared__';
+var store  = global$1[SHARED] || (global$1[SHARED] = {});
+var _shared = function(key){
+  return store[key] || (store[key] = {});
+};
+
+var id = 0;
+var px = Math.random();
+var _uid = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+var shared = _shared('keys');
+var uid    = _uid;
+var _sharedKey = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has         = _has;
+var toObject$1    = _toObject;
+var IE_PROTO    = _sharedKey('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+var _objectGpo = Object.getPrototypeOf || function(O){
+  O = toObject$1(O);
+  if(has(O, IE_PROTO))return O[IE_PROTO];
+  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+var _core = createCommonjsModule(function (module) {
+var core = module.exports = {version: '2.4.0'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+});
+
+var _aFunction = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+// optional / simple context binding
+var aFunction = _aFunction;
+var _ctx = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+
+var _isObject = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+var isObject = _isObject;
+var _anObject = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+var _fails = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+
+// Thank's IE8 for his funny defineProperty
+var _descriptors = !_fails(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+var isObject$1 = _isObject;
+var document$1 = _global.document;
+var is = isObject$1(document$1) && isObject$1(document$1.createElement);
+var _domCreate = function(it){
+  return is ? document$1.createElement(it) : {};
+};
+
+var _ie8DomDefine = !_descriptors && !_fails(function(){
+  return Object.defineProperty(_domCreate('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject$2 = _isObject;
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+var _toPrimitive = function(it, S){
+  if(!isObject$2(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject$2(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject$2(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject$2(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+var anObject       = _anObject;
+var IE8_DOM_DEFINE = _ie8DomDefine;
+var toPrimitive    = _toPrimitive;
+var dP$1             = Object.defineProperty;
+
+var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP$1(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+var _objectDp = {
+	f: f
+};
+
+var _propertyDesc = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+var dP         = _objectDp;
+var createDesc = _propertyDesc;
+var _hide = _descriptors ? function(object, key, value){
+  return dP.f(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+var global$2    = _global;
+var core$1      = _core;
+var ctx       = _ctx;
+var hide      = _hide;
+var PROTOTYPE = 'prototype';
+
+var $export$1 = function(type, name, source){
+  var IS_FORCED = type & $export$1.F
+    , IS_GLOBAL = type & $export$1.G
+    , IS_STATIC = type & $export$1.S
+    , IS_PROTO  = type & $export$1.P
+    , IS_BIND   = type & $export$1.B
+    , IS_WRAP   = type & $export$1.W
+    , exports   = IS_GLOBAL ? core$1 : core$1[name] || (core$1[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global$2 : IS_STATIC ? global$2[name] : (global$2[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global$2)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export$1.R && expProto && !expProto[key])hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export$1.F = 1;   // forced
+$export$1.G = 2;   // global
+$export$1.S = 4;   // static
+$export$1.P = 8;   // proto
+$export$1.B = 16;  // bind
+$export$1.W = 32;  // wrap
+$export$1.U = 64;  // safe
+$export$1.R = 128; // real proto method for `library` 
+var _export = $export$1;
+
+// most Object methods by ES6 should accept primitives
+var $export = _export;
+var core    = _core;
+var fails   = _fails;
+var _objectSap = function(KEY, exec){
+  var fn  = (core.Object || {})[KEY] || Object[KEY]
+    , exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+};
+
+// 19.1.2.9 Object.getPrototypeOf(O)
+var toObject        = _toObject;
+var $getPrototypeOf = _objectGpo;
+
+_objectSap('getPrototypeOf', function(){
+  return function getPrototypeOf(it){
+    return $getPrototypeOf(toObject(it));
+  };
+});
+
+var getPrototypeOf$2 = _core.Object.getPrototypeOf;
+
+var getPrototypeOf$1 = createCommonjsModule(function (module) {
+module.exports = { "default": getPrototypeOf$2, __esModule: true };
+});
+
+var _Object$getPrototypeOf = unwrapExports(getPrototypeOf$1);
+
+var classCallCheck = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 };
+});
 
-var createClass = function () {
+var _classCallCheck = unwrapExports(classCallCheck);
+
+var $export$2 = _export;
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export$2($export$2.S + $export$2.F * !_descriptors, 'Object', {defineProperty: _objectDp.f});
+
+var $Object = _core.Object;
+var defineProperty$3 = function defineProperty$3(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
+
+var defineProperty$1 = createCommonjsModule(function (module) {
+module.exports = { "default": defineProperty$3, __esModule: true };
+});
+
+var createClass = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _defineProperty = defineProperty$1;
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
   function defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
       descriptor.enumerable = descriptor.enumerable || false;
       descriptor.configurable = true;
       if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
     }
   }
 
@@ -46,13 +351,906 @@ var createClass = function () {
     return Constructor;
   };
 }();
+});
 
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+var _createClass = unwrapExports(createClass);
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil;
+var floor = Math.floor;
+var _toInteger = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+var toInteger = _toInteger;
+var defined$1   = _defined;
+// true  -> String#at
+// false -> String#codePointAt
+var _stringAt = function(TO_STRING){
+  return function(that, pos){
+    var s = String(defined$1(that))
+      , i = toInteger(pos)
+      , l = s.length
+      , a, b;
+    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+
+var _library = true;
+
+var _redefine = _hide;
+
+var _iterators = {};
+
+var toString$1 = {}.toString;
+
+var _cof = function(it){
+  return toString$1.call(it).slice(8, -1);
+};
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = _cof;
+var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = _iobject;
+var defined$2 = _defined;
+var _toIobject = function(it){
+  return IObject(defined$2(it));
+};
+
+// 7.1.15 ToLength
+var toInteger$1 = _toInteger;
+var min       = Math.min;
+var _toLength = function(it){
+  return it > 0 ? min(toInteger$1(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+var toInteger$2 = _toInteger;
+var max       = Math.max;
+var min$1       = Math.min;
+var _toIndex = function(index, length){
+  index = toInteger$2(index);
+  return index < 0 ? max(index + length, 0) : min$1(index, length);
+};
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject$1 = _toIobject;
+var toLength  = _toLength;
+var toIndex   = _toIndex;
+var _arrayIncludes = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = toIObject$1($this)
+      , length = toLength(O.length)
+      , index  = toIndex(fromIndex, length)
+      , value;
+    // Array#includes uses SameValueZero equality algorithm
+    if(IS_INCLUDES && el != el)while(length > index){
+      value = O[index++];
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+var has$2          = _has;
+var toIObject    = _toIobject;
+var arrayIndexOf = _arrayIncludes(false);
+var IE_PROTO$2     = _sharedKey('IE_PROTO');
+
+var _objectKeysInternal = function(object, names){
+  var O      = toIObject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO$2)has$2(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has$2(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+// IE 8- don't enum bug keys
+var _enumBugKeys = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys       = _objectKeysInternal;
+var enumBugKeys$1 = _enumBugKeys;
+
+var _objectKeys = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys$1);
+};
+
+var dP$2       = _objectDp;
+var anObject$2 = _anObject;
+var getKeys  = _objectKeys;
+
+var _objectDps = _descriptors ? Object.defineProperties : function defineProperties(O, Properties){
+  anObject$2(O);
+  var keys   = getKeys(Properties)
+    , length = keys.length
+    , i = 0
+    , P;
+  while(length > i)dP$2.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+var _html = _global.document && document.documentElement;
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject$1    = _anObject;
+var dPs         = _objectDps;
+var enumBugKeys = _enumBugKeys;
+var IE_PROTO$1    = _sharedKey('IE_PROTO');
+var Empty       = function(){ /* empty */ };
+var PROTOTYPE$1   = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function(){
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = _domCreate('iframe')
+    , i      = enumBugKeys.length
+    , lt     = '<'
+    , gt     = '>'
+    , iframeDocument;
+  iframe.style.display = 'none';
+  _html.appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while(i--)delete createDict[PROTOTYPE$1][enumBugKeys[i]];
+  return createDict();
+};
+
+var _objectCreate = Object.create || function create(O, Properties){
+  var result;
+  if(O !== null){
+    Empty[PROTOTYPE$1] = anObject$1(O);
+    result = new Empty;
+    Empty[PROTOTYPE$1] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO$1] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+var _wks = createCommonjsModule(function (module) {
+var store      = _shared('wks')
+  , uid        = _uid
+  , Symbol     = _global.Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+});
+
+var def = _objectDp.f;
+var has$3 = _has;
+var TAG = _wks('toStringTag');
+
+var _setToStringTag = function(it, tag, stat){
+  if(it && !has$3(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+var create$1         = _objectCreate;
+var descriptor     = _propertyDesc;
+var setToStringTag$1 = _setToStringTag;
+var IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+_hide(IteratorPrototype, _wks('iterator'), function(){ return this; });
+
+var _iterCreate = function(Constructor, NAME, next){
+  Constructor.prototype = create$1(IteratorPrototype, {next: descriptor(1, next)});
+  setToStringTag$1(Constructor, NAME + ' Iterator');
+};
+
+var LIBRARY        = _library;
+var $export$3        = _export;
+var redefine       = _redefine;
+var hide$1           = _hide;
+var has$1            = _has;
+var Iterators      = _iterators;
+var $iterCreate    = _iterCreate;
+var setToStringTag = _setToStringTag;
+var getPrototypeOf$4 = _objectGpo;
+var ITERATOR       = _wks('iterator');
+var BUGGY          = !([].keys && 'next' in [].keys());
+var FF_ITERATOR    = '@@iterator';
+var KEYS           = 'keys';
+var VALUES         = 'values';
+
+var returnThis = function(){ return this; };
+
+var _iterDefine = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function(kind){
+    if(!BUGGY && kind in proto)return proto[kind];
+    switch(kind){
+      case KEYS: return function keys(){ return new Constructor(this, kind); };
+      case VALUES: return function values(){ return new Constructor(this, kind); };
+    } return function entries(){ return new Constructor(this, kind); };
+  };
+  var TAG        = NAME + ' Iterator'
+    , DEF_VALUES = DEFAULT == VALUES
+    , VALUES_BUG = false
+    , proto      = Base.prototype
+    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+    , $default   = $native || getMethod(DEFAULT)
+    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
+    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
+    , methods, key, IteratorPrototype;
+  // Fix native
+  if($anyNative){
+    IteratorPrototype = getPrototypeOf$4($anyNative.call(new Base));
+    if(IteratorPrototype !== Object.prototype){
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if(!LIBRARY && !has$1(IteratorPrototype, ITERATOR))hide$1(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if(DEF_VALUES && $native && $native.name !== VALUES){
+    VALUES_BUG = true;
+    $default = function values(){ return $native.call(this); };
+  }
+  // Define iterator
+  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+    hide$1(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG]  = returnThis;
+  if(DEFAULT){
+    methods = {
+      values:  DEF_VALUES ? $default : getMethod(VALUES),
+      keys:    IS_SET     ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if(FORCED)for(key in methods){
+      if(!(key in proto))redefine(proto, key, methods[key]);
+    } else $export$3($export$3.P + $export$3.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+var $at  = _stringAt(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+_iterDefine(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
+});
+
+var _addToUnscopables = function(){ /* empty */ };
+
+var _iterStep = function(done, value){
+  return {value: value, done: !!done};
+};
+
+var addToUnscopables = _addToUnscopables;
+var step             = _iterStep;
+var Iterators$2        = _iterators;
+var toIObject$2        = _toIobject;
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+var es6_array_iterator = _iterDefine(Array, 'Array', function(iterated, kind){
+  this._t = toIObject$2(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , kind  = this._k
+    , index = this._i++;
+  if(!O || index >= O.length){
+    this._t = undefined;
+    return step(1);
+  }
+  if(kind == 'keys'  )return step(0, index);
+  if(kind == 'values')return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators$2.Arguments = Iterators$2.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+var global$3        = _global;
+var hide$2          = _hide;
+var Iterators$1     = _iterators;
+var TO_STRING_TAG = _wks('toStringTag');
+
+for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+  var NAME       = collections[i]
+    , Collection = global$3[NAME]
+    , proto      = Collection && Collection.prototype;
+  if(proto && !proto[TO_STRING_TAG])hide$2(proto, TO_STRING_TAG, NAME);
+  Iterators$1[NAME] = Iterators$1.Array;
+}
+
+var f$1 = _wks;
+
+var _wksExt = {
+	f: f$1
+};
+
+var iterator$2 = _wksExt.f('iterator');
+
+var iterator = createCommonjsModule(function (module) {
+module.exports = { "default": iterator$2, __esModule: true };
+});
+
+var _meta = createCommonjsModule(function (module) {
+var META     = _uid('meta')
+  , isObject = _isObject
+  , has      = _has
+  , setDesc  = _objectDp.f
+  , id       = 0;
+var isExtensible = Object.isExtensible || function(){
+  return true;
+};
+var FREEZE = !_fails(function(){
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function(it){
+  setDesc(it, META, {value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  }});
+};
+var fastKey = function(it, create){
+  // return primitive with prefix
+  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return 'F';
+    // not necessary to add metadata
+    if(!create)return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function(it, create){
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return true;
+    // not necessary to add metadata
+    if(!create)return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function(it){
+  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY:      META,
+  NEED:     false,
+  fastKey:  fastKey,
+  getWeak:  getWeak,
+  onFreeze: onFreeze
+};
+});
+
+var global$5         = _global;
+var core$2           = _core;
+var LIBRARY$1        = _library;
+var wksExt$1         = _wksExt;
+var defineProperty$5 = _objectDp.f;
+var _wksDefine = function(name){
+  var $Symbol = core$2.Symbol || (core$2.Symbol = LIBRARY$1 ? {} : global$5.Symbol || {});
+  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty$5($Symbol, name, {value: wksExt$1.f(name)});
+};
+
+var getKeys$1   = _objectKeys;
+var toIObject$4 = _toIobject;
+var _keyof = function(object, el){
+  var O      = toIObject$4(object)
+    , keys   = getKeys$1(O)
+    , length = keys.length
+    , index  = 0
+    , key;
+  while(length > index)if(O[key = keys[index++]] === el)return key;
+};
+
+var f$2 = Object.getOwnPropertySymbols;
+
+var _objectGops = {
+	f: f$2
+};
+
+var f$3 = {}.propertyIsEnumerable;
+
+var _objectPie = {
+	f: f$3
+};
+
+// all enumerable object keys, includes symbols
+var getKeys$2 = _objectKeys;
+var gOPS    = _objectGops;
+var pIE     = _objectPie;
+var _enumKeys = function(it){
+  var result     = getKeys$2(it)
+    , getSymbols = gOPS.f;
+  if(getSymbols){
+    var symbols = getSymbols(it)
+      , isEnum  = pIE.f
+      , i       = 0
+      , key;
+    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+  } return result;
+};
+
+// 7.2.2 IsArray(argument)
+var cof$1 = _cof;
+var _isArray = Array.isArray || function isArray(arg){
+  return cof$1(arg) == 'Array';
+};
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys$2      = _objectKeysInternal;
+var hiddenKeys = _enumBugKeys.concat('length', 'prototype');
+
+var f$5 = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+  return $keys$2(O, hiddenKeys);
+};
+
+var _objectGopn = {
+	f: f$5
+};
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject$5 = _toIobject;
+var gOPN$1      = _objectGopn.f;
+var toString$2  = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function(it){
+  try {
+    return gOPN$1(it);
+  } catch(e){
+    return windowNames.slice();
+  }
+};
+
+var f$4 = function getOwnPropertyNames(it){
+  return windowNames && toString$2.call(it) == '[object Window]' ? getWindowNames(it) : gOPN$1(toIObject$5(it));
+};
+
+var _objectGopnExt = {
+	f: f$4
+};
+
+var pIE$1            = _objectPie;
+var createDesc$2     = _propertyDesc;
+var toIObject$6      = _toIobject;
+var toPrimitive$2    = _toPrimitive;
+var has$5            = _has;
+var IE8_DOM_DEFINE$1 = _ie8DomDefine;
+var gOPD$1           = Object.getOwnPropertyDescriptor;
+
+var f$6 = _descriptors ? gOPD$1 : function getOwnPropertyDescriptor(O, P){
+  O = toIObject$6(O);
+  P = toPrimitive$2(P, true);
+  if(IE8_DOM_DEFINE$1)try {
+    return gOPD$1(O, P);
+  } catch(e){ /* empty */ }
+  if(has$5(O, P))return createDesc$2(!pIE$1.f.call(O, P), O[P]);
+};
+
+var _objectGopd = {
+	f: f$6
+};
+
+// ECMAScript 6 symbols shim
+var global$4         = _global;
+var has$4            = _has;
+var DESCRIPTORS    = _descriptors;
+var $export$4        = _export;
+var redefine$1       = _redefine;
+var META           = _meta.KEY;
+var $fails         = _fails;
+var shared$1         = _shared;
+var setToStringTag$2 = _setToStringTag;
+var uid$1            = _uid;
+var wks            = _wks;
+var wksExt         = _wksExt;
+var wksDefine      = _wksDefine;
+var keyOf          = _keyof;
+var enumKeys       = _enumKeys;
+var isArray$1        = _isArray;
+var anObject$3       = _anObject;
+var toIObject$3      = _toIobject;
+var toPrimitive$1    = _toPrimitive;
+var createDesc$1     = _propertyDesc;
+var _create        = _objectCreate;
+var gOPNExt        = _objectGopnExt;
+var $GOPD          = _objectGopd;
+var $DP            = _objectDp;
+var $keys$1          = _objectKeys;
+var gOPD           = $GOPD.f;
+var dP$3             = $DP.f;
+var gOPN           = gOPNExt.f;
+var $Symbol        = global$4.Symbol;
+var $JSON          = global$4.JSON;
+var _stringify     = $JSON && $JSON.stringify;
+var PROTOTYPE$2      = 'prototype';
+var HIDDEN         = wks('_hidden');
+var TO_PRIMITIVE   = wks('toPrimitive');
+var isEnum         = {}.propertyIsEnumerable;
+var SymbolRegistry = shared$1('symbol-registry');
+var AllSymbols     = shared$1('symbols');
+var OPSymbols      = shared$1('op-symbols');
+var ObjectProto$1    = Object[PROTOTYPE$2];
+var USE_NATIVE     = typeof $Symbol == 'function';
+var QObject        = global$4.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter$1 = !QObject || !QObject[PROTOTYPE$2] || !QObject[PROTOTYPE$2].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = DESCRIPTORS && $fails(function(){
+  return _create(dP$3({}, 'a', {
+    get: function(){ return dP$3(this, 'a', {value: 7}).a; }
+  })).a != 7;
+}) ? function(it, key, D){
+  var protoDesc = gOPD(ObjectProto$1, key);
+  if(protoDesc)delete ObjectProto$1[key];
+  dP$3(it, key, D);
+  if(protoDesc && it !== ObjectProto$1)dP$3(ObjectProto$1, key, protoDesc);
+} : dP$3;
+
+var wrap = function(tag){
+  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE$2]);
+  sym._k = tag;
+  return sym;
+};
+
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+  return typeof it == 'symbol';
+} : function(it){
+  return it instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(it, key, D){
+  if(it === ObjectProto$1)$defineProperty(OPSymbols, key, D);
+  anObject$3(it);
+  key = toPrimitive$1(key, true);
+  anObject$3(D);
+  if(has$4(AllSymbols, key)){
+    if(!D.enumerable){
+      if(!has$4(it, HIDDEN))dP$3(it, HIDDEN, createDesc$1(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if(has$4(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+      D = _create(D, {enumerable: createDesc$1(0, false)});
+    } return setSymbolDesc(it, key, D);
+  } return dP$3(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P){
+  anObject$3(it);
+  var keys = enumKeys(P = toIObject$3(P))
+    , i    = 0
+    , l = keys.length
+    , key;
+  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P){
+  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key){
+  var E = isEnum.call(this, key = toPrimitive$1(key, true));
+  if(this === ObjectProto$1 && has$4(AllSymbols, key) && !has$4(OPSymbols, key))return false;
+  return E || !has$4(this, key) || !has$4(AllSymbols, key) || has$4(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+  it  = toIObject$3(it);
+  key = toPrimitive$1(key, true);
+  if(it === ObjectProto$1 && has$4(AllSymbols, key) && !has$4(OPSymbols, key))return;
+  var D = gOPD(it, key);
+  if(D && has$4(AllSymbols, key) && !(has$4(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it){
+  var names  = gOPN(toIObject$3(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(!has$4(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+  var IS_OP  = it === ObjectProto$1
+    , names  = gOPN(IS_OP ? OPSymbols : toIObject$3(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(has$4(AllSymbols, key = names[i++]) && (IS_OP ? has$4(ObjectProto$1, key) : true))result.push(AllSymbols[key]);
+  } return result;
+};
+
+// 19.4.1.1 Symbol([description])
+if(!USE_NATIVE){
+  $Symbol = function Symbol(){
+    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+    var tag = uid$1(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function(value){
+      if(this === ObjectProto$1)$set.call(OPSymbols, value);
+      if(has$4(this, HIDDEN) && has$4(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, createDesc$1(1, value));
+    };
+    if(DESCRIPTORS && setter$1)setSymbolDesc(ObjectProto$1, tag, {configurable: true, set: $set});
+    return wrap(tag);
+  };
+  redefine$1($Symbol[PROTOTYPE$2], 'toString', function toString(){
+    return this._k;
+  });
+
+  $GOPD.f = $getOwnPropertyDescriptor;
+  $DP.f   = $defineProperty;
+  _objectGopn.f = gOPNExt.f = $getOwnPropertyNames;
+  _objectPie.f  = $propertyIsEnumerable;
+  _objectGops.f = $getOwnPropertySymbols;
+
+  if(DESCRIPTORS && !_library){
+    redefine$1(ObjectProto$1, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
+  wksExt.f = function(name){
+    return wrap(wks(name));
+  }
+}
+
+$export$4($export$4.G + $export$4.W + $export$4.F * !USE_NATIVE, {Symbol: $Symbol});
+
+for(var symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), i$1 = 0; symbols.length > i$1; )wks(symbols[i$1++]);
+
+for(var symbols = $keys$1(wks.store), i$1 = 0; symbols.length > i$1; )wksDefine(symbols[i$1++]);
+
+$export$4($export$4.S + $export$4.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function(key){
+    return has$4(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(key){
+    if(isSymbol(key))return keyOf(SymbolRegistry, key);
+    throw TypeError(key + ' is not a symbol!');
+  },
+  useSetter: function(){ setter$1 = true; },
+  useSimple: function(){ setter$1 = false; }
+});
+
+$export$4($export$4.S + $export$4.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && $export$4($export$4.S + $export$4.F * (!USE_NATIVE || $fails(function(){
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it){
+    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+    var args = [it]
+      , i    = 1
+      , replacer, $replacer;
+    while(arguments.length > i)args.push(arguments[i++]);
+    replacer = args[1];
+    if(typeof replacer == 'function')$replacer = replacer;
+    if($replacer || !isArray$1(replacer))replacer = function(key, value){
+      if($replacer)value = $replacer.call(this, key, value);
+      if(!isSymbol(value))return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE$2][TO_PRIMITIVE] || _hide($Symbol[PROTOTYPE$2], TO_PRIMITIVE, $Symbol[PROTOTYPE$2].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+setToStringTag$2($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+setToStringTag$2(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+setToStringTag$2(global$4.JSON, 'JSON', true);
+
+_wksDefine('asyncIterator');
+
+_wksDefine('observable');
+
+var index = _core.Symbol;
+
+var symbol = createCommonjsModule(function (module) {
+module.exports = { "default": index, __esModule: true };
+});
+
+var _typeof_1 = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _iterator = iterator;
+
+var _iterator2 = _interopRequireDefault(_iterator);
+
+var _symbol = symbol;
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+} : function (obj) {
+  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+};
+});
+
+var possibleConstructorReturn = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _typeof2 = _typeof_1;
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
+};
+});
+
+var _possibleConstructorReturn = unwrapExports(possibleConstructorReturn);
+
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var isObject$3 = _isObject;
+var anObject$4 = _anObject;
+var check = function(O, proto){
+  anObject$4(O);
+  if(!isObject$3(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+};
+var _setProto = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function(test, buggy, set){
+      try {
+        set = _ctx(Function.call, _objectGopd.f(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch(e){ buggy = true; }
+      return function setPrototypeOf(O, proto){
+        check(O, proto);
+        if(buggy)O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export$5 = _export;
+$export$5($export$5.S, 'Object', {setPrototypeOf: _setProto.set});
+
+var setPrototypeOf$3 = _core.Object.setPrototypeOf;
+
+var setPrototypeOf$1 = createCommonjsModule(function (module) {
+module.exports = { "default": setPrototypeOf$3, __esModule: true };
+});
+
+var $export$6 = _export
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+$export$6($export$6.S, 'Object', {create: _objectCreate});
+
+var $Object$1 = _core.Object;
+var create$4 = function create$4(P, D){
+  return $Object$1.create(P, D);
+};
+
+var create$2 = createCommonjsModule(function (module) {
+module.exports = { "default": create$4, __esModule: true };
+});
+
+var inherits = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _setPrototypeOf = setPrototypeOf$1;
+
+var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
+
+var _create = create$2;
+
+var _create2 = _interopRequireDefault(_create);
+
+var _typeof2 = _typeof_1;
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
+  }
+
+  subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
     constructor: {
       value: subClass,
       enumerable: false,
@@ -60,16 +1258,11 @@ var inherits = function (subClass, superClass) {
       configurable: true
     }
   });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
 };
+});
 
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
+var _inherits = unwrapExports(inherits);
 
 /*
  * QRious
@@ -95,15 +1288,30 @@ var possibleConstructorReturn = function (self, call) {
  *
  * @public
  */
-
 var Utilities = function () {
   function Utilities() {
-    classCallCheck(this, Utilities);
+    _classCallCheck(this, Utilities);
   }
 
-  createClass(Utilities, null, [{
-    key: 'privatize',
+  _createClass(Utilities, null, [{
+    key: 'abs',
 
+
+    /**
+     * Returns the absolute value of a given number.
+     *
+     * This method is simply a convenient shorthand for <code>Math.abs</code> while ensuring that nulls are returned as
+     * <code>null</code> instead of zero.
+     *
+     * @param {number} value - the number whose absolute value is to be returned
+     * @return {number} The absolute value of <code>value</code> or <code>null</code> if <code>value</code> is
+     * <code>null</code>.
+     * @public
+     * @static
+     */
+    value: function abs(value) {
+      return value != null ? Math.abs(value) : null;
+    }
 
     /**
      * Copies all properties from the <code>source</code> object to the <code>target</code> object, however, all property
@@ -115,9 +1323,12 @@ var Utilities = function () {
      * @public
      * @static
      */
+
+  }, {
+    key: 'privatize',
     value: function privatize(target, source) {
       for (var key in source) {
-        if (source.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
           target['_' + key] = source[key];
         }
       }
@@ -134,11 +1345,11 @@ var Utilities = function () {
      * before it is assigned to the field.
      *
      * @param {Object} object - the object whose field is to be set with <code>value</code>
-     * @param {String} fieldName - the field to be set with <code>value</code>
+     * @param {string} fieldName - the field to be set with <code>value</code>
      * @param {*} value - the value to be set on the named field
      * @param {*} [defaultValue] - the value to be used if <code>value</code> is <code>null</code>
      * @param {Function} [transformer] - a function used to transform the value before it is assigned to the named field
-     * @return {Boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
+     * @return {boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
      * <code>false</code>.
      * @public
      * @static
@@ -161,8 +1372,9 @@ var Utilities = function () {
     /**
      * Throws an error indicating that the a given method on a specific class has not been implemented.
      *
-     * @param {String} className - the name of the class on which the method has not been implemented
-     * @param {String} methodName - the name of the method which has not been implemented
+     * @param {string} className - the name of the class on which the method has not been implemented
+     * @param {string} methodName - the name of the method which has not been implemented
+     * @return {void}
      * @throws {Error} The error describing the class method which has not been implemented.
      * @public
      * @static
@@ -177,8 +1389,8 @@ var Utilities = function () {
     /**
      * Transforms the specified <code>string</code> to upper case while remaining null-safe.
      *
-     * @param {String} string - the string to be transformed to upper case
-     * @return {String} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
+     * @param {string} string - the string to be transformed to upper case
+     * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
      * @public
      * @static
      */
@@ -189,8 +1401,28 @@ var Utilities = function () {
       return string != null && string.toUpperCase();
     }
   }]);
+
   return Utilities;
 }();
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * Defines a service contract that must be met by all implementations.
@@ -200,25 +1432,45 @@ var Utilities = function () {
 
 var Service = function () {
   function Service() {
-    classCallCheck(this, Service);
+    _classCallCheck(this, Service);
   }
 
-  createClass(Service, [{
+  _createClass(Service, [{
     key: 'getName',
 
 
     /**
      * Returns the name of this {@link Service}.
      *
-     * @return {String} The service name.
+     * @return {string} The service name.
      * @public
      */
     value: function getName() {
       Utilities.throwUnimplemented('Service', 'getName');
     }
   }]);
+
   return Service;
 }();
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * A service for working with elements.
@@ -228,14 +1480,15 @@ var Service = function () {
  */
 
 var ElementService = function (_Service) {
-  inherits(ElementService, _Service);
+  _inherits(ElementService, _Service);
 
   function ElementService() {
-    classCallCheck(this, ElementService);
-    return possibleConstructorReturn(this, Object.getPrototypeOf(ElementService).apply(this, arguments));
+    _classCallCheck(this, ElementService);
+
+    return _possibleConstructorReturn(this, (ElementService.__proto__ || _Object$getPrototypeOf(ElementService)).apply(this, arguments));
   }
 
-  createClass(ElementService, [{
+  _createClass(ElementService, [{
     key: 'createCanvas',
 
 
@@ -276,7 +1529,7 @@ var ElementService = function (_Service) {
      * Returns whether the specified <code>element</code> is a canvas.
      *
      * @param {*} element - the element to be checked
-     * @return {Boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
+     * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
      * @public
      */
 
@@ -290,7 +1543,7 @@ var ElementService = function (_Service) {
      * Returns whether the specified <code>element</code> is an image.
      *
      * @param {*} element - the element to be checked
-     * @return {Boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
+     * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
      * @public
      */
 
@@ -300,8 +1553,28 @@ var ElementService = function (_Service) {
       Utilities.throwUnimplemented('ElementService', 'isImage');
     }
   }]);
+
   return ElementService;
 }(Service);
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * An implementation of {@link ElementService} intended for use within a Node.js environment but is only supported when
@@ -312,14 +1585,15 @@ var ElementService = function (_Service) {
  */
 
 var NodeElementService = function (_ElementService) {
-  inherits(NodeElementService, _ElementService);
+  _inherits(NodeElementService, _ElementService);
 
   function NodeElementService() {
-    classCallCheck(this, NodeElementService);
-    return possibleConstructorReturn(this, Object.getPrototypeOf(NodeElementService).apply(this, arguments));
+    _classCallCheck(this, NodeElementService);
+
+    return _possibleConstructorReturn(this, (NodeElementService.__proto__ || _Object$getPrototypeOf(NodeElementService)).apply(this, arguments));
   }
 
-  createClass(NodeElementService, [{
+  _createClass(NodeElementService, [{
     key: 'createCanvas',
 
 
@@ -370,8 +1644,74 @@ var NodeElementService = function (_ElementService) {
       return Canvas__default != null;
     }
   }]);
+
   return NodeElementService;
 }(ElementService);
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys$3  = _objectKeys;
+var gOPS$1     = _objectGops;
+var pIE$2      = _objectPie;
+var toObject$2 = _toObject;
+var IObject$1  = _iobject;
+var $assign  = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+var _objectAssign = !$assign || _fails(function(){
+  var A = {}
+    , B = {}
+    , S = Symbol()
+    , K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function(k){ B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+  var T     = toObject$2(target)
+    , aLen  = arguments.length
+    , index = 1
+    , getSymbols = gOPS$1.f
+    , isEnum     = pIE$2.f;
+  while(aLen > index){
+    var S      = IObject$1(arguments[index++])
+      , keys   = getSymbols ? getKeys$3(S).concat(getSymbols(S)) : getKeys$3(S)
+      , length = keys.length
+      , j      = 0
+      , key;
+    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+  } return T;
+} : $assign;
+
+// 19.1.3.1 Object.assign(target, source)
+var $export$7 = _export;
+
+$export$7($export$7.S + $export$7.F, 'Object', {assign: _objectAssign});
+
+var assign$2 = _core.Object.assign;
+
+var assign$1 = createCommonjsModule(function (module) {
+module.exports = { "default": assign$2, __esModule: true };
+});
+
+var _Object$assign = unwrapExports(assign$1);
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
@@ -389,9 +1729,8 @@ var Renderer = function () {
    * @param {QRious} qrious - the {@link QRious} instance to be used
    * @public
    */
-
   function Renderer(qrious) {
-    classCallCheck(this, Renderer);
+    _classCallCheck(this, Renderer);
 
     /**
      * The {@link QRious} instance.
@@ -408,11 +1747,12 @@ var Renderer = function () {
    * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
    * @param {Frame} frame - the {@link Frame} to be drawn
+   * @return {void}
    * @protected
    */
 
 
-  createClass(Renderer, [{
+  _createClass(Renderer, [{
     key: 'draw',
     value: function draw(frame) {
       Utilities.throwUnimplemented('Renderer', 'draw');
@@ -422,19 +1762,22 @@ var Renderer = function () {
      * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
      * <code>frame</code> provided.
      *
+     * Any configured padding will be excluded from the returned size.
+     *
      * The returned value will be at least one, even in cases where the size of the QR code does not fit its contents.
      * This is done so that the inevitable clipping is handled more gracefully since this way at least something is
      * displayed instead of just a blank space filled by the background color.
      *
      * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
-     * @return {Number} The pixel size for each module in the QR code which will be no less than one.
+     * @return {number} The pixel size for each module in the QR code which will be no less than one.
      * @protected
      */
 
   }, {
     key: 'getModuleSize',
     value: function getModuleSize(frame) {
-      var pixels = Math.floor(this.qrious.size / frame.width);
+      var padding = this.qrious.padding || 0;
+      var pixels = Math.floor((this.qrious.size - padding * 2) / frame.width);
 
       return Math.max(1, pixels);
     }
@@ -448,13 +1791,17 @@ var Renderer = function () {
      * and it is not clipped from all directions.
      *
      * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
-     * @return {Number} The pixel offset for the QR code which will be no less than zero.
+     * @return {number} The pixel offset for the QR code which will be no less than zero.
      * @protected
      */
 
   }, {
     key: 'getOffset',
     value: function getOffset(frame) {
+      if (this.qrious.padding != null) {
+        return this.qrious.padding;
+      }
+
       var moduleSize = this.getModuleSize(frame);
       var offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2);
 
@@ -465,6 +1812,7 @@ var Renderer = function () {
      * Renders a QR code on the underlying element based on the <code>frame</code> provided.
      *
      * @param {Frame} frame - the {@link Frame} to be rendered
+     * @return {void}
      * @public
      */
 
@@ -481,6 +1829,7 @@ var Renderer = function () {
      *
      * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
+     * @return {void}
      * @protected
      */
 
@@ -495,6 +1844,7 @@ var Renderer = function () {
      *
      * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
+     * @return {void}
      * @protected
      */
 
@@ -504,8 +1854,28 @@ var Renderer = function () {
       Utilities.throwUnimplemented('Renderer', 'resize');
     }
   }]);
+
   return Renderer;
 }();
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
@@ -515,14 +1885,15 @@ var Renderer = function () {
  */
 
 var CanvasRenderer = function (_Renderer) {
-  inherits(CanvasRenderer, _Renderer);
+  _inherits(CanvasRenderer, _Renderer);
 
   function CanvasRenderer() {
-    classCallCheck(this, CanvasRenderer);
-    return possibleConstructorReturn(this, Object.getPrototypeOf(CanvasRenderer).apply(this, arguments));
+    _classCallCheck(this, CanvasRenderer);
+
+    return _possibleConstructorReturn(this, (CanvasRenderer.__proto__ || _Object$getPrototypeOf(CanvasRenderer)).apply(this, arguments));
   }
 
-  createClass(CanvasRenderer, [{
+  _createClass(CanvasRenderer, [{
     key: 'draw',
 
 
@@ -576,6 +1947,7 @@ var CanvasRenderer = function (_Renderer) {
       canvas.height = qrious.size;
     }
   }]);
+
   return CanvasRenderer;
 }(Renderer);
 
@@ -598,27 +1970,26 @@ var CanvasRenderer = function (_Renderer) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains alignment pattern information.
  *
  * @public
  */
-
 var Alignment = function () {
   function Alignment() {
-    classCallCheck(this, Alignment);
+    _classCallCheck(this, Alignment);
   }
 
-  createClass(Alignment, null, [{
+  _createClass(Alignment, null, [{
     key: "BLOCK",
 
 
     /**
      * Returns the alignment pattern block.
      *
-     * @return {Number[]} The alignment pattern block.
+     * @return {number[]} The alignment pattern block.
      * @public
      * @static
      */
@@ -626,6 +1997,7 @@ var Alignment = function () {
       return [0, 11, 15, 19, 23, 27, 31, 16, 18, 20, 22, 24, 26, 28, 20, 22, 24, 24, 26, 28, 28, 22, 24, 24, 26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28];
     }
   }]);
+
   return Alignment;
 }();
 
@@ -648,20 +2020,19 @@ var Alignment = function () {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains error correction information.
  *
  * @public
  */
-
 var ErrorCorrection = function () {
   function ErrorCorrection() {
-    classCallCheck(this, ErrorCorrection);
+    _classCallCheck(this, ErrorCorrection);
   }
 
-  createClass(ErrorCorrection, null, [{
+  _createClass(ErrorCorrection, null, [{
     key: "BLOCKS",
 
 
@@ -671,7 +2042,7 @@ var ErrorCorrection = function () {
      * There are four elements per version. The first two indicate the number of blocks, then the data width, and finally
      * the ECC width.
      *
-     * @return {Number[]} The ECC blocks.
+     * @return {number[]} The ECC blocks.
      * @public
      * @static
      */
@@ -682,7 +2053,7 @@ var ErrorCorrection = function () {
     /**
      * Returns the final format bits with mask (level << 3 | mask).
      *
-     * @return {Number[]} The final format bits.
+     * @return {number[]} The final format bits.
      * @public
      * @static
      */
@@ -704,7 +2075,7 @@ var ErrorCorrection = function () {
     /**
      * Returns a map of human-readable ECC levels.
      *
-     * @return {Object<String, Number>} A ECC level mapping.
+     * @return {Object<string, number>} A ECC level mapping.
      * @public
      * @static
      */
@@ -720,6 +2091,7 @@ var ErrorCorrection = function () {
       };
     }
   }]);
+
   return ErrorCorrection;
 }();
 
@@ -747,20 +2119,19 @@ var ErrorCorrection = function () {
  *
  * @public
  */
-
 var Galois = function () {
   function Galois() {
-    classCallCheck(this, Galois);
+    _classCallCheck(this, Galois);
   }
 
-  createClass(Galois, null, [{
+  _createClass(Galois, null, [{
     key: "EXPONENT",
 
 
     /**
      * Returns the Galois field exponent table.
      *
-     * @return {Number[]} The Galois field exponent table.
+     * @return {number[]} The Galois field exponent table.
      * @public
      * @static
      */
@@ -771,7 +2142,7 @@ var Galois = function () {
     /**
      * Returns the Galois field log table.
      *
-     * @return {Number[]} The Galois field log table.
+     * @return {number[]} The Galois field log table.
      * @public
      * @static
      */
@@ -782,6 +2153,7 @@ var Galois = function () {
       return [0xff, 0x00, 0x01, 0x19, 0x02, 0x32, 0x1a, 0xc6, 0x03, 0xdf, 0x33, 0xee, 0x1b, 0x68, 0xc7, 0x4b, 0x04, 0x64, 0xe0, 0x0e, 0x34, 0x8d, 0xef, 0x81, 0x1c, 0xc1, 0x69, 0xf8, 0xc8, 0x08, 0x4c, 0x71, 0x05, 0x8a, 0x65, 0x2f, 0xe1, 0x24, 0x0f, 0x21, 0x35, 0x93, 0x8e, 0xda, 0xf0, 0x12, 0x82, 0x45, 0x1d, 0xb5, 0xc2, 0x7d, 0x6a, 0x27, 0xf9, 0xb9, 0xc9, 0x9a, 0x09, 0x78, 0x4d, 0xe4, 0x72, 0xa6, 0x06, 0xbf, 0x8b, 0x62, 0x66, 0xdd, 0x30, 0xfd, 0xe2, 0x98, 0x25, 0xb3, 0x10, 0x91, 0x22, 0x88, 0x36, 0xd0, 0x94, 0xce, 0x8f, 0x96, 0xdb, 0xbd, 0xf1, 0xd2, 0x13, 0x5c, 0x83, 0x38, 0x46, 0x40, 0x1e, 0x42, 0xb6, 0xa3, 0xc3, 0x48, 0x7e, 0x6e, 0x6b, 0x3a, 0x28, 0x54, 0xfa, 0x85, 0xba, 0x3d, 0xca, 0x5e, 0x9b, 0x9f, 0x0a, 0x15, 0x79, 0x2b, 0x4e, 0xd4, 0xe5, 0xac, 0x73, 0xf3, 0xa7, 0x57, 0x07, 0x70, 0xc0, 0xf7, 0x8c, 0x80, 0x63, 0x0d, 0x67, 0x4a, 0xde, 0xed, 0x31, 0xc5, 0xfe, 0x18, 0xe3, 0xa5, 0x99, 0x77, 0x26, 0xb8, 0xb4, 0x7c, 0x11, 0x44, 0x92, 0xd9, 0x23, 0x20, 0x89, 0x2e, 0x37, 0x3f, 0xd1, 0x5b, 0x95, 0xbc, 0xcf, 0xcd, 0x90, 0x87, 0x97, 0xb2, 0xdc, 0xfc, 0xbe, 0x61, 0xf2, 0x56, 0xd3, 0xab, 0x14, 0x2a, 0x5d, 0x9e, 0x84, 0x3c, 0x39, 0x53, 0x47, 0x6d, 0x41, 0xa2, 0x1f, 0x2d, 0x43, 0xd8, 0xb7, 0x7b, 0xa4, 0x76, 0xc4, 0x17, 0x49, 0xec, 0x7f, 0x0c, 0x6f, 0xf6, 0x6c, 0xa1, 0x3b, 0x52, 0x29, 0x9d, 0x55, 0xaa, 0xfb, 0x60, 0x86, 0xb1, 0xbb, 0xcc, 0x3e, 0x5a, 0xcb, 0x59, 0x5f, 0xb0, 0x9c, 0xa9, 0xa0, 0x51, 0x0b, 0xf5, 0x16, 0xeb, 0x7a, 0x75, 0x2c, 0xd7, 0x4f, 0xae, 0xd5, 0xe9, 0xe6, 0xe7, 0xad, 0xe8, 0x74, 0xd6, 0xf4, 0xea, 0xa8, 0x50, 0x58, 0xaf];
     }
   }]);
+
   return Galois;
 }();
 
@@ -809,20 +2181,19 @@ var Galois = function () {
  *
  * @public
  */
-
 var Version = function () {
   function Version() {
-    classCallCheck(this, Version);
+    _classCallCheck(this, Version);
   }
 
-  createClass(Version, null, [{
+  _createClass(Version, null, [{
     key: "BLOCK",
 
 
     /**
      * Returns the version pattern block.
      *
-     * @return {Number[]} The version pattern block.
+     * @return {number[]} The version pattern block.
      * @public
      * @static
      */
@@ -830,8 +2201,28 @@ var Version = function () {
       return [0xc94, 0x5bc, 0xa99, 0x4d3, 0xbf6, 0x762, 0x847, 0x60d, 0x928, 0xb78, 0x45d, 0xa17, 0x532, 0x9a6, 0x683, 0x8c9, 0x7ec, 0xec4, 0x1e1, 0xfab, 0x08e, 0xc1a, 0x33f, 0xd75, 0x250, 0x9d5, 0x6f0, 0x8ba, 0x79f, 0xb0b, 0x42e, 0xa64, 0x541, 0xc69];
     }
   }]);
+
   return Version;
 }();
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * Generates information for a QR code frame based on a specific value to be encoded.
@@ -840,7 +2231,7 @@ var Version = function () {
  */
 
 var Frame = function () {
-  createClass(Frame, null, [{
+  _createClass(Frame, null, [{
     key: '_createArray',
     value: function _createArray(length) {
       var array = [];
@@ -913,7 +2304,7 @@ var Frame = function () {
   }]);
 
   function Frame(options) {
-    classCallCheck(this, Frame);
+    _classCallCheck(this, Frame);
 
     this._badness = [];
     this._level = ErrorCorrection.LEVELS[options.level];
@@ -954,7 +2345,7 @@ var Frame = function () {
      * The data width is based on version.
      *
      * @public
-     * @type {Number}
+     * @type {number}
      */
     // FIXME: Ensure that it fits instead of being truncated.
     this.width = 17 + 4 * this._version;
@@ -963,7 +2354,7 @@ var Frame = function () {
      * The image buffer.
      *
      * @public
-     * @type {Number[]}
+     * @type {number[]}
      */
     this.buffer = Frame._createArray(this.width * this.width);
 
@@ -989,7 +2380,7 @@ var Frame = function () {
     this._finish();
   }
 
-  createClass(Frame, [{
+  _createClass(Frame, [{
     key: '_addAlignment',
     value: function _addAlignment(x, y) {
       this.buffer[x + this.width * y] = 1;
@@ -1289,7 +2680,7 @@ var Frame = function () {
   }, {
     key: '_convertBitStream',
     value: function _convertBitStream(length) {
-      // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not supported).
+      // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanumeric, or kanji not supported).
       for (var i = 0; i < length; i++) {
         this._ecc[i] = this._value.charCodeAt(i);
       }
@@ -1695,8 +3086,38 @@ var Frame = function () {
       }
     }
   }]);
+
   return Frame;
 }();
+
+
+
+/**
+ * The options used by {@link Frame}.
+ *
+ * @typedef {Object} Frame~Options
+ * @property {string} level - The ECC level to be used.
+ * @property {string} value - The value to be encoded.
+ */
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * An implementation of {@link Renderer} for working with <code>img</code> elements.
@@ -1709,14 +3130,15 @@ var Frame = function () {
  */
 
 var ImageRenderer = function (_Renderer) {
-  inherits(ImageRenderer, _Renderer);
+  _inherits(ImageRenderer, _Renderer);
 
   function ImageRenderer() {
-    classCallCheck(this, ImageRenderer);
-    return possibleConstructorReturn(this, Object.getPrototypeOf(ImageRenderer).apply(this, arguments));
+    _classCallCheck(this, ImageRenderer);
+
+    return _possibleConstructorReturn(this, (ImageRenderer.__proto__ || _Object$getPrototypeOf(ImageRenderer)).apply(this, arguments));
   }
 
-  createClass(ImageRenderer, [{
+  _createClass(ImageRenderer, [{
     key: 'draw',
 
 
@@ -1755,6 +3177,7 @@ var ImageRenderer = function (_Renderer) {
       image.height = qrious.size;
     }
   }]);
+
   return ImageRenderer;
 }(Renderer);
 
@@ -1782,7 +3205,6 @@ var ImageRenderer = function (_Renderer) {
  *
  * @public
  */
-
 var ServiceManager = function () {
 
   /**
@@ -1790,9 +3212,8 @@ var ServiceManager = function () {
    *
    * @public
    */
-
   function ServiceManager() {
-    classCallCheck(this, ServiceManager);
+    _classCallCheck(this, ServiceManager);
 
     this._services = {};
   }
@@ -1800,14 +3221,14 @@ var ServiceManager = function () {
   /**
    * Returns the {@link Service} being managed with the specified <code>name</code>.
    *
-   * @param {String} name - the name of the {@link Service} to be returned
+   * @param {string} name - the name of the {@link Service} to be returned
    * @return {Service} The {@link Service} is being managed with <code>name</code>.
    * @throws {Error} If no {@link Service} is being managed with <code>name</code>.
    * @public
    */
 
 
-  createClass(ServiceManager, [{
+  _createClass(ServiceManager, [{
     key: "getService",
     value: function getService(name) {
       var service = this._services[name];
@@ -1822,8 +3243,9 @@ var ServiceManager = function () {
      * Sets the {@link Service} implementation to be managed for the specified <code>name</code> to the
      * <code>service</code> provided.
      *
-     * @param {String} name - the name of the {@link Service} to be managed with <code>name</code>
+     * @param {string} name - the name of the {@link Service} to be managed with <code>name</code>
      * @param {Service} service - the {@link Service} implementation to be managed
+     * @return {void}
      * @throws {Error} If a {@link Service} is already being managed with the same <code>name</code>.
      * @public
      */
@@ -1840,8 +3262,28 @@ var ServiceManager = function () {
       }
     }
   }]);
+
   return ServiceManager;
 }();
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * Enables configuration of a QR code generator which uses HTML5 <code>canvas</code> for rendering.
@@ -1849,8 +3291,8 @@ var ServiceManager = function () {
  * @public
  */
 
-var QRious = function () {
-  createClass(QRious, null, [{
+var QRious$1 = function () {
+  _createClass(QRious, null, [{
     key: 'use',
 
 
@@ -1858,6 +3300,7 @@ var QRious = function () {
      * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
      *
      * @param {Service} service - the {@link Service} to be configured
+     * @return {void}
      * @throws {Error} If a {@link Service} has already been configured with the same name.
      * @public
      * @static
@@ -1868,9 +3311,10 @@ var QRious = function () {
   }, {
     key: '_parseOptions',
     value: function _parseOptions(options) {
-      options = Object.assign({}, QRious.DEFAULTS, options);
+      options = _Object$assign({}, QRious.DEFAULTS, options);
       options.level = Utilities.toUpperCase(options.level);
-      options.size = Math.abs(options.size);
+      options.padding = Utilities.abs(options.padding);
+      options.size = Utilities.abs(options.size);
 
       return options;
     }
@@ -1899,6 +3343,7 @@ var QRious = function () {
         foreground: 'black',
         level: 'L',
         mime: 'image/png',
+        padding: null,
         size: 100,
         value: ''
       };
@@ -1907,7 +3352,7 @@ var QRious = function () {
     /**
      * Returns the current version of {@link QRious}.
      *
-     * @return {String} The current version.
+     * @return {string} The current version.
      * @public
      * @static
      */
@@ -1915,12 +3360,12 @@ var QRious = function () {
   }, {
     key: 'VERSION',
     get: function get() {
-      return '2.0.2';
+      return '2.1.0';
     }
   }]);
 
   function QRious(options) {
-    classCallCheck(this, QRious);
+    _classCallCheck(this, QRious);
 
     options = QRious._parseOptions(options);
 
@@ -1955,13 +3400,13 @@ var QRious = function () {
   /**
    * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
    *
-   * @param {String} [mime] - the MIME type for the image
-   * @return {String} The image data URI for the QR code.
+   * @param {string} [mime] - the MIME type for the image
+   * @return {string} The image data URI for the QR code.
    * @public
    */
 
 
-  createClass(QRious, [{
+  _createClass(QRious, [{
     key: 'toDataURL',
     value: function toDataURL(mime) {
       return this.canvas.toDataURL(mime || this.mime);
@@ -1970,6 +3415,7 @@ var QRious = function () {
     /**
      * Updates this {@link QRious} by generating a new {@link Frame} and re-rendering the QR code.
      *
+     * @return {void}
      * @protected
      */
 
@@ -1989,7 +3435,7 @@ var QRious = function () {
     /**
      * Returns the background color for the QR code.
      *
-     * @return {String} The background color.
+     * @return {string} The background color.
      * @public
      */
 
@@ -2002,7 +3448,7 @@ var QRious = function () {
     /**
      * Sets the background color for the QR code to <code>background</code>.
      *
-     * @param {String} [background="white"] - the background color to be set
+     * @param {string} [background="white"] - the background color to be set
      * @public
      */
     ,
@@ -2017,7 +3463,7 @@ var QRious = function () {
     /**
      * Returns the foreground color for the QR code.
      *
-     * @return {String} The foreground color.
+     * @return {string} The foreground color.
      * @public
      */
 
@@ -2030,7 +3476,7 @@ var QRious = function () {
     /**
      * Sets the foreground color for the QR code to <code>foreground</code>.
      *
-     * @param {String} [foreground="black"] - the foreground color to be set
+     * @param {string} [foreground="black"] - the foreground color to be set
      * @public
      */
     ,
@@ -2045,7 +3491,7 @@ var QRious = function () {
     /**
      * Returns the error correction level for the QR code.
      *
-     * @return {String} The ECC level.
+     * @return {string} The ECC level.
      * @public
      */
 
@@ -2060,7 +3506,7 @@ var QRious = function () {
      *
      * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
      *
-     * @param {String} [level="L"] - the ECC level to be set
+     * @param {string} [level="L"] - the ECC level to be set
      * @public
      */
     ,
@@ -2075,7 +3521,7 @@ var QRious = function () {
     /**
      * Returns the MIME type for the image rendered for the QR code.
      *
-     * @return {String} The image MIME type.
+     * @return {string} The image MIME type.
      * @public
      */
 
@@ -2088,7 +3534,7 @@ var QRious = function () {
     /**
      * Sets the MIME type for the image rendered for the QR code to <code>mime</code>.
      *
-     * @param {String} [mime="image/png"] - the image MIME type to be set
+     * @param {string} [mime="image/png"] - the image MIME type to be set
      * @public
      */
     ,
@@ -2101,9 +3547,40 @@ var QRious = function () {
     }
 
     /**
+     * Returns the padding for the QR code.
+     *
+     * @return {number} The padding in pixels.
+     * @public
+     */
+
+  }, {
+    key: 'padding',
+    get: function get() {
+      return this._padding;
+    }
+
+    /**
+     * Sets the padding for the QR code to <code>padding</code>.
+     *
+     * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
+     * <code>-10</code> would become <code>10</code>).
+     *
+     * @param {number} [padding] - the padding in pixels to be set
+     * @public
+     */
+    ,
+    set: function set(padding) {
+      var changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs);
+
+      if (changed) {
+        this.update();
+      }
+    }
+
+    /**
      * Returns the size of the QR code.
      *
-     * @return {Number} The size in pixels.
+     * @return {number} The size in pixels.
      * @public
      */
 
@@ -2119,12 +3596,12 @@ var QRious = function () {
      * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
      * <code>-100</code> would become <code>100</code>).
      *
-     * @param {Number} [size=100] - the size in pixels to be set
+     * @param {number} [size=100] - the size in pixels to be set
      * @public
      */
     ,
     set: function set(size) {
-      var changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Math.abs);
+      var changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs);
 
       if (changed) {
         this.update();
@@ -2134,7 +3611,7 @@ var QRious = function () {
     /**
      * Returns the value of the QR code.
      *
-     * @return {String} The value.
+     * @return {string} The value.
      * @public
      */
 
@@ -2147,7 +3624,7 @@ var QRious = function () {
     /**
      * Sets the value of the QR code to <code>value</code>.
      *
-     * @param {String} [value=""] - the value to be set
+     * @param {string} [value=""] - the value to be set
      * @public
      */
     ,
@@ -2159,12 +3636,50 @@ var QRious = function () {
       }
     }
   }]);
+
   return QRious;
 }();
 
-QRious._serviceManager = new ServiceManager();
+QRious$1._serviceManager = new ServiceManager();
 
-QRious.use(new NodeElementService());
 
-module.exports = QRious;
+
+/**
+ * The options used by {@link QRious}.
+ *
+ * @typedef {Object} QRious~Options
+ * @property {string} [background="white"] - The background color to be applied to the QR code.
+ * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
+ * <code>img</code>. The element(s) will be created if needed.
+ * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
+ * @property {string} [level="L"] - The error correction level to be applied to the QR code.
+ * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
+ * @property {number} [padding] - The padding for the QR code in pixels.
+ * @property {number} [size=100] - The size of the QR code in pixels.
+ * @property {string} [value=""] - The value to be encoded within the QR code.
+ */
+
+/*
+ * QRious
+ * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+QRious$1.use(new NodeElementService());
+
+module.exports = QRious$1;
+
 //# sourceMappingURL=qrious.js.map

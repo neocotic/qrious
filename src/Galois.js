@@ -27,7 +27,7 @@ class Galois {
   /**
    * Returns the Galois field exponent table.
    *
-   * @return {Number[]} The Galois field exponent table.
+   * @return {number[]} The Galois field exponent table.
    * @public
    * @static
    */
@@ -55,7 +55,7 @@ class Galois {
   /**
    * Returns the Galois field log table.
    *
-   * @return {Number[]} The Galois field log table.
+   * @return {number[]} The Galois field log table.
    * @public
    * @static
    */
@@ -79,6 +79,7 @@ class Galois {
       0x4f, 0xae, 0xd5, 0xe9, 0xe6, 0xe7, 0xad, 0xe8, 0x74, 0xd6, 0xf4, 0xea, 0xa8, 0x50, 0x58, 0xaf
     ]
   }
+
 }
 
 export default Galois

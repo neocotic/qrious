@@ -29,12 +29,13 @@ class Service {
   /**
    * Returns the name of this {@link Service}.
    *
-   * @return {String} The service name.
+   * @return {string} The service name.
    * @public
    */
   getName() {
     Utilities.throwUnimplemented('Service', 'getName')
   }
+
 }
 
 export default Service

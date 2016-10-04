@@ -27,7 +27,7 @@ class Version {
   /**
    * Returns the version pattern block.
    *
-   * @return {Number[]} The version pattern block.
+   * @return {number[]} The version pattern block.
    * @public
    * @static
    */
@@ -38,6 +38,7 @@ class Version {
       0x6f0, 0x8ba, 0x79f, 0xb0b, 0x42e, 0xa64, 0x541, 0xc69
     ]
   }
+
 }
 
 export default Version

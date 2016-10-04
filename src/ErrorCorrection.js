@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains error correction information.
@@ -32,7 +32,7 @@ class ErrorCorrection {
    * There are four elements per version. The first two indicate the number of blocks, then the data width, and finally
    * the ECC width.
    *
-   * @return {Number[]} The ECC blocks.
+   * @return {number[]} The ECC blocks.
    * @public
    * @static
    */
@@ -84,7 +84,7 @@ class ErrorCorrection {
   /**
    * Returns the final format bits with mask (level << 3 | mask).
    *
-   * @return {Number[]} The final format bits.
+   * @return {number[]} The final format bits.
    * @public
    * @static
    */
@@ -104,7 +104,7 @@ class ErrorCorrection {
   /**
    * Returns a map of human-readable ECC levels.
    *
-   * @return {Object<String, Number>} A ECC level mapping.
+   * @return {Object<string, number>} A ECC level mapping.
    * @public
    * @static
    */
@@ -116,6 +116,7 @@ class ErrorCorrection {
       H: 4
     }
   }
+
 }
 
 export default ErrorCorrection

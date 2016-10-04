@@ -1,3 +1,10 @@
+## Version 2.1.0, 2016.10.04
+
+* Allow `padding` to be set explicitly [#44](https://github.com/neocotic/qrious/issues/44)
+* Fix support for older browsers [#55](https://github.com/neocotic/qrious/issues/55)
+* Update code style to fit with other projects
+* Update build system to run on older Node.js versions at a reduced capacity
+
 ## Version 2.0.2, 2016.08.05
 
 * Fix bug where mask is incorrectly applied [#50](https://github.com/neocotic/qrious/issues/50)

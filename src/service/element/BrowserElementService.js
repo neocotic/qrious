@@ -54,6 +54,7 @@ class BrowserElementService extends ElementService {
   isImage(element) {
     return element instanceof HTMLImageElement
   }
+
 }
 
 export default BrowserElementService
