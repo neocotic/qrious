@@ -59,7 +59,7 @@ class ElementService extends Service {
    * Returns whether the specified <code>element</code> is a canvas.
    *
    * @param {*} element - the element to be checked
-   * @return {Boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
+   * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
    * @public
    */
   isCanvas(element) {
@@ -70,12 +70,13 @@ class ElementService extends Service {
    * Returns whether the specified <code>element</code> is an image.
    *
    * @param {*} element - the element to be checked
-   * @return {Boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
+   * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
    * @public
    */
   isImage(element) {
     Utilities.throwUnimplemented('ElementService', 'isImage')
   }
+
 }
 
 export default ElementService

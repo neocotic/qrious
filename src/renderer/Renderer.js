@@ -50,6 +50,7 @@ class Renderer {
    * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
    * @param {Frame} frame - the {@link Frame} to be drawn
+   * @return {void}
    * @protected
    */
   draw(frame) {
@@ -65,7 +66,7 @@ class Renderer {
    * displayed instead of just a blank space filled by the background color.
    *
    * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
-   * @return {Number} The pixel size for each module in the QR code which will be no less than one.
+   * @return {number} The pixel size for each module in the QR code which will be no less than one.
    * @protected
    */
   getModuleSize(frame) {
@@ -83,12 +84,12 @@ class Renderer {
    * and it is not clipped from all directions.
    *
    * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
-   * @return {Number} The pixel offset for the QR code which will be no less than zero.
+   * @return {number} The pixel offset for the QR code which will be no less than zero.
    * @protected
    */
   getOffset(frame) {
     const moduleSize = this.getModuleSize(frame)
-    const offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2)
+    const offset = Math.floor((this.qrious.size - (moduleSize * frame.width)) / 2)
 
     return Math.max(0, offset)
   }
@@ -97,6 +98,7 @@ class Renderer {
    * Renders a QR code on the underlying element based on the <code>frame</code> provided.
    *
    * @param {Frame} frame - the {@link Frame} to be rendered
+   * @return {void}
    * @public
    */
   render(frame) {
@@ -110,6 +112,7 @@ class Renderer {
    *
    * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
+   * @return {void}
    * @protected
    */
   reset() {
@@ -121,11 +124,13 @@ class Renderer {
    *
    * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
+   * @return {void}
    * @protected
    */
   resize() {
     Utilities.throwUnimplemented('Renderer', 'resize')
   }
+
 }
 
 export default Renderer

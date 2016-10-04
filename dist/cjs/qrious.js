@@ -1309,7 +1309,7 @@ var Utilities = function () {
      */
     value: function privatize(target, source) {
       for (var key in source) {
-        if (source.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
           target['_' + key] = source[key];
         }
       }
@@ -1326,11 +1326,11 @@ var Utilities = function () {
      * before it is assigned to the field.
      *
      * @param {Object} object - the object whose field is to be set with <code>value</code>
-     * @param {String} fieldName - the field to be set with <code>value</code>
+     * @param {string} fieldName - the field to be set with <code>value</code>
      * @param {*} value - the value to be set on the named field
      * @param {*} [defaultValue] - the value to be used if <code>value</code> is <code>null</code>
      * @param {Function} [transformer] - a function used to transform the value before it is assigned to the named field
-     * @return {Boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
+     * @return {boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
      * <code>false</code>.
      * @public
      * @static
@@ -1353,8 +1353,9 @@ var Utilities = function () {
     /**
      * Throws an error indicating that the a given method on a specific class has not been implemented.
      *
-     * @param {String} className - the name of the class on which the method has not been implemented
-     * @param {String} methodName - the name of the method which has not been implemented
+     * @param {string} className - the name of the class on which the method has not been implemented
+     * @param {string} methodName - the name of the method which has not been implemented
+     * @return {void}
      * @throws {Error} The error describing the class method which has not been implemented.
      * @public
      * @static
@@ -1369,8 +1370,8 @@ var Utilities = function () {
     /**
      * Transforms the specified <code>string</code> to upper case while remaining null-safe.
      *
-     * @param {String} string - the string to be transformed to upper case
-     * @return {String} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
+     * @param {string} string - the string to be transformed to upper case
+     * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
      * @public
      * @static
      */
@@ -1422,7 +1423,7 @@ var Service = function () {
     /**
      * Returns the name of this {@link Service}.
      *
-     * @return {String} The service name.
+     * @return {string} The service name.
      * @public
      */
     value: function getName() {
@@ -1509,7 +1510,7 @@ var ElementService = function (_Service) {
      * Returns whether the specified <code>element</code> is a canvas.
      *
      * @param {*} element - the element to be checked
-     * @return {Boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
+     * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
      * @public
      */
 
@@ -1523,7 +1524,7 @@ var ElementService = function (_Service) {
      * Returns whether the specified <code>element</code> is an image.
      *
      * @param {*} element - the element to be checked
-     * @return {Boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
+     * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
      * @public
      */
 
@@ -1727,6 +1728,7 @@ var Renderer = function () {
    * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
    *
    * @param {Frame} frame - the {@link Frame} to be drawn
+   * @return {void}
    * @protected
    */
 
@@ -1746,7 +1748,7 @@ var Renderer = function () {
      * displayed instead of just a blank space filled by the background color.
      *
      * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
-     * @return {Number} The pixel size for each module in the QR code which will be no less than one.
+     * @return {number} The pixel size for each module in the QR code which will be no less than one.
      * @protected
      */
 
@@ -1767,7 +1769,7 @@ var Renderer = function () {
      * and it is not clipped from all directions.
      *
      * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
-     * @return {Number} The pixel offset for the QR code which will be no less than zero.
+     * @return {number} The pixel offset for the QR code which will be no less than zero.
      * @protected
      */
 
@@ -1784,6 +1786,7 @@ var Renderer = function () {
      * Renders a QR code on the underlying element based on the <code>frame</code> provided.
      *
      * @param {Frame} frame - the {@link Frame} to be rendered
+     * @return {void}
      * @public
      */
 
@@ -1800,6 +1803,7 @@ var Renderer = function () {
      *
      * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
+     * @return {void}
      * @protected
      */
 
@@ -1814,6 +1818,7 @@ var Renderer = function () {
      *
      * Implementations of {@link Renderer} <b>must</b> override this method with their own specific logic.
      *
+     * @return {void}
      * @protected
      */
 
@@ -1939,7 +1944,7 @@ var CanvasRenderer = function (_Renderer) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains alignment pattern information.
@@ -1958,7 +1963,7 @@ var Alignment = function () {
     /**
      * Returns the alignment pattern block.
      *
-     * @return {Number[]} The alignment pattern block.
+     * @return {number[]} The alignment pattern block.
      * @public
      * @static
      */
@@ -1989,7 +1994,7 @@ var Alignment = function () {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains error correction information.
@@ -2011,7 +2016,7 @@ var ErrorCorrection = function () {
      * There are four elements per version. The first two indicate the number of blocks, then the data width, and finally
      * the ECC width.
      *
-     * @return {Number[]} The ECC blocks.
+     * @return {number[]} The ECC blocks.
      * @public
      * @static
      */
@@ -2022,7 +2027,7 @@ var ErrorCorrection = function () {
     /**
      * Returns the final format bits with mask (level << 3 | mask).
      *
-     * @return {Number[]} The final format bits.
+     * @return {number[]} The final format bits.
      * @public
      * @static
      */
@@ -2044,7 +2049,7 @@ var ErrorCorrection = function () {
     /**
      * Returns a map of human-readable ECC levels.
      *
-     * @return {Object<String, Number>} A ECC level mapping.
+     * @return {Object<string, number>} A ECC level mapping.
      * @public
      * @static
      */
@@ -2100,7 +2105,7 @@ var Galois = function () {
     /**
      * Returns the Galois field exponent table.
      *
-     * @return {Number[]} The Galois field exponent table.
+     * @return {number[]} The Galois field exponent table.
      * @public
      * @static
      */
@@ -2111,7 +2116,7 @@ var Galois = function () {
     /**
      * Returns the Galois field log table.
      *
-     * @return {Number[]} The Galois field log table.
+     * @return {number[]} The Galois field log table.
      * @public
      * @static
      */
@@ -2162,7 +2167,7 @@ var Version = function () {
     /**
      * Returns the version pattern block.
      *
-     * @return {Number[]} The version pattern block.
+     * @return {number[]} The version pattern block.
      * @public
      * @static
      */
@@ -2314,7 +2319,7 @@ var Frame = function () {
      * The data width is based on version.
      *
      * @public
-     * @type {Number}
+     * @type {number}
      */
     // FIXME: Ensure that it fits instead of being truncated.
     this.width = 17 + 4 * this._version;
@@ -2323,7 +2328,7 @@ var Frame = function () {
      * The image buffer.
      *
      * @public
-     * @type {Number[]}
+     * @type {number[]}
      */
     this.buffer = Frame._createArray(this.width * this.width);
 
@@ -2649,7 +2654,7 @@ var Frame = function () {
   }, {
     key: '_convertBitStream',
     value: function _convertBitStream(length) {
-      // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanum, or kanji not supported).
+      // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanumeric, or kanji not supported).
       for (var i = 0; i < length; i++) {
         this._ecc[i] = this._value.charCodeAt(i);
       }
@@ -3065,8 +3070,8 @@ var Frame = function () {
  * The options used by {@link Frame}.
  *
  * @typedef {Object} Frame~Options
- * @property {String} level - The ECC level to be used.
- * @property {String} value - The value to be encoded.
+ * @property {string} level - The ECC level to be used.
+ * @property {string} value - The value to be encoded.
  */
 
 /*
@@ -3190,7 +3195,7 @@ var ServiceManager = function () {
   /**
    * Returns the {@link Service} being managed with the specified <code>name</code>.
    *
-   * @param {String} name - the name of the {@link Service} to be returned
+   * @param {string} name - the name of the {@link Service} to be returned
    * @return {Service} The {@link Service} is being managed with <code>name</code>.
    * @throws {Error} If no {@link Service} is being managed with <code>name</code>.
    * @public
@@ -3212,8 +3217,9 @@ var ServiceManager = function () {
      * Sets the {@link Service} implementation to be managed for the specified <code>name</code> to the
      * <code>service</code> provided.
      *
-     * @param {String} name - the name of the {@link Service} to be managed with <code>name</code>
+     * @param {string} name - the name of the {@link Service} to be managed with <code>name</code>
      * @param {Service} service - the {@link Service} implementation to be managed
+     * @return {void}
      * @throws {Error} If a {@link Service} is already being managed with the same <code>name</code>.
      * @public
      */
@@ -3268,6 +3274,7 @@ var QRious$1 = function () {
      * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
      *
      * @param {Service} service - the {@link Service} to be configured
+     * @return {void}
      * @throws {Error} If a {@link Service} has already been configured with the same name.
      * @public
      * @static
@@ -3317,7 +3324,7 @@ var QRious$1 = function () {
     /**
      * Returns the current version of {@link QRious}.
      *
-     * @return {String} The current version.
+     * @return {string} The current version.
      * @public
      * @static
      */
@@ -3365,8 +3372,8 @@ var QRious$1 = function () {
   /**
    * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
    *
-   * @param {String} [mime] - the MIME type for the image
-   * @return {String} The image data URI for the QR code.
+   * @param {string} [mime] - the MIME type for the image
+   * @return {string} The image data URI for the QR code.
    * @public
    */
 
@@ -3380,6 +3387,7 @@ var QRious$1 = function () {
     /**
      * Updates this {@link QRious} by generating a new {@link Frame} and re-rendering the QR code.
      *
+     * @return {void}
      * @protected
      */
 
@@ -3399,7 +3407,7 @@ var QRious$1 = function () {
     /**
      * Returns the background color for the QR code.
      *
-     * @return {String} The background color.
+     * @return {string} The background color.
      * @public
      */
 
@@ -3412,7 +3420,7 @@ var QRious$1 = function () {
     /**
      * Sets the background color for the QR code to <code>background</code>.
      *
-     * @param {String} [background="white"] - the background color to be set
+     * @param {string} [background="white"] - the background color to be set
      * @public
      */
     ,
@@ -3427,7 +3435,7 @@ var QRious$1 = function () {
     /**
      * Returns the foreground color for the QR code.
      *
-     * @return {String} The foreground color.
+     * @return {string} The foreground color.
      * @public
      */
 
@@ -3440,7 +3448,7 @@ var QRious$1 = function () {
     /**
      * Sets the foreground color for the QR code to <code>foreground</code>.
      *
-     * @param {String} [foreground="black"] - the foreground color to be set
+     * @param {string} [foreground="black"] - the foreground color to be set
      * @public
      */
     ,
@@ -3455,7 +3463,7 @@ var QRious$1 = function () {
     /**
      * Returns the error correction level for the QR code.
      *
-     * @return {String} The ECC level.
+     * @return {string} The ECC level.
      * @public
      */
 
@@ -3470,7 +3478,7 @@ var QRious$1 = function () {
      *
      * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
      *
-     * @param {String} [level="L"] - the ECC level to be set
+     * @param {string} [level="L"] - the ECC level to be set
      * @public
      */
     ,
@@ -3485,7 +3493,7 @@ var QRious$1 = function () {
     /**
      * Returns the MIME type for the image rendered for the QR code.
      *
-     * @return {String} The image MIME type.
+     * @return {string} The image MIME type.
      * @public
      */
 
@@ -3498,7 +3506,7 @@ var QRious$1 = function () {
     /**
      * Sets the MIME type for the image rendered for the QR code to <code>mime</code>.
      *
-     * @param {String} [mime="image/png"] - the image MIME type to be set
+     * @param {string} [mime="image/png"] - the image MIME type to be set
      * @public
      */
     ,
@@ -3513,7 +3521,7 @@ var QRious$1 = function () {
     /**
      * Returns the size of the QR code.
      *
-     * @return {Number} The size in pixels.
+     * @return {number} The size in pixels.
      * @public
      */
 
@@ -3529,7 +3537,7 @@ var QRious$1 = function () {
      * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
      * <code>-100</code> would become <code>100</code>).
      *
-     * @param {Number} [size=100] - the size in pixels to be set
+     * @param {number} [size=100] - the size in pixels to be set
      * @public
      */
     ,
@@ -3544,7 +3552,7 @@ var QRious$1 = function () {
     /**
      * Returns the value of the QR code.
      *
-     * @return {String} The value.
+     * @return {string} The value.
      * @public
      */
 
@@ -3557,7 +3565,7 @@ var QRious$1 = function () {
     /**
      * Sets the value of the QR code to <code>value</code>.
      *
-     * @param {String} [value=""] - the value to be set
+     * @param {string} [value=""] - the value to be set
      * @public
      */
     ,
@@ -3581,14 +3589,14 @@ QRious$1._serviceManager = new ServiceManager();
  * The options used by {@link QRious}.
  *
  * @typedef {Object} QRious~Options
- * @property {String} [background="white"] - The background color to be applied to the QR code.
+ * @property {string} [background="white"] - The background color to be applied to the QR code.
  * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
  * <code>img</code>. The element(s) will be created if needed.
- * @property {String} [foreground="black"] - The foreground color to be applied to the QR code.
- * @property {String} [level="L"] - The error correction level to be applied to the QR code.
- * @property {String} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
- * @property {Number} [size=100] - The size of the QR code in pixels.
- * @property {String} [value=""] - The value to be encoded within the QR code.
+ * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
+ * @property {string} [level="L"] - The error correction level to be applied to the QR code.
+ * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
+ * @property {number} [size=100] - The size of the QR code in pixels.
+ * @property {string} [value=""] - The value to be encoded within the QR code.
  */
 
 /*

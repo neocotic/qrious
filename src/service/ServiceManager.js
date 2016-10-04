@@ -36,7 +36,7 @@ class ServiceManager {
   /**
    * Returns the {@link Service} being managed with the specified <code>name</code>.
    *
-   * @param {String} name - the name of the {@link Service} to be returned
+   * @param {string} name - the name of the {@link Service} to be returned
    * @return {Service} The {@link Service} is being managed with <code>name</code>.
    * @throws {Error} If no {@link Service} is being managed with <code>name</code>.
    * @public
@@ -54,8 +54,9 @@ class ServiceManager {
    * Sets the {@link Service} implementation to be managed for the specified <code>name</code> to the
    * <code>service</code> provided.
    *
-   * @param {String} name - the name of the {@link Service} to be managed with <code>name</code>
+   * @param {string} name - the name of the {@link Service} to be managed with <code>name</code>
    * @param {Service} service - the {@link Service} implementation to be managed
+   * @return {void}
    * @throws {Error} If a {@link Service} is already being managed with the same <code>name</code>.
    * @public
    */
@@ -68,6 +69,7 @@ class ServiceManager {
       this._services[name] = service
     }
   }
+
 }
 
 export default ServiceManager

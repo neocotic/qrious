@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-multi-spaces: 0 */
+/* eslint no-multi-spaces: "off" */
 
 /**
  * Contains alignment pattern information.
@@ -29,7 +29,7 @@ class Alignment {
   /**
    * Returns the alignment pattern block.
    *
-   * @return {Number[]} The alignment pattern block.
+   * @return {number[]} The alignment pattern block.
    * @public
    * @static
    */
@@ -40,6 +40,7 @@ class Alignment {
       26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28
     ]
   }
+
 }
 
 export default Alignment

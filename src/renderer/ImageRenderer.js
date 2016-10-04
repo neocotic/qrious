@@ -58,6 +58,7 @@ class ImageRenderer extends Renderer {
     image.width = qrious.size
     image.height = qrious.size
   }
+
 }
 
 export default ImageRenderer

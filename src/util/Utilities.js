@@ -35,8 +35,8 @@ class Utilities {
    * @static
    */
   static privatize(target, source) {
-    for (let key in source) {
-      if (source.hasOwnProperty(key)) {
+    for (const key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
         target[`_${key}`] = source[key]
       }
     }
@@ -53,11 +53,11 @@ class Utilities {
    * before it is assigned to the field.
    *
    * @param {Object} object - the object whose field is to be set with <code>value</code>
-   * @param {String} fieldName - the field to be set with <code>value</code>
+   * @param {string} fieldName - the field to be set with <code>value</code>
    * @param {*} value - the value to be set on the named field
    * @param {*} [defaultValue] - the value to be used if <code>value</code> is <code>null</code>
    * @param {Function} [transformer] - a function used to transform the value before it is assigned to the named field
-   * @return {Boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
+   * @return {boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
    * <code>false</code>.
    * @public
    * @static
@@ -77,8 +77,9 @@ class Utilities {
   /**
    * Throws an error indicating that the a given method on a specific class has not been implemented.
    *
-   * @param {String} className - the name of the class on which the method has not been implemented
-   * @param {String} methodName - the name of the method which has not been implemented
+   * @param {string} className - the name of the class on which the method has not been implemented
+   * @param {string} methodName - the name of the method which has not been implemented
+   * @return {void}
    * @throws {Error} The error describing the class method which has not been implemented.
    * @public
    * @static
@@ -90,14 +91,15 @@ class Utilities {
   /**
    * Transforms the specified <code>string</code> to upper case while remaining null-safe.
    *
-   * @param {String} string - the string to be transformed to upper case
-   * @return {String} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
+   * @param {string} string - the string to be transformed to upper case
+   * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
    * @public
    * @static
    */
   static toUpperCase(string) {
     return string != null && string.toUpperCase()
   }
+
 }
 
 export default Utilities

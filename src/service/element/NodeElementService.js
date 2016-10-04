@@ -64,6 +64,7 @@ class NodeElementService extends ElementService {
   isImage(element) {
     return element instanceof Image
   }
+
 }
 
 export default NodeElementService

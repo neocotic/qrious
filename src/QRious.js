@@ -51,7 +51,7 @@ class QRious {
   /**
    * Returns the current version of {@link QRious}.
    *
-   * @return {String} The current version.
+   * @return {string} The current version.
    * @public
    * @static
    */
@@ -63,6 +63,7 @@ class QRious {
    * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
    *
    * @param {Service} service - the {@link Service} to be configured
+   * @return {void}
    * @throws {Error} If a {@link Service} has already been configured with the same name.
    * @public
    * @static
@@ -90,8 +91,8 @@ class QRious {
 
     Utilities.privatize(this, options)
 
-    let element = this._element
-    let elementService = QRious._serviceManager.getService('element')
+    const element = this._element
+    const elementService = QRious._serviceManager.getService('element')
 
     /**
      * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
@@ -122,8 +123,8 @@ class QRious {
   /**
    * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
    *
-   * @param {String} [mime] - the MIME type for the image
-   * @return {String} The image data URI for the QR code.
+   * @param {string} [mime] - the MIME type for the image
+   * @return {string} The image data URI for the QR code.
    * @public
    */
   toDataURL(mime) {
@@ -133,6 +134,7 @@ class QRious {
   /**
    * Updates this {@link QRious} by generating a new {@link Frame} and re-rendering the QR code.
    *
+   * @return {void}
    * @protected
    */
   update() {
@@ -147,7 +149,7 @@ class QRious {
   /**
    * Returns the background color for the QR code.
    *
-   * @return {String} The background color.
+   * @return {string} The background color.
    * @public
    */
   get background() {
@@ -157,7 +159,7 @@ class QRious {
   /**
    * Sets the background color for the QR code to <code>background</code>.
    *
-   * @param {String} [background="white"] - the background color to be set
+   * @param {string} [background="white"] - the background color to be set
    * @public
    */
   set background(background) {
@@ -171,7 +173,7 @@ class QRious {
   /**
    * Returns the foreground color for the QR code.
    *
-   * @return {String} The foreground color.
+   * @return {string} The foreground color.
    * @public
    */
   get foreground() {
@@ -181,7 +183,7 @@ class QRious {
   /**
    * Sets the foreground color for the QR code to <code>foreground</code>.
    *
-   * @param {String} [foreground="black"] - the foreground color to be set
+   * @param {string} [foreground="black"] - the foreground color to be set
    * @public
    */
   set foreground(foreground) {
@@ -195,7 +197,7 @@ class QRious {
   /**
    * Returns the error correction level for the QR code.
    *
-   * @return {String} The ECC level.
+   * @return {string} The ECC level.
    * @public
    */
   get level() {
@@ -207,7 +209,7 @@ class QRious {
    *
    * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
    *
-   * @param {String} [level="L"] - the ECC level to be set
+   * @param {string} [level="L"] - the ECC level to be set
    * @public
    */
   set level(level) {
@@ -221,7 +223,7 @@ class QRious {
   /**
    * Returns the MIME type for the image rendered for the QR code.
    *
-   * @return {String} The image MIME type.
+   * @return {string} The image MIME type.
    * @public
    */
   get mime() {
@@ -231,7 +233,7 @@ class QRious {
   /**
    * Sets the MIME type for the image rendered for the QR code to <code>mime</code>.
    *
-   * @param {String} [mime="image/png"] - the image MIME type to be set
+   * @param {string} [mime="image/png"] - the image MIME type to be set
    * @public
    */
   set mime(mime) {
@@ -245,7 +247,7 @@ class QRious {
   /**
    * Returns the size of the QR code.
    *
-   * @return {Number} The size in pixels.
+   * @return {number} The size in pixels.
    * @public
    */
   get size() {
@@ -258,7 +260,7 @@ class QRious {
    * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
    * <code>-100</code> would become <code>100</code>).
    *
-   * @param {Number} [size=100] - the size in pixels to be set
+   * @param {number} [size=100] - the size in pixels to be set
    * @public
    */
   set size(size) {
@@ -272,7 +274,7 @@ class QRious {
   /**
    * Returns the value of the QR code.
    *
-   * @return {String} The value.
+   * @return {string} The value.
    * @public
    */
   get value() {
@@ -282,7 +284,7 @@ class QRious {
   /**
    * Sets the value of the QR code to <code>value</code>.
    *
-   * @param {String} [value=""] - the value to be set
+   * @param {string} [value=""] - the value to be set
    * @public
    */
   set value(value) {
@@ -292,6 +294,7 @@ class QRious {
       this.update()
     }
   }
+
 }
 
 QRious._serviceManager = new ServiceManager()
@@ -302,12 +305,12 @@ export default QRious
  * The options used by {@link QRious}.
  *
  * @typedef {Object} QRious~Options
- * @property {String} [background="white"] - The background color to be applied to the QR code.
+ * @property {string} [background="white"] - The background color to be applied to the QR code.
  * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
  * <code>img</code>. The element(s) will be created if needed.
- * @property {String} [foreground="black"] - The foreground color to be applied to the QR code.
- * @property {String} [level="L"] - The error correction level to be applied to the QR code.
- * @property {String} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
- * @property {Number} [size=100] - The size of the QR code in pixels.
- * @property {String} [value=""] - The value to be encoded within the QR code.
+ * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
+ * @property {string} [level="L"] - The error correction level to be applied to the QR code.
+ * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
+ * @property {number} [size=100] - The size of the QR code in pixels.
+ * @property {string} [value=""] - The value to be encoded within the QR code.
  */

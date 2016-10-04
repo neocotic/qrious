@@ -40,8 +40,8 @@ class CanvasRenderer extends Renderer {
 
     for (let i = 0; i < frame.width; i++) {
       for (let j = 0; j < frame.width; j++) {
-        if (frame.buffer[j * frame.width + i]) {
-          context.fillRect(moduleSize * i + offset, moduleSize * j + offset, moduleSize, moduleSize)
+        if (frame.buffer[(j * frame.width) + i]) {
+          context.fillRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize)
         }
       }
     }
@@ -70,6 +70,7 @@ class CanvasRenderer extends Renderer {
     canvas.width = qrious.size
     canvas.height = qrious.size
   }
+
 }
 
 export default CanvasRenderer
