@@ -193,7 +193,7 @@ The current version of `QRious`.
 
 ``` javascript
 console.log(QRious.VERSION)
-//=> "2.1.0"
+//=> "2.2.0"
 ```
 
 ## Migrating from v1
