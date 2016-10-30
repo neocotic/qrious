@@ -37,6 +37,7 @@ class CanvasRenderer extends Renderer {
     const context = qrious.canvas.getContext('2d')
 
     context.fillStyle = qrious.foreground
+    context.globalAlpha = qrious.foregroundAlpha
 
     for (let i = 0; i < frame.width; i++) {
       for (let j = 0; j < frame.width; j++) {
@@ -57,6 +58,7 @@ class CanvasRenderer extends Renderer {
     context.lineWidth = 1
     context.clearRect(0, 0, qrious.size, qrious.size)
     context.fillStyle = qrious.background
+    context.globalAlpha = qrious.backgroundAlpha
     context.fillRect(0, 0, qrious.size, qrious.size)
   }
 

@@ -40,7 +40,9 @@ class QRious {
   static get DEFAULTS() {
     return {
       background: 'white',
+      backgroundAlpha: 1,
       foreground: 'black',
+      foregroundAlpha: 1,
       level: 'L',
       mime: 'image/png',
       padding: null,
@@ -75,6 +77,8 @@ class QRious {
 
   static _parseOptions(options) {
     options = Object.assign({}, QRious.DEFAULTS, options)
+    options.backgroundAlpha = Utilities.abs(options.backgroundAlpha)
+    options.foregroundAlpha = Utilities.abs(options.foregroundAlpha)
     options.level = Utilities.toUpperCase(options.level)
     options.padding = Utilities.abs(options.padding)
     options.size = Utilities.abs(options.size)
@@ -173,6 +177,30 @@ class QRious {
   }
 
   /**
+   * Returns the background alpha for the QR code.
+   *
+   * @return {number} The background alpha.
+   * @public
+   */
+  get backgroundAlpha() {
+    return this._backgroundAlpha
+  }
+
+  /**
+   * Sets the background alpha for the QR code to <code>backgroundAlpha</code>.
+   *
+   * @param {number} [backgroundAlpha=1] - the background alpha to be set
+   * @public
+   */
+  set backgroundAlpha(backgroundAlpha) {
+    const changed = Utilities.setter(this, '_backgroundAlpha', backgroundAlpha, QRious.DEFAULTS.backgroundAlpha)
+
+    if (changed) {
+      this.update()
+    }
+  }
+
+  /**
    * Returns the foreground color for the QR code.
    *
    * @return {string} The foreground color.
@@ -190,6 +218,30 @@ class QRious {
    */
   set foreground(foreground) {
     const changed = Utilities.setter(this, '_foreground', foreground, QRious.DEFAULTS.foreground)
+
+    if (changed) {
+      this.update()
+    }
+  }
+
+  /**
+   * Returns the foreground alpha for the QR code.
+   *
+   * @return {number} The foreground alpha.
+   * @public
+   */
+  get foregroundAlpha() {
+    return this._foregroundAlpha
+  }
+
+  /**
+   * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code>.
+   *
+   * @param {number} [foregroundAlpha=1] - the foreground alpha to be set
+   * @public
+   */
+  set foregroundAlpha(foregroundAlpha) {
+    const changed = Utilities.setter(this, '_foregroundAlpha', foregroundAlpha, QRious.DEFAULTS.foregroundAlpha)
 
     if (changed) {
       this.update()
@@ -335,9 +387,11 @@ export default QRious
  *
  * @typedef {Object} QRious~Options
  * @property {string} [background="white"] - The background color to be applied to the QR code.
+ * @property {number} [backgroundAlpha=1] - The background alpha to be applied to the QR code.
  * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
  * <code>img</code>. The element(s) will be created if needed.
  * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
+ * @property {number} [foregroundAlpha=1] - The foreground alpha to be applied to the QR code.
  * @property {string} [level="L"] - The error correction level to be applied to the QR code.
  * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
  * @property {number} [padding] - The padding for the QR code in pixels.
