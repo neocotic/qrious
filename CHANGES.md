@@ -1,3 +1,7 @@
+## Version 2.2.0, 2016.10.30
+
+* Add `backgroundAlpha` and `foregroundAlpha` options to control transparency [#63](https://github.com/neocotic/qrious/issues/63)
+
 ## Version 2.1.0, 2016.10.04
 
 * Allow `padding` to be set explicitly [#44](https://github.com/neocotic/qrious/issues/44)

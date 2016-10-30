@@ -105,20 +105,24 @@ Open up `demo.html` in your browser to play around a bit.
 Simply create an instance of `QRious` and you've done most of the work. You can control many aspects of the QR code
 using the following fields on your instance:
 
-| Field      | Type   | Description                                        | Default       |
-| ---------- | ------ | -------------------------------------------------- | ------------- |
-| background | String | Background color of the QR code                    | `"white"`     |
-| foreground | String | Foreground color of the QR code                    | `"black"`     |
-| level      | String | Error correction level of the QR code (L, M, Q, H) | `"L"`         |
-| mime       | String | MIME type used to render the image for the QR code | `"image/png"` |
-| padding    | Number | Padding for the QR code (pixels)                   | `null` (auto) |
-| size       | Number | Size of the QR code (pixels)                       | `100`         |
-| value      | String | Value encoded within the QR code                   | `""`          |
+| Field           | Type   | Description                                        | Default       |
+| --------------- | ------ | -------------------------------------------------- | ------------- |
+| background      | String | Background color of the QR code                    | `"white"`     |
+| backgroundAlpha | Number | Background alpha of the QR code                    | `1.0`         |
+| foreground      | String | Foreground color of the QR code                    | `"black"`     |
+| foregroundAlpha | Number | Foreground alpha of the QR code                    | `1.0`         |
+| level           | String | Error correction level of the QR code (L, M, Q, H) | `"L"`         |
+| mime            | String | MIME type used to render the image for the QR code | `"image/png"` |
+| padding         | Number | Padding for the QR code (pixels)                   | `null` (auto) |
+| size            | Number | Size of the QR code (pixels)                       | `100`         |
+| value           | String | Value encoded within the QR code                   | `""`          |
 
 ``` javascript
 const qr = new QRious()
 qr.background = '#000'
+qr.backgroundAlpha = 0.8
 qr.foreground = '#fff'
+qr.foregroundAlpha = 0.8
 qr.level = 'H'
 qr.padding = 25
 qr.size = 500
@@ -130,7 +134,9 @@ These can also be passed as options to the constructor itself:
 ``` javascript
 const qr = new QRious({
   background: '#000',
+  backgroundAlpha: 0.8,
   foreground: '#fff',
+  foregroundAlpha: 0.8,
   level: 'H',
   padding: 25,
   size: 500,
@@ -187,7 +193,7 @@ The current version of `QRious`.
 
 ``` javascript
 console.log(QRious.VERSION)
-//=> "2.1.0"
+//=> "2.2.0"
 ```
 
 ## Migrating from v1

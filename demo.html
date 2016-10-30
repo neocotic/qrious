@@ -121,13 +121,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       </label>
 
       <label>
-        background
+        background color
         <input type="color" name="background" value="#ffffff">
       </label>
 
       <label>
-        foreground
+        background alpha
+        <input type="number" name="backgroundAlpha" placeholder="1" min="0" max="1" step="0.1" value="1">
+      </label>
+
+      <label>
+        foreground color
         <input type="color" name="foreground" value="#000000">
+      </label>
+
+      <label>
+        foreground alpha
+        <input type="number" name="foregroundAlpha" placeholder="1" min="0" max="1" step="0.1" value="1">
       </label>
     </form>
   </section>
@@ -137,7 +147,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script>
   (function() {
     var $background = document.querySelector('main form [name="background"]')
+    var $backgroundAlpha = document.querySelector('main form [name="backgroundAlpha"]')
     var $foreground = document.querySelector('main form [name="foreground"]')
+    var $foregroundAlpha = document.querySelector('main form [name="foregroundAlpha"]')
     var $level = document.querySelector('main form [name="level"]')
     var $section = document.querySelector('main section')
     var $padding = document.querySelector('main form [name="padding"]')
@@ -154,8 +166,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       qr.background = $background.value || null
     })
 
+    $backgroundAlpha.addEventListener('change', function() {
+      qr.backgroundAlpha = $backgroundAlpha.value || null
+    })
+
     $foreground.addEventListener('change', function() {
       qr.foreground = $foreground.value || null
+    })
+
+    $foregroundAlpha.addEventListener('change', function() {
+      qr.foregroundAlpha = $foregroundAlpha.value || null
     })
 
     $level.addEventListener('change', function() {

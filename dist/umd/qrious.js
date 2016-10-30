@@ -1,5 +1,5 @@
 /*
- * QRious v2.1.0
+ * QRious v2.2.0
  * Copyright (C) 2016 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -1043,7 +1043,7 @@
 
 	  wksExt.f = function(name){
 	    return wrap(wks(name));
-	  }
+	  };
 	}
 
 	$export$4($export$4.G + $export$4.W + $export$4.F * !USE_NATIVE, {Symbol: $Symbol});
@@ -1143,14 +1143,14 @@
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
-	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj; };
+	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
 	  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	} : function (obj) {
-	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	};
 	});
 
@@ -1212,7 +1212,7 @@
 	module.exports = { "default": setPrototypeOf$3, __esModule: true };
 	});
 
-	var $export$6 = _export
+	var $export$6 = _export;
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 	$export$6($export$6.S, 'Object', {create: _objectCreate});
 
@@ -1895,6 +1895,7 @@
 	      var context = qrious.canvas.getContext('2d');
 
 	      context.fillStyle = qrious.foreground;
+	      context.globalAlpha = qrious.foregroundAlpha;
 
 	      for (var i = 0; i < frame.width; i++) {
 	        for (var j = 0; j < frame.width; j++) {
@@ -1918,6 +1919,7 @@
 	      context.lineWidth = 1;
 	      context.clearRect(0, 0, qrious.size, qrious.size);
 	      context.fillStyle = qrious.background;
+	      context.globalAlpha = qrious.backgroundAlpha;
 	      context.fillRect(0, 0, qrious.size, qrious.size);
 	    }
 
@@ -3300,6 +3302,8 @@
 	    key: '_parseOptions',
 	    value: function _parseOptions(options) {
 	      options = _Object$assign({}, QRious.DEFAULTS, options);
+	      options.backgroundAlpha = Utilities.abs(options.backgroundAlpha);
+	      options.foregroundAlpha = Utilities.abs(options.foregroundAlpha);
 	      options.level = Utilities.toUpperCase(options.level);
 	      options.padding = Utilities.abs(options.padding);
 	      options.size = Utilities.abs(options.size);
@@ -3328,7 +3332,9 @@
 	    get: function get() {
 	      return {
 	        background: 'white',
+	        backgroundAlpha: 1,
 	        foreground: 'black',
+	        foregroundAlpha: 1,
 	        level: 'L',
 	        mime: 'image/png',
 	        padding: null,
@@ -3348,7 +3354,7 @@
 	  }, {
 	    key: 'VERSION',
 	    get: function get() {
-	      return '2.1.0';
+	      return '2.2.0';
 	    }
 	  }]);
 
@@ -3449,6 +3455,34 @@
 	    }
 
 	    /**
+	     * Returns the background alpha for the QR code.
+	     *
+	     * @return {number} The background alpha.
+	     * @public
+	     */
+
+	  }, {
+	    key: 'backgroundAlpha',
+	    get: function get() {
+	      return this._backgroundAlpha;
+	    }
+
+	    /**
+	     * Sets the background alpha for the QR code to <code>backgroundAlpha</code>.
+	     *
+	     * @param {number} [backgroundAlpha=1] - the background alpha to be set
+	     * @public
+	     */
+	    ,
+	    set: function set(backgroundAlpha) {
+	      var changed = Utilities.setter(this, '_backgroundAlpha', backgroundAlpha, QRious.DEFAULTS.backgroundAlpha);
+
+	      if (changed) {
+	        this.update();
+	      }
+	    }
+
+	    /**
 	     * Returns the foreground color for the QR code.
 	     *
 	     * @return {string} The foreground color.
@@ -3470,6 +3504,34 @@
 	    ,
 	    set: function set(foreground) {
 	      var changed = Utilities.setter(this, '_foreground', foreground, QRious.DEFAULTS.foreground);
+
+	      if (changed) {
+	        this.update();
+	      }
+	    }
+
+	    /**
+	     * Returns the foreground alpha for the QR code.
+	     *
+	     * @return {number} The foreground alpha.
+	     * @public
+	     */
+
+	  }, {
+	    key: 'foregroundAlpha',
+	    get: function get() {
+	      return this._foregroundAlpha;
+	    }
+
+	    /**
+	     * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code>.
+	     *
+	     * @param {number} [foregroundAlpha=1] - the foreground alpha to be set
+	     * @public
+	     */
+	    ,
+	    set: function set(foregroundAlpha) {
+	      var changed = Utilities.setter(this, '_foregroundAlpha', foregroundAlpha, QRious.DEFAULTS.foregroundAlpha);
 
 	      if (changed) {
 	        this.update();
@@ -3637,9 +3699,11 @@
 	 *
 	 * @typedef {Object} QRious~Options
 	 * @property {string} [background="white"] - The background color to be applied to the QR code.
+	 * @property {number} [backgroundAlpha=1] - The background alpha to be applied to the QR code.
 	 * @property {*} [element] - The element to be used to render the QR code which may either be an <code>canvas</code> or
 	 * <code>img</code>. The element(s) will be created if needed.
 	 * @property {string} [foreground="black"] - The foreground color to be applied to the QR code.
+	 * @property {number} [foregroundAlpha=1] - The foreground alpha to be applied to the QR code.
 	 * @property {string} [level="L"] - The error correction level to be applied to the QR code.
 	 * @property {string} [mime="image/png"] - The MIME type to be used to render the image for the QR code.
 	 * @property {number} [padding] - The padding for the QR code in pixels.
