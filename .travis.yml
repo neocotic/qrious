@@ -21,3 +21,10 @@ addons:
       - libpango1.0-dev
       - make
       - python
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/f1c9df131febcfade24c
+    on_success: always
+    on_failure: always
+    on_start: never
