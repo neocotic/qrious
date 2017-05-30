@@ -90,8 +90,7 @@ module.exports = function(grunt) {
               return [
                 nodeResolve({
                   jsnext: true,
-                  main: true,
-                  skip: [ 'canvas' ]
+                  main: true
                 }),
                 commonjs(),
                 babel({

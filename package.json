@@ -24,28 +24,29 @@
     "url": "https://github.com/neocotic/qrious.git"
   },
   "optionalDependencies": {
-    "canvas": "^1.3.12"
+    "canvas": "^1.6.5"
   },
   "devDependencies": {
-    "babel-eslint": "^7.0.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-runtime": "^6.11.6",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-runtime": "^6.23.0",
     "eslint-config-skelp": "^0.1.5",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
-    "grunt-rollup": "^0.8.0",
-    "rollup-plugin-babel": "^2.6.1",
-    "rollup-plugin-commonjs": "^5.0.4",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.1",
+    "grunt-rollup": "^1.0.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
     "semver": "^5.3.0"
   },
   "browser": "dist/umd/qrious.js",
   "main": "dist/cjs/qrious.js",
+  "module": "src/runtime/node.js",
   "jsnext:main": "src/runtime/node.js",
   "scripts": {
     "build": "grunt build",
