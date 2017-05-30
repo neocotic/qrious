@@ -1192,7 +1192,7 @@ var Utilities = function () {
   }
 
   _createClass(Utilities, null, [{
-    key: 'abs',
+    key: "abs",
 
 
     /**
@@ -1212,59 +1212,20 @@ var Utilities = function () {
     }
 
     /**
-     * Copies all properties from the <code>source</code> object to the <code>target</code> object, however, all property
-     * names on the <code>target</code> will be prefixed with an underscore, used to indicate that they are private.
+     * Returns whether the specified <code>object</code> has a property with the specified <code>name</code> as an own
+     * (not inherited) property.
      *
-     * @param {Object} target - the object to which the private fields are to be copied
-     * @param {Object} source - the object from which the fields are to be copied
-     * @return {Object} A reference to the <code>target</code> object.
+     * @param {Object} object - the object on which the property is to be checked
+     * @param {string} name - the name of the property to be checked
+     * @return {boolean} <code>true</code> if <code>object</code> has an own property with <code>name</code>.
      * @public
      * @static
      */
 
   }, {
-    key: 'privatize',
-    value: function privatize(target, source) {
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target['_' + key] = source[key];
-        }
-      }
-
-      return target;
-    }
-
-    /**
-     * Sets the specified <code>value</code> on a given field on the <code>object</code> provided.
-     *
-     * If <code>value</code> is <code>null</code>, the specified default value will be used instead.
-     *
-     * An optional <code>transformer</code> can be specified which will be used to transform the value (or default value)
-     * before it is assigned to the field.
-     *
-     * @param {Object} object - the object whose field is to be set with <code>value</code>
-     * @param {string} fieldName - the field to be set with <code>value</code>
-     * @param {*} value - the value to be set on the named field
-     * @param {*} [defaultValue] - the value to be used if <code>value</code> is <code>null</code>
-     * @param {Function} [transformer] - a function used to transform the value before it is assigned to the named field
-     * @return {boolean} <code>true</code> if the value of the field has changed as a result of the assignment; otherwise
-     * <code>false</code>.
-     * @public
-     * @static
-     */
-
-  }, {
-    key: 'setter',
-    value: function setter(object, fieldName, value, defaultValue, transformer) {
-      var oldValue = object[fieldName];
-      var newValue = value != null ? value : defaultValue;
-      if (typeof transformer === 'function') {
-        newValue = transformer(newValue);
-      }
-
-      object[fieldName] = newValue;
-
-      return newValue !== oldValue;
+    key: "hasOwn",
+    value: function hasOwn(object, name) {
+      return Object.prototype.hasOwnProperty.call(object, name);
     }
 
     /**
@@ -1279,9 +1240,9 @@ var Utilities = function () {
      */
 
   }, {
-    key: 'throwUnimplemented',
+    key: "throwUnimplemented",
     value: function throwUnimplemented(className, methodName) {
-      throw new Error('"' + methodName + '" method must be implemented on the ' + className + ' class');
+      throw new Error("\"" + methodName + "\" method must be implemented on the " + className + " class");
     }
 
     /**
@@ -1294,9 +1255,9 @@ var Utilities = function () {
      */
 
   }, {
-    key: 'toUpperCase',
+    key: "toUpperCase",
     value: function toUpperCase(string) {
-      return string != null && string.toUpperCase();
+      return string != null ? string.toUpperCase() : null;
     }
   }]);
 
@@ -1546,47 +1507,6 @@ var NodeElementService = function (_ElementService) {
   return NodeElementService;
 }(ElementService);
 
-// 19.1.2.1 Object.assign(target, source, ...)
-var $assign  = Object.assign;
-
-// should work with symbols and should have deterministic property order (V8 bug)
-var _objectAssign = !$assign || _fails(function(){
-  var A = {}
-    , B = {}
-    , S = Symbol()
-    , K = 'abcdefghijklmnopqrst';
-  A[S] = 7;
-  K.split('').forEach(function(k){ B[k] = k; });
-  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
-  var T     = _toObject(target)
-    , aLen  = arguments.length
-    , index = 1
-    , getSymbols = _objectGops.f
-    , isEnum     = _objectPie.f;
-  while(aLen > index){
-    var S      = _iobject(arguments[index++])
-      , keys   = getSymbols ? _objectKeys(S).concat(getSymbols(S)) : _objectKeys(S)
-      , length = keys.length
-      , j      = 0
-      , key;
-    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
-  } return T;
-} : $assign;
-
-// 19.1.3.1 Object.assign(target, source)
-
-
-_export(_export.S + _export.F, 'Object', {assign: _objectAssign});
-
-var assign$1 = _core.Object.assign;
-
-var assign = createCommonjsModule(function (module) {
-module.exports = { "default": assign$1, __esModule: true };
-});
-
-var _Object$assign = unwrapExports(assign);
-
 /*
  * QRious
  * Copyright (C) 2017 Alasdair Mercer
@@ -1669,8 +1589,9 @@ var Renderer = function () {
   }, {
     key: 'getModuleSize',
     value: function getModuleSize(frame) {
-      var padding = this.qrious.padding || 0;
-      var pixels = Math.floor((this.qrious.size - padding * 2) / frame.width);
+      var qrious = this.qrious;
+      var padding = qrious.padding || 0;
+      var pixels = Math.floor((qrious.size - padding * 2) / frame.width);
 
       return Math.max(1, pixels);
     }
@@ -1691,12 +1612,15 @@ var Renderer = function () {
   }, {
     key: 'getOffset',
     value: function getOffset(frame) {
-      if (this.qrious.padding != null) {
-        return this.qrious.padding;
+      var qrious = this.qrious;
+      var padding = qrious.padding;
+
+      if (padding != null) {
+        return padding;
       }
 
       var moduleSize = this.getModuleSize(frame);
-      var offset = Math.floor((this.qrious.size - moduleSize * frame.width) / 2);
+      var offset = Math.floor((qrious.size - moduleSize * frame.width) / 2);
 
       return Math.max(0, offset);
     }
@@ -1820,12 +1744,13 @@ var CanvasRenderer = function (_Renderer) {
     value: function reset() {
       var qrious = this.qrious;
       var context = qrious.canvas.getContext('2d');
+      var size = qrious.size;
 
       context.lineWidth = 1;
-      context.clearRect(0, 0, qrious.size, qrious.size);
+      context.clearRect(0, 0, size, size);
       context.fillStyle = qrious.background;
       context.globalAlpha = qrious.backgroundAlpha;
-      context.fillRect(0, 0, qrious.size, qrious.size);
+      context.fillRect(0, 0, size, size);
     }
 
     /**
@@ -1838,8 +1763,7 @@ var CanvasRenderer = function (_Renderer) {
       var qrious = this.qrious;
       var canvas = qrious.canvas;
 
-      canvas.width = qrious.size;
-      canvas.height = qrious.size;
+      canvas.width = canvas.height = qrious.size;
     }
   }]);
 
@@ -3053,9 +2977,7 @@ var ImageRenderer = function (_Renderer) {
   }, {
     key: 'reset',
     value: function reset() {
-      var qrious = this.qrious;
-
-      qrious.image.src = '';
+      this.qrious.image.src = '';
     }
 
     /**
@@ -3068,13 +2990,422 @@ var ImageRenderer = function (_Renderer) {
       var qrious = this.qrious;
       var image = qrious.image;
 
-      image.width = qrious.size;
-      image.height = qrious.size;
+      image.width = image.height = qrious.size;
     }
   }]);
 
   return ImageRenderer;
 }(Renderer);
+
+/*
+ * QRious
+ * Copyright (C) 2017 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Defines an available option while also configuring how values are applied to the target object.
+ *
+ * While a value associated with an option can be changed on the target object, the option definition itself is
+ * immutable.
+ *
+ * @public
+ */
+var Option = function () {
+
+  /**
+   * Creates a new instance of {@link Option} based on the <code>name</code> provided.
+   *
+   * Optionally, a <code>defaultValue</code> can be specified as well a <code>valueTransformer</code> and
+   * <code>fieldNameResolver</code> for greater control over how the option value is applied.
+   *
+   * If no <code>valueTransformer</code> is specified, then any specified option will be applied directly.
+   *
+   * If no <code>fieldNameResolver</code> is specified, then the field name will be resolved to <code>name</code>
+   * prefixed with a single underscore when the option is applied.
+   *
+   * @param {string} name - the name to be used
+   * @param {*} [defaultValue] - the default value to be used
+   * @param {Option~ValueTransformer} [valueTransformer] - the value transformer to be used
+   * @param {Option~FieldNameResolver} [fieldNameResolver] - the field name resolver to be used
+   * @public
+   */
+  function Option(name, defaultValue, valueTransformer, fieldNameResolver) {
+    _classCallCheck(this, Option);
+
+    this._name = name;
+    this._defaultValue = defaultValue;
+    this._valueTransformer = valueTransformer;
+    this._fieldName = typeof fieldNameResolver === 'function' ? fieldNameResolver(this) : '_' + name;
+  }
+
+  /**
+   * Transforms the specified <code>value</code> so that it can be applied for this {@link Option}.
+   *
+   * If a value transformer has been specified for this {@link Option}, it will be called upon to transform
+   * <code>value</code>. Otherwise, <code>value</code> will be returned directly.
+   *
+   * @param {*} value - the value to be transformed
+   * @return {*} The transformed value or <code>value</code> if no value transformer is specified.
+   * @public
+   */
+
+
+  _createClass(Option, [{
+    key: 'transform',
+    value: function transform(value) {
+      var transformer = this._valueTransformer;
+      if (typeof transformer === 'function') {
+        return transformer(value, this);
+      }
+
+      return value;
+    }
+
+    /**
+     * Returns the field name for this {@link Option}.
+     *
+     * @return {string} The field name.
+     * @public
+     */
+
+  }, {
+    key: 'fieldName',
+    get: function get() {
+      return this._fieldName;
+    }
+
+    /**
+     * Returns the name for this {@link Option}.
+     *
+     * @return {string} The name.
+     * @public
+     */
+
+  }, {
+    key: 'name',
+    get: function get() {
+      return this._name;
+    }
+
+    /**
+     * Returns the default value for this {@link Option}.
+     *
+     * @return {*} The default value.
+     * @public
+     */
+
+  }, {
+    key: 'defaultValue',
+    get: function get() {
+      return this._defaultValue;
+    }
+  }]);
+
+  return Option;
+}();
+
+
+
+/**
+ * Returns the field name to which the specified <code>option</code> is associated on the target object.
+ *
+ * The resolved name will be used to identify the field that values for <code>option</code> are to be read from and
+ * written to.
+ *
+ * This function will only called once for <code>option</code>, upon initialization.
+ *
+ * @callback Option~FieldNameResolver
+ * @param {Option} option - the {@link Option} whose field name is to be resolved
+ * @return {string} The resolved field name for <code>option</code>.
+ */
+
+/**
+ * Returns a transformed value for the specified <code>value</code> to be applied for the <code>option</code> provided.
+ *
+ * @callback Option~ValueTransformer
+ * @param {*} value - the value to be transformed
+ * @param {Option} option - the {@link Option} for which <code>value</code> is being transformed
+ * @return {*} The transform value.
+ */
+
+var isEnum$1    = _objectPie.f;
+var _objectToArray = function(isEntries){
+  return function(it){
+    var O      = _toIobject(it)
+      , keys   = _objectKeys(O)
+      , length = keys.length
+      , i      = 0
+      , result = []
+      , key;
+    while(length > i)if(isEnum$1.call(O, key = keys[i++])){
+      result.push(isEntries ? [key, O[key]] : O[key]);
+    } return result;
+  };
+};
+
+// https://github.com/tc39/proposal-object-values-entries
+var $values = _objectToArray(false);
+
+_export(_export.S, 'Object', {
+  values: function values(it){
+    return $values(it);
+  }
+});
+
+var values$1 = _core.Object.values;
+
+var values = createCommonjsModule(function (module) {
+module.exports = { "default": values$1, __esModule: true };
+});
+
+var _Object$values = unwrapExports(values);
+
+/*
+ * QRious
+ * Copyright (C) 2017 Alasdair Mercer
+ * Copyright (C) 2010 Tom Zerucha
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Manages multiple {@link Option} instances that are intended to be used by multiple implementations.
+ *
+ * Although the option definitions are shared between targets, the values are maintained on the targets themselves.
+ *
+ * While a value associated with each option can be changed on the target objects, the manager and the option
+ * definitions themselves are immutable.
+ *
+ * @public
+ */
+
+var OptionManager = function () {
+  _createClass(OptionManager, null, [{
+    key: '_get',
+    value: function _get(option, target) {
+      return target[option.fieldName];
+    }
+  }, {
+    key: '_set',
+    value: function _set(option, value, target) {
+      var fieldName = option.fieldName;
+      var oldValue = target[fieldName];
+      var newValue = option.transform(value != null ? value : option.defaultValue);
+
+      target[fieldName] = newValue;
+
+      return newValue !== oldValue;
+    }
+
+    /**
+     * Creates a new instance of {@link OptionManager} for the specified available <code>options</code>.
+     *
+     * @param {Option[]} options - the options to be used
+     * @public
+     */
+
+  }]);
+
+  function OptionManager(options) {
+    var _this = this;
+
+    _classCallCheck(this, OptionManager);
+
+    this._options = {};
+
+    options.forEach(function (option) {
+      _this._options[option.name] = option;
+    });
+  }
+
+  /**
+   * Sets the default values for all of the available options on the <code>target</code> object provided.
+   *
+   * @param {Object} target - the object on which the default values are to be set for each available option
+   * @return {void}
+   * @public
+   */
+
+
+  _createClass(OptionManager, [{
+    key: 'applyDefaults',
+    value: function applyDefaults(target) {
+      var options = this._options;
+
+      for (var name in options) {
+        if (Utilities.hasOwn(options, name)) {
+          var option = options[name];
+
+          OptionManager._set(option, option.defaultValue, target);
+        }
+      }
+    }
+
+    /**
+     * Returns whether an option with the specified <code>name</code> is available.
+     *
+     * @param {string} name - the name of the {@link Option} whose existence is to be checked
+     * @return {boolean} <code>true</code> if an {@link Option} exists with <code>name</code>; otherwise
+     * <code>false</code>.
+     * @public
+     */
+
+  }, {
+    key: 'exists',
+    value: function exists(name) {
+      return this._options[name] != null;
+    }
+
+    /**
+     * Returns the value of the option with the specified <code>name</code> on the <code>target</code> object provided.
+     *
+     * @param {string} name - the name of the {@link Option} whose value on <code>target</code> is to be returned
+     * @param {Object} target - the object from which the value of the named {@link Option} is to be returned
+     * @return {*} The value of the {@link Option} with <code>name</code> on <code>target</code>.
+     * @public
+     */
+
+  }, {
+    key: 'get',
+    value: function get(name, target) {
+      return OptionManager._get(this._options[name], target);
+    }
+
+    /**
+     * Returns a copy of all of the available options on the <code>target</code> object provided.
+     *
+     * @param {Object} target - the object from which the option name/value pairs are to be returned
+     * @return {Object.<string, *>} A hash containing the name/value pairs of all options on <code>target</code>.
+     * @public
+     */
+
+  }, {
+    key: 'getAll',
+    value: function getAll(target) {
+      var options = this._options;
+      var result = {};
+
+      for (var name in options) {
+        if (Utilities.hasOwn(options, name)) {
+          result[name] = OptionManager._get(options[name], target);
+        }
+      }
+
+      return result;
+    }
+
+    /**
+     * Sets the value of the option with the specified <code>name</code> on the <code>target</code> object provided to
+     * <code>value</code>.
+     *
+     * This method will throw an error if <code>name</code> does not match an available option.
+     *
+     * If <code>value</code> is <code>null</code> and the {@link Option} has a default value configured, then that default
+     * value will be used instead. If the {@link Option} also has a value transformer configured, it will be used to
+     * transform whichever value was determined to be used.
+     *
+     * This method returns whether the value of the underlying field on <code>target</code> was changed as a result.
+     *
+     * @param {string} name - the name of the {@link Option} whose value is to be set
+     * @param {*} value - the value to be set for the named {@link Option} on <code>target</code>
+     * @param {Object} target - the object on which <code>value</code> is to be set for the named {@link Option}
+     * @return {boolean} <code>true</code> if the underlying field on <code>target</code> was changed; otherwise
+     * <code>false</code>.
+     * @throws {Error} If no {@link Option} is being managed with <code>name</code>.
+     * @public
+     */
+
+  }, {
+    key: 'set',
+    value: function set(name, value, target) {
+      var option = this._options[name];
+      if (!option) {
+        throw new Error('Invalid option: ' + name);
+      }
+
+      return OptionManager._set(option, value, target);
+    }
+
+    /**
+     * Sets all of the specified <code>options</code> on the <code>target</code> object provided to their corresponding
+     * values.
+     *
+     * This method will throw an error if any of the names within <code>options</code> does not match an available option.
+     *
+     * If any value within <code>options</code> is <code>null</code> and the corresponding {@link Option} has a default
+     * value configured, then that default value will be used instead. If an {@link Option} also has a value transformer
+     * configured, it will be used to transform whichever value was determined to be used.
+     *
+     * This method returns whether the value for any of the underlying fields on <code>target</code> were changed as a
+     * result.
+     *
+     * @param {Object.<string, *>} options - the name/value pairs of options to be set
+     * @param {Object} target - the object on which the options are to be set
+     * @return {boolean} <code>true</code> if any of the underlying fields on <code>target</code> were changed; otherwise
+     * <code>false</code>.
+     * @throws {Error} If no {@link Option} is being managed with for any of the names within <code>options</code>.
+     * @public
+     */
+
+  }, {
+    key: 'setAll',
+    value: function setAll(options, target) {
+      if (!options) {
+        return false;
+      }
+
+      var changed = false;
+
+      for (var name in options) {
+        if (Utilities.hasOwn(options, name) && this.set(name, options[name], target)) {
+          changed = true;
+        }
+      }
+
+      return changed;
+    }
+
+    /**
+     * Returns a copy of the available options for this {@link OptionManager}.
+     *
+     * @return {Option[]} The available options.
+     * @public
+     */
+
+  }, {
+    key: 'options',
+    get: function get() {
+      return _Object$values(this._options);
+    }
+  }]);
+
+  return OptionManager;
+}();
 
 /*
  * QRious
@@ -3180,6 +3511,9 @@ var ServiceManager = function () {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var optionManager = new OptionManager([new Option('background', 'white'), new Option('backgroundAlpha', 1, Utilities.abs), new Option('element'), new Option('foreground', 'black'), new Option('foregroundAlpha', 1, Utilities.abs), new Option('level', 'L', Utilities.toUpperCase), new Option('mime', 'image/png'), new Option('padding', null, Utilities.abs), new Option('size', 100, Utilities.abs), new Option('value', '')]);
+var serviceManager = new ServiceManager();
+
 /**
  * Enables configuration of a QR code generator which uses HTML5 <code>canvas</code> for rendering.
  *
@@ -3201,25 +3535,14 @@ var QRious$1 = function () {
      * @static
      */
     value: function use(service) {
-      QRious._serviceManager.setService(service.getName(), service);
-    }
-  }, {
-    key: '_parseOptions',
-    value: function _parseOptions(options) {
-      options = _Object$assign({}, QRious.DEFAULTS, options);
-      options.backgroundAlpha = Utilities.abs(options.backgroundAlpha);
-      options.foregroundAlpha = Utilities.abs(options.foregroundAlpha);
-      options.level = Utilities.toUpperCase(options.level);
-      options.padding = Utilities.abs(options.padding);
-      options.size = Utilities.abs(options.size);
-
-      return options;
+      serviceManager.setService(service.getName(), service);
     }
 
     /**
      * Creates a new instance of {@link QRious} based on the <code>options</code> provided.
      *
      * @param {QRious~Options} [options] - the options to be used
+     * @throws {Error} If any <code>options</code> are invalid.
      * @public
      */
 
@@ -3231,21 +3554,18 @@ var QRious$1 = function () {
      * Returns the default options for {@link QRious}.
      *
      * @return {QRious~Options} The default options.
+     * @deprecated Since 2.3.0
      * @public
      * @static
      */
     get: function get() {
-      return {
-        background: 'white',
-        backgroundAlpha: 1,
-        foreground: 'black',
-        foregroundAlpha: 1,
-        level: 'L',
-        mime: 'image/png',
-        padding: null,
-        size: 100,
-        value: ''
-      };
+      var result = {};
+
+      optionManager.options.forEach(function (option) {
+        result[option.name] = option.defaultValue;
+      });
+
+      return result;
     }
 
     /**
@@ -3266,12 +3586,11 @@ var QRious$1 = function () {
   function QRious(options) {
     _classCallCheck(this, QRious);
 
-    options = QRious._parseOptions(options);
+    optionManager.applyDefaults(this);
+    optionManager.setAll(options, this);
 
-    Utilities.privatize(this, options);
-
-    var element = this._element;
-    var elementService = QRious._serviceManager.getService('element');
+    var element = optionManager.get('element', this);
+    var elementService = serviceManager.getService('element');
 
     /**
      * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
@@ -3297,15 +3616,52 @@ var QRious$1 = function () {
   }
 
   /**
-   * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
+   * Returns all of the options configured for this {@link QRious}.
    *
-   * @param {string} [mime] - the MIME type for the image
-   * @return {string} The image data URI for the QR code.
+   * Any changes made to the returned object will not be reflected in the options themselves or their corresponding
+   * underlying fields.
+   *
+   * @return {Object.<string, *>} A copy of the applied options.
    * @public
    */
 
 
   _createClass(QRious, [{
+    key: 'get',
+    value: function get() {
+      return optionManager.getAll(this);
+    }
+
+    /**
+     * Sets all of the specified <code>options</code> and automatically updates this {@link QRious} if any of the
+     * underlying fields are changed as a result.
+     *
+     * This is the preferred method for updating multiple options at one time to avoid unnecessary updates between
+     * changes.
+     *
+     * @param {QRious~Options} options - the options to be set
+     * @return {void}
+     * @throws {Error} If any <code>options</code> are invalid.
+     * @public
+     */
+
+  }, {
+    key: 'set',
+    value: function set(options) {
+      if (optionManager.setAll(options, this)) {
+        this.update();
+      }
+    }
+
+    /**
+     * Returns the image data URI for the generated QR code using the <code>mime</code> provided.
+     *
+     * @param {string} [mime] - the MIME type for the image
+     * @return {string} The image data URI for the QR code.
+     * @public
+     */
+
+  }, {
     key: 'toDataURL',
     value: function toDataURL(mime) {
       return this.canvas.toDataURL(mime || this.mime);
@@ -3341,20 +3697,19 @@ var QRious$1 = function () {
   }, {
     key: 'background',
     get: function get() {
-      return this._background;
+      return optionManager.get('background', this);
     }
 
     /**
-     * Sets the background color for the QR code to <code>background</code>.
+     * Sets the background color for the QR code to <code>background</code> and automatically updates this {@link QRious}
+     * if the underlying field is changed as a result.
      *
      * @param {string} [background="white"] - the background color to be set
      * @public
      */
     ,
     set: function set(background) {
-      var changed = Utilities.setter(this, '_background', background, QRious.DEFAULTS.background);
-
-      if (changed) {
+      if (optionManager.set('background', background, this)) {
         this.update();
       }
     }
@@ -3369,20 +3724,19 @@ var QRious$1 = function () {
   }, {
     key: 'backgroundAlpha',
     get: function get() {
-      return this._backgroundAlpha;
+      return optionManager.get('backgroundAlpha', this);
     }
 
     /**
-     * Sets the background alpha for the QR code to <code>backgroundAlpha</code>.
+     * Sets the background alpha for the QR code to <code>backgroundAlpha</code> and automatically updates this
+     * {@link QRious} if the underlying field is changed as a result.
      *
      * @param {number} [backgroundAlpha=1] - the background alpha to be set
      * @public
      */
     ,
     set: function set(backgroundAlpha) {
-      var changed = Utilities.setter(this, '_backgroundAlpha', backgroundAlpha, QRious.DEFAULTS.backgroundAlpha);
-
-      if (changed) {
+      if (optionManager.set('backgroundAlpha', backgroundAlpha, this)) {
         this.update();
       }
     }
@@ -3397,20 +3751,19 @@ var QRious$1 = function () {
   }, {
     key: 'foreground',
     get: function get() {
-      return this._foreground;
+      return optionManager.get('foreground', this);
     }
 
     /**
-     * Sets the foreground color for the QR code to <code>foreground</code>.
+     * Sets the foreground color for the QR code to <code>foreground</code> and automatically updates this {@link QRious}
+     * if the underlying field is changed as a result.
      *
      * @param {string} [foreground="black"] - the foreground color to be set
      * @public
      */
     ,
     set: function set(foreground) {
-      var changed = Utilities.setter(this, '_foreground', foreground, QRious.DEFAULTS.foreground);
-
-      if (changed) {
+      if (optionManager.set('foreground', foreground, this)) {
         this.update();
       }
     }
@@ -3425,20 +3778,19 @@ var QRious$1 = function () {
   }, {
     key: 'foregroundAlpha',
     get: function get() {
-      return this._foregroundAlpha;
+      return optionManager.get('foregroundAlpha', this);
     }
 
     /**
-     * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code>.
+     * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code> and automatically updates this
+     * {@link QRious} if the underlying field is changed as a result.
      *
      * @param {number} [foregroundAlpha=1] - the foreground alpha to be set
      * @public
      */
     ,
     set: function set(foregroundAlpha) {
-      var changed = Utilities.setter(this, '_foregroundAlpha', foregroundAlpha, QRious.DEFAULTS.foregroundAlpha);
-
-      if (changed) {
+      if (optionManager.set('foregroundAlpha', foregroundAlpha, this)) {
         this.update();
       }
     }
@@ -3453,11 +3805,12 @@ var QRious$1 = function () {
   }, {
     key: 'level',
     get: function get() {
-      return this._level;
+      return optionManager.get('level', this);
     }
 
     /**
-     * Sets the error correction level for the QR code to <code>level</code>.
+     * Sets the error correction level for the QR code to <code>level</code> and automatically updates this {@link QRious}
+     * if the underlying field is changed as a result.
      *
      * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
      *
@@ -3466,9 +3819,7 @@ var QRious$1 = function () {
      */
     ,
     set: function set(level) {
-      var changed = Utilities.setter(this, '_level', level, QRious.DEFAULTS.level, Utilities.toUpperCase);
-
-      if (changed) {
+      if (optionManager.set('level', level, this)) {
         this.update();
       }
     }
@@ -3483,20 +3834,19 @@ var QRious$1 = function () {
   }, {
     key: 'mime',
     get: function get() {
-      return this._mime;
+      return optionManager.get('mime', this);
     }
 
     /**
-     * Sets the MIME type for the image rendered for the QR code to <code>mime</code>.
+     * Sets the MIME type for the image rendered for the QR code to <code>mime</code> and automatically updates this
+     * {@link QRious} if the underlying field is changed as a result.
      *
      * @param {string} [mime="image/png"] - the image MIME type to be set
      * @public
      */
     ,
     set: function set(mime) {
-      var changed = Utilities.setter(this, '_mime', mime, QRious.DEFAULTS.mime);
-
-      if (changed) {
+      if (optionManager.set('mime', mime, this)) {
         this.update();
       }
     }
@@ -3511,11 +3861,12 @@ var QRious$1 = function () {
   }, {
     key: 'padding',
     get: function get() {
-      return this._padding;
+      return optionManager.get('padding', this);
     }
 
     /**
-     * Sets the padding for the QR code to <code>padding</code>.
+     * Sets the padding for the QR code to <code>padding</code> and automatically updates this {@link QRious} if the
+     * underlying field is changed as a result.
      *
      * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
      * <code>-10</code> would become <code>10</code>).
@@ -3525,9 +3876,7 @@ var QRious$1 = function () {
      */
     ,
     set: function set(padding) {
-      var changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs);
-
-      if (changed) {
+      if (optionManager.set('padding', padding, this)) {
         this.update();
       }
     }
@@ -3542,11 +3891,12 @@ var QRious$1 = function () {
   }, {
     key: 'size',
     get: function get() {
-      return this._size;
+      return optionManager.get('size', this);
     }
 
     /**
-     * Sets the size of the QR code to <code>size</code>.
+     * Sets the size of the QR code to <code>size</code> and automatically updates this {@link QRious} if the underlying
+     * field is changed as a result.
      *
      * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
      * <code>-100</code> would become <code>100</code>).
@@ -3556,9 +3906,7 @@ var QRious$1 = function () {
      */
     ,
     set: function set(size) {
-      var changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs);
-
-      if (changed) {
+      if (optionManager.set('size', size, this)) {
         this.update();
       }
     }
@@ -3573,20 +3921,19 @@ var QRious$1 = function () {
   }, {
     key: 'value',
     get: function get() {
-      return this._value;
+      return optionManager.get('value', this);
     }
 
     /**
-     * Sets the value of the QR code to <code>value</code>.
+     * Sets the value of the QR code to <code>value</code> and automatically updates this {@link QRious} if the underlying
+     * field is changed as a result.
      *
      * @param {string} [value=""] - the value to be set
      * @public
      */
     ,
     set: function set(value) {
-      var changed = Utilities.setter(this, '_value', value, QRious.DEFAULTS.value);
-
-      if (changed) {
+      if (optionManager.set('value', value, this)) {
         this.update();
       }
     }
@@ -3594,8 +3941,6 @@ var QRious$1 = function () {
 
   return QRious;
 }();
-
-QRious$1._serviceManager = new ServiceManager();
 
 
 

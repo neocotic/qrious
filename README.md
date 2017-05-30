@@ -120,9 +120,9 @@ using the following fields on your instance:
 
 ``` javascript
 const qr = new QRious();
-qr.background = '#000';
+qr.background = 'green';
 qr.backgroundAlpha = 0.8;
-qr.foreground = '#fff';
+qr.foreground = 'blue';
 qr.foregroundAlpha = 0.8;
 qr.level = 'H';
 qr.padding = 25;
@@ -130,13 +130,31 @@ qr.size = 500;
 qr.value = 'https://github.com/neocotic/qrious';
 ```
 
+The QR code will automatically update when you change one of these fields, so be wary when you plan on changing lots of
+fields at the same time. You probably want to make a single call to `set(options)` instead as it will only update the QR
+code once:
+
+``` javascript
+const qr = new QRious();
+qr.set({
+  background: 'green',
+  backgroundAlpha: 0.8,
+  foreground: 'blue',
+  foregroundAlpha: 0.8,
+  level: 'H',
+  padding: 25,
+  size: 500,
+  value: 'https://github.com/neocotic/qrious'
+});
+```
+
 These can also be passed as options to the constructor itself:
 
 ``` javascript
 const qr = new QRious({
-  background: '#000',
+  background: 'green',
   backgroundAlpha: 0.8,
-  foreground: '#fff',
+  foreground: 'blue',
   foregroundAlpha: 0.8,
   level: 'H',
   padding: 25,

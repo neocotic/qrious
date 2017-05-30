@@ -43,9 +43,7 @@ class ImageRenderer extends Renderer {
    * @override
    */
   reset() {
-    const qrious = this.qrious;
-
-    qrious.image.src = '';
+    this.qrious.image.src = '';
   }
 
   /**
@@ -55,8 +53,7 @@ class ImageRenderer extends Renderer {
     const qrious = this.qrious;
     const image = qrious.image;
 
-    image.width = qrious.size;
-    image.height = qrious.size;
+    image.width = image.height = qrious.size;
   }
 
 }
