@@ -75,8 +75,8 @@ In the browser:
         const qr = new QRious({
           element: document.getElementById('qr'),
           value: 'https://github.com/neocotic/qrious'
-        })
-      })()
+        });
+      })();
     </script>
   </body>
 </html>
@@ -85,18 +85,18 @@ In the browser:
 In Node.js:
 
 ``` javascript
-const express = require('express')
-const QRious = require('qrious')
+const express = require('express');
+const QRious = require('qrious');
 
-const app = express()
+const app = express();
 
 app.get('/qr', (req, res) => {
-  const qr = new QRious({ value: 'https://github.com/neocotic/qrious' })
+  const qr = new QRious({ value: 'https://github.com/neocotic/qrious' });
 
-  res.end(new Buffer(qr.toDataURL(), 'base64'))
-})
+  res.end(new Buffer(qr.toDataURL(), 'base64'));
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 Open up `demo.html` in your browser to play around a bit.
@@ -119,15 +119,15 @@ using the following fields on your instance:
 | value           | String | Value encoded within the QR code                   | `""`          |
 
 ``` javascript
-const qr = new QRious()
-qr.background = '#000'
-qr.backgroundAlpha = 0.8
-qr.foreground = '#fff'
-qr.foregroundAlpha = 0.8
-qr.level = 'H'
-qr.padding = 25
-qr.size = 500
-qr.value = 'https://github.com/neocotic/qrious'
+const qr = new QRious();
+qr.background = '#000';
+qr.backgroundAlpha = 0.8;
+qr.foreground = '#fff';
+qr.foregroundAlpha = 0.8;
+qr.level = 'H';
+qr.padding = 25;
+qr.size = 500;
+qr.value = 'https://github.com/neocotic/qrious';
 ```
 
 These can also be passed as options to the constructor itself:
@@ -142,7 +142,7 @@ const qr = new QRious({
   padding: 25,
   size: 500,
   value: 'https://github.com/neocotic/qrious'
-})
+});
 ```
 
 You can also pass in an `element` option to the constructor which can be used to generate the QR code using an existing
@@ -154,21 +154,21 @@ for both if no `element` is specified, which means that they can be appeneded to
 const qr = new QRious({
   element: document.querySelector('canvas'),
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-qr.canvas.parentNode.appendChild(qr.image)
+qr.canvas.parentNode.appendChild(qr.image);
 ```
 
 A reference to the `QRious` instance is also stored on both of the elements for convenience.
 
 ``` javascript
-const canvas = document.querySelector('canvas')
+const canvas = document.querySelector('canvas');
 const qr = new QRious({
   element: canvas,
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-console.log(qr === canvas.qrious)
+qr === canvas.qrious;
 //=> true
 ```
 
@@ -180,11 +180,11 @@ passed to the constructor as an option or the default value for the `mime` optio
 ``` javascript
 const qr = new QRious({
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-console.log(qr.toDataURL())
+qr.toDataURL();
 //=> "data:image/png;base64,iVBOR...AIpqDnseH86KAAAAAElFTkSuQmCC"
-console.log(qr.toDataURL('image/jpeg'))
+qr.toDataURL('image/jpeg');
 //=> "data:image/jpeg;base64,/9j/...xqAqIqgKFAAAAAq3RRQAUUUUAf/Z"
 ```
 
@@ -193,7 +193,7 @@ console.log(qr.toDataURL('image/jpeg'))
 The current version of `QRious`.
 
 ``` javascript
-console.log(QRious.VERSION)
+QRious.VERSION;
 //=> "2.2.0"
 ```
 
@@ -223,7 +223,7 @@ A list of QRious contributors can be found in [AUTHORS.md](https://github.com/ne
 
 ## License
 
-Copyright © 2016 Alasdair Mercer  
+Copyright © 2017 Alasdair Mercer  
 Copyright © 2010 Tom Zerucha
 
 See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our GPLv3 license.

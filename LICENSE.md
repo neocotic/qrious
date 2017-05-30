@@ -1,5 +1,5 @@
 QRious  
-Copyright (C) 2016 Alasdair Mercer  
+Copyright (C) 2017 Alasdair Mercer  
 Copyright (C) 2010 Tom Zerucha  
 
 This program is free software: you can redistribute it and/or modify  

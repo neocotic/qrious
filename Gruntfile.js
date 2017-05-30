@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,12 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 module.exports = function(grunt) {
-  var babel
-  var commonjs
-  var nodeResolve
-  var semver = require('semver')
-  var uglify
+  var babel;
+  var commonjs;
+  var nodeResolve;
+  var semver = require('semver');
+  var uglify;
 
   var bannerLarge = [
     '/*',
@@ -43,12 +45,12 @@ module.exports = function(grunt) {
     ' * You should have received a copy of the GNU General Public License',
     ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.',
     ' */'
-  ].join('\n')
+  ].join('\n');
   var bannerSmall = [
     '/*! QRious v<%= pkg.version %> | (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | GPL v3 License',
     'Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License',
     '*/'
-  ].join('\n')
+  ].join('\n');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -59,19 +61,19 @@ module.exports = function(grunt) {
         tasks: [ 'test' ]
       }
     }
-  })
+  });
 
-  var buildTasks = [ 'compile' ]
-  var compileTasks = []
-  var testTasks = [ 'compile' ]
+  var buildTasks = [ 'compile' ];
+  var compileTasks = [];
+  var testTasks = [ 'compile' ];
 
   if (semver.satisfies(process.version, '>=0.12')) {
-    babel = require('rollup-plugin-babel')
-    commonjs = require('rollup-plugin-commonjs')
-    nodeResolve = require('rollup-plugin-node-resolve')
-    uglify = require('rollup-plugin-uglify')
+    babel = require('rollup-plugin-babel');
+    commonjs = require('rollup-plugin-commonjs');
+    nodeResolve = require('rollup-plugin-node-resolve');
+    uglify = require('rollup-plugin-uglify');
 
-    compileTasks.push('clean', 'rollup')
+    compileTasks.push('clean', 'rollup');
 
     grunt.config.merge({
       clean: {
@@ -97,7 +99,7 @@ module.exports = function(grunt) {
                   exclude: [ 'node_modules/**' ],
                   runtimeHelpers: true
                 })
-              ]
+              ];
             }
           },
           files: {
@@ -123,7 +125,7 @@ module.exports = function(grunt) {
                   exclude: [ 'node_modules/**' ],
                   runtimeHelpers: true
                 })
-              ]
+              ];
             }
           },
           files: {
@@ -152,11 +154,11 @@ module.exports = function(grunt) {
                 uglify({
                   output: {
                     comments: function(node, comment) {
-                      return comment.type === 'comment2' && /^\!/.test(comment.value)
+                      return comment.type === 'comment2' && /^\!/.test(comment.value);
                     }
                   }
                 })
-              ]
+              ];
             }
           },
           files: {
@@ -164,30 +166,30 @@ module.exports = function(grunt) {
           }
         }
       }
-    })
+    });
 
-    grunt.loadNpmTasks('grunt-contrib-clean')
-    grunt.loadNpmTasks('grunt-rollup')
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-rollup');
   } else {
-    grunt.log.writeln('"clean" and "rollup" tasks are disabled because Node.js version is <0.12! Please consider upgrading Node.js...')
+    grunt.log.writeln('"clean" and "rollup" tasks are disabled because Node.js version is <0.12! Please consider upgrading Node.js...');
   }
 
   if (semver.satisfies(process.version, '>=4')) {
-    compileTasks.unshift('eslint')
+    compileTasks.unshift('eslint');
 
     grunt.config.set('eslint', {
       target: [ 'src/**/*.js' ]
-    })
+    });
 
-    grunt.loadNpmTasks('grunt-eslint')
+    grunt.loadNpmTasks('grunt-eslint');
   } else {
-    grunt.log.writeln('"eslint" task is disabled because Node.js version is <4! Please consider upgrading Node.js...')
+    grunt.log.writeln('"eslint" task is disabled because Node.js version is <4! Please consider upgrading Node.js...');
   }
 
-  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', [ 'build' ])
-  grunt.registerTask('build', buildTasks)
-  grunt.registerTask('compile', compileTasks)
-  grunt.registerTask('test', testTasks)
-}
+  grunt.registerTask('default', [ 'build' ]);
+  grunt.registerTask('build', buildTasks);
+  grunt.registerTask('compile', compileTasks);
+  grunt.registerTask('test', testTasks);
+};

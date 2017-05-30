@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Service from '../Service'
-import Utilities from '../../util/Utilities'
+import Service from '../Service';
+import Utilities from '../../util/Utilities';
 
 /**
  * A service for working with elements.
@@ -35,7 +35,7 @@ class ElementService extends Service {
    * @public
    */
   createCanvas() {
-    Utilities.throwUnimplemented('ElementService', 'createCanvas')
+    Utilities.throwUnimplemented('ElementService', 'createCanvas');
   }
 
   /**
@@ -45,14 +45,14 @@ class ElementService extends Service {
    * @public
    */
   createImage() {
-    Utilities.throwUnimplemented('ElementService', 'createImage')
+    Utilities.throwUnimplemented('ElementService', 'createImage');
   }
 
   /**
    * @override
    */
   getName() {
-    return 'element'
+    return 'element';
   }
 
   /**
@@ -63,7 +63,7 @@ class ElementService extends Service {
    * @public
    */
   isCanvas(element) {
-    Utilities.throwUnimplemented('ElementService', 'isCanvas')
+    Utilities.throwUnimplemented('ElementService', 'isCanvas');
   }
 
   /**
@@ -74,9 +74,9 @@ class ElementService extends Service {
    * @public
    */
   isImage(element) {
-    Utilities.throwUnimplemented('ElementService', 'isImage')
+    Utilities.throwUnimplemented('ElementService', 'isImage');
   }
 
 }
 
-export default ElementService
+export default ElementService;

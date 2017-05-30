@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Canvas, { Image } from 'canvas'
+import Canvas, { Image } from 'canvas';
 
-import ElementService from './ElementService'
+import ElementService from './ElementService';
 
 /**
  * An implementation of {@link ElementService} intended for use within a Node.js environment but is only supported when
@@ -34,37 +34,37 @@ class NodeElementService extends ElementService {
    * @override
    */
   static isSupported() {
-    return Canvas != null
+    return Canvas != null;
   }
 
   /**
    * @override
    */
   createCanvas() {
-    return new Canvas()
+    return new Canvas();
   }
 
   /**
    * @override
    */
   createImage() {
-    return new Image()
+    return new Image();
   }
 
   /**
    * @override
    */
   isCanvas(element) {
-    return element instanceof Canvas
+    return element instanceof Canvas;
   }
 
   /**
    * @override
    */
   isImage(element) {
-    return element instanceof Image
+    return element instanceof Image;
   }
 
 }
 
-export default NodeElementService
+export default NodeElementService;

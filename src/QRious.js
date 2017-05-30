@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import CanvasRenderer from './renderer/CanvasRenderer'
-import Frame from './Frame'
-import ImageRenderer from './renderer/ImageRenderer'
-import ServiceManager from './service/ServiceManager'
-import Utilities from './util/Utilities'
+import CanvasRenderer from './renderer/CanvasRenderer';
+import Frame from './Frame';
+import ImageRenderer from './renderer/ImageRenderer';
+import ServiceManager from './service/ServiceManager';
+import Utilities from './util/Utilities';
 
 /**
  * Enables configuration of a QR code generator which uses HTML5 <code>canvas</code> for rendering.
@@ -48,7 +48,7 @@ class QRious {
       padding: null,
       size: 100,
       value: ''
-    }
+    };
   }
 
   /**
@@ -59,7 +59,7 @@ class QRious {
    * @static
    */
   static get VERSION() {
-    return '2.2.0'
+    return '2.2.0';
   }
 
   /**
@@ -72,18 +72,18 @@ class QRious {
    * @static
    */
   static use(service) {
-    QRious._serviceManager.setService(service.getName(), service)
+    QRious._serviceManager.setService(service.getName(), service);
   }
 
   static _parseOptions(options) {
-    options = Object.assign({}, QRious.DEFAULTS, options)
-    options.backgroundAlpha = Utilities.abs(options.backgroundAlpha)
-    options.foregroundAlpha = Utilities.abs(options.foregroundAlpha)
-    options.level = Utilities.toUpperCase(options.level)
-    options.padding = Utilities.abs(options.padding)
-    options.size = Utilities.abs(options.size)
+    options = Object.assign({}, QRious.DEFAULTS, options);
+    options.backgroundAlpha = Utilities.abs(options.backgroundAlpha);
+    options.foregroundAlpha = Utilities.abs(options.foregroundAlpha);
+    options.level = Utilities.toUpperCase(options.level);
+    options.padding = Utilities.abs(options.padding);
+    options.size = Utilities.abs(options.size);
 
-    return options
+    return options;
   }
 
   /**
@@ -93,12 +93,12 @@ class QRious {
    * @public
    */
   constructor(options) {
-    options = QRious._parseOptions(options)
+    options = QRious._parseOptions(options);
 
-    Utilities.privatize(this, options)
+    Utilities.privatize(this, options);
 
-    const element = this._element
-    const elementService = QRious._serviceManager.getService('element')
+    const element = this._element;
+    const elementService = QRious._serviceManager.getService('element');
 
     /**
      * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
@@ -106,8 +106,8 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas()
-    this.canvas.qrious = this
+    this.canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas();
+    this.canvas.qrious = this;
 
     /**
      * The <code>img</code> to contain the rendered QR code for this {@link QRious}.
@@ -115,15 +115,15 @@ class QRious {
      * @public
      * @type {*}
      */
-    this.image = element && elementService.isImage(element) ? element : elementService.createImage()
-    this.image.qrious = this
+    this.image = element && elementService.isImage(element) ? element : elementService.createImage();
+    this.image.qrious = this;
 
     this._renderers = [
       new CanvasRenderer(this),
       new ImageRenderer(this)
-    ]
+    ];
 
-    this.update()
+    this.update();
   }
 
   /**
@@ -134,7 +134,7 @@ class QRious {
    * @public
    */
   toDataURL(mime) {
-    return this.canvas.toDataURL(mime || this.mime)
+    return this.canvas.toDataURL(mime || this.mime);
   }
 
   /**
@@ -147,9 +147,9 @@ class QRious {
     const frame = new Frame({
       level: this.level,
       value: this.value
-    })
+    });
 
-    this._renderers.forEach((renderer) => renderer.render(frame))
+    this._renderers.forEach((renderer) => renderer.render(frame));
   }
 
   /**
@@ -159,7 +159,7 @@ class QRious {
    * @public
    */
   get background() {
-    return this._background
+    return this._background;
   }
 
   /**
@@ -169,10 +169,10 @@ class QRious {
    * @public
    */
   set background(background) {
-    const changed = Utilities.setter(this, '_background', background, QRious.DEFAULTS.background)
+    const changed = Utilities.setter(this, '_background', background, QRious.DEFAULTS.background);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -183,7 +183,7 @@ class QRious {
    * @public
    */
   get backgroundAlpha() {
-    return this._backgroundAlpha
+    return this._backgroundAlpha;
   }
 
   /**
@@ -193,10 +193,10 @@ class QRious {
    * @public
    */
   set backgroundAlpha(backgroundAlpha) {
-    const changed = Utilities.setter(this, '_backgroundAlpha', backgroundAlpha, QRious.DEFAULTS.backgroundAlpha)
+    const changed = Utilities.setter(this, '_backgroundAlpha', backgroundAlpha, QRious.DEFAULTS.backgroundAlpha);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -207,7 +207,7 @@ class QRious {
    * @public
    */
   get foreground() {
-    return this._foreground
+    return this._foreground;
   }
 
   /**
@@ -217,10 +217,10 @@ class QRious {
    * @public
    */
   set foreground(foreground) {
-    const changed = Utilities.setter(this, '_foreground', foreground, QRious.DEFAULTS.foreground)
+    const changed = Utilities.setter(this, '_foreground', foreground, QRious.DEFAULTS.foreground);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -231,7 +231,7 @@ class QRious {
    * @public
    */
   get foregroundAlpha() {
-    return this._foregroundAlpha
+    return this._foregroundAlpha;
   }
 
   /**
@@ -241,10 +241,10 @@ class QRious {
    * @public
    */
   set foregroundAlpha(foregroundAlpha) {
-    const changed = Utilities.setter(this, '_foregroundAlpha', foregroundAlpha, QRious.DEFAULTS.foregroundAlpha)
+    const changed = Utilities.setter(this, '_foregroundAlpha', foregroundAlpha, QRious.DEFAULTS.foregroundAlpha);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -255,7 +255,7 @@ class QRious {
    * @public
    */
   get level() {
-    return this._level
+    return this._level;
   }
 
   /**
@@ -267,10 +267,10 @@ class QRious {
    * @public
    */
   set level(level) {
-    const changed = Utilities.setter(this, '_level', level, QRious.DEFAULTS.level, Utilities.toUpperCase)
+    const changed = Utilities.setter(this, '_level', level, QRious.DEFAULTS.level, Utilities.toUpperCase);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -281,7 +281,7 @@ class QRious {
    * @public
    */
   get mime() {
-    return this._mime
+    return this._mime;
   }
 
   /**
@@ -291,10 +291,10 @@ class QRious {
    * @public
    */
   set mime(mime) {
-    const changed = Utilities.setter(this, '_mime', mime, QRious.DEFAULTS.mime)
+    const changed = Utilities.setter(this, '_mime', mime, QRious.DEFAULTS.mime);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -305,7 +305,7 @@ class QRious {
    * @public
    */
   get padding() {
-    return this._padding
+    return this._padding;
   }
 
   /**
@@ -318,10 +318,10 @@ class QRious {
    * @public
    */
   set padding(padding) {
-    const changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs)
+    const changed = Utilities.setter(this, '_padding', padding, QRious.DEFAULTS.padding, Utilities.abs);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -332,7 +332,7 @@ class QRious {
    * @public
    */
   get size() {
-    return this._size
+    return this._size;
   }
 
   /**
@@ -345,10 +345,10 @@ class QRious {
    * @public
    */
   set size(size) {
-    const changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs)
+    const changed = Utilities.setter(this, '_size', size, QRious.DEFAULTS.size, Utilities.abs);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
@@ -359,7 +359,7 @@ class QRious {
    * @public
    */
   get value() {
-    return this._value
+    return this._value;
   }
 
   /**
@@ -369,18 +369,18 @@ class QRious {
    * @public
    */
   set value(value) {
-    const changed = Utilities.setter(this, '_value', value, QRious.DEFAULTS.value)
+    const changed = Utilities.setter(this, '_value', value, QRious.DEFAULTS.value);
 
     if (changed) {
-      this.update()
+      this.update();
     }
   }
 
 }
 
-QRious._serviceManager = new ServiceManager()
+QRious._serviceManager = new ServiceManager();
 
-export default QRious
+export default QRious;
 
 /**
  * The options used by {@link QRious}.

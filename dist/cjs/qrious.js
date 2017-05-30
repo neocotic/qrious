@@ -1164,7 +1164,7 @@ var _inherits = unwrapExports(inherits);
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1305,7 +1305,7 @@ var Utilities = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1353,7 +1353,7 @@ var Service = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1457,7 +1457,7 @@ var ElementService = function (_Service) {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1589,7 +1589,7 @@ var _Object$assign = unwrapExports(assign);
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1753,7 +1753,7 @@ var Renderer = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1848,7 +1848,7 @@ var CanvasRenderer = function (_Renderer) {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1898,7 +1898,7 @@ var Alignment = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1992,7 +1992,7 @@ var ErrorCorrection = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -2054,7 +2054,7 @@ var Galois = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -2102,7 +2102,7 @@ var Version = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -2997,7 +2997,7 @@ var Frame = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -3078,7 +3078,7 @@ var ImageRenderer = function (_Renderer) {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -3163,7 +3163,7 @@ var ServiceManager = function () {
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -3618,7 +3618,7 @@ QRious$1._serviceManager = new ServiceManager();
 
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify

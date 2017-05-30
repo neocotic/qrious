@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Renderer from './Renderer'
+import Renderer from './Renderer';
 
 /**
  * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
@@ -31,18 +31,18 @@ class CanvasRenderer extends Renderer {
    * @override
    */
   draw(frame) {
-    const qrious = this.qrious
-    const moduleSize = this.getModuleSize(frame)
-    const offset = this.getOffset(frame)
-    const context = qrious.canvas.getContext('2d')
+    const qrious = this.qrious;
+    const moduleSize = this.getModuleSize(frame);
+    const offset = this.getOffset(frame);
+    const context = qrious.canvas.getContext('2d');
 
-    context.fillStyle = qrious.foreground
-    context.globalAlpha = qrious.foregroundAlpha
+    context.fillStyle = qrious.foreground;
+    context.globalAlpha = qrious.foregroundAlpha;
 
     for (let i = 0; i < frame.width; i++) {
       for (let j = 0; j < frame.width; j++) {
         if (frame.buffer[(j * frame.width) + i]) {
-          context.fillRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize)
+          context.fillRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize);
         }
       }
     }
@@ -52,27 +52,27 @@ class CanvasRenderer extends Renderer {
    * @override
    */
   reset() {
-    const qrious = this.qrious
-    const context = qrious.canvas.getContext('2d')
+    const qrious = this.qrious;
+    const context = qrious.canvas.getContext('2d');
 
-    context.lineWidth = 1
-    context.clearRect(0, 0, qrious.size, qrious.size)
-    context.fillStyle = qrious.background
-    context.globalAlpha = qrious.backgroundAlpha
-    context.fillRect(0, 0, qrious.size, qrious.size)
+    context.lineWidth = 1;
+    context.clearRect(0, 0, qrious.size, qrious.size);
+    context.fillStyle = qrious.background;
+    context.globalAlpha = qrious.backgroundAlpha;
+    context.fillRect(0, 0, qrious.size, qrious.size);
   }
 
   /**
    * @override
    */
   resize() {
-    const qrious = this.qrious
-    const canvas = qrious.canvas
+    const qrious = this.qrious;
+    const canvas = qrious.canvas;
 
-    canvas.width = qrious.size
-    canvas.height = qrious.size
+    canvas.width = qrious.size;
+    canvas.height = qrious.size;
   }
 
 }
 
-export default CanvasRenderer
+export default CanvasRenderer;

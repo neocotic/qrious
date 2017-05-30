@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Utilities from '../util/Utilities'
+import Utilities from '../util/Utilities';
 
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
@@ -41,7 +41,7 @@ class Renderer {
      * @protected
      * @type {QRious}
      */
-    this.qrious = qrious
+    this.qrious = qrious;
   }
 
   /**
@@ -54,7 +54,7 @@ class Renderer {
    * @protected
    */
   draw(frame) {
-    Utilities.throwUnimplemented('Renderer', 'draw')
+    Utilities.throwUnimplemented('Renderer', 'draw');
   }
 
   /**
@@ -72,10 +72,10 @@ class Renderer {
    * @protected
    */
   getModuleSize(frame) {
-    const padding = this.qrious.padding || 0
-    const pixels = Math.floor((this.qrious.size - (padding * 2)) / frame.width)
+    const padding = this.qrious.padding || 0;
+    const pixels = Math.floor((this.qrious.size - (padding * 2)) / frame.width);
 
-    return Math.max(1, pixels)
+    return Math.max(1, pixels);
   }
 
   /**
@@ -92,13 +92,13 @@ class Renderer {
    */
   getOffset(frame) {
     if (this.qrious.padding != null) {
-      return this.qrious.padding
+      return this.qrious.padding;
     }
 
-    const moduleSize = this.getModuleSize(frame)
-    const offset = Math.floor((this.qrious.size - (moduleSize * frame.width)) / 2)
+    const moduleSize = this.getModuleSize(frame);
+    const offset = Math.floor((this.qrious.size - (moduleSize * frame.width)) / 2);
 
-    return Math.max(0, offset)
+    return Math.max(0, offset);
   }
 
   /**
@@ -109,9 +109,9 @@ class Renderer {
    * @public
    */
   render(frame) {
-    this.resize()
-    this.reset()
-    this.draw(frame)
+    this.resize();
+    this.reset();
+    this.draw(frame);
   }
 
   /**
@@ -123,7 +123,7 @@ class Renderer {
    * @protected
    */
   reset() {
-    Utilities.throwUnimplemented('Renderer', 'reset')
+    Utilities.throwUnimplemented('Renderer', 'reset');
   }
 
   /**
@@ -135,9 +135,9 @@ class Renderer {
    * @protected
    */
   resize() {
-    Utilities.throwUnimplemented('Renderer', 'resize')
+    Utilities.throwUnimplemented('Renderer', 'resize');
   }
 
 }
 
-export default Renderer
+export default Renderer;

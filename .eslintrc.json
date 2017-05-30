@@ -1,5 +1,5 @@
 {
-  "extends": "skelp/v3/es6",
+  "extends": "notninja/es6",
   "env": {
     "browser": true,
     "node": true
@@ -19,8 +19,6 @@
       {
         "args": "none"
       }
-    ],
-    "prefer-reflect": "off",
-    "sort-keys": "off"
+    ]
   }
 }

@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Utilities from '../util/Utilities'
+import Utilities from '../util/Utilities';
 
 /**
  * Defines a service contract that must be met by all implementations.
@@ -33,9 +33,9 @@ class Service {
    * @public
    */
   getName() {
-    Utilities.throwUnimplemented('Service', 'getName')
+    Utilities.throwUnimplemented('Service', 'getName');
   }
 
 }
 
-export default Service
+export default Service;

@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ class ServiceManager {
    * @public
    */
   constructor() {
-    this._services = {}
+    this._services = {};
   }
 
   /**
@@ -42,12 +42,12 @@ class ServiceManager {
    * @public
    */
   getService(name) {
-    const service = this._services[name]
+    const service = this._services[name];
     if (!service) {
-      throw new Error(`Service is not being managed with name: ${name}`)
+      throw new Error(`Service is not being managed with name: ${name}`);
     }
 
-    return service
+    return service;
   }
 
   /**
@@ -62,14 +62,14 @@ class ServiceManager {
    */
   setService(name, service) {
     if (this._services[name]) {
-      throw new Error(`Service is already managed with name: ${name}`)
+      throw new Error(`Service is already managed with name: ${name}`);
     }
 
     if (service) {
-      this._services[name] = service
+      this._services[name] = service;
     }
   }
 
 }
 
-export default ServiceManager
+export default ServiceManager;

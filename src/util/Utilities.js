@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ class Utilities {
    * @static
    */
   static abs(value) {
-    return value != null ? Math.abs(value) : null
+    return value != null ? Math.abs(value) : null;
   }
 
   /**
@@ -53,11 +53,11 @@ class Utilities {
   static privatize(target, source) {
     for (const key in source) {
       if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[`_${key}`] = source[key]
+        target[`_${key}`] = source[key];
       }
     }
 
-    return target
+    return target;
   }
 
   /**
@@ -79,15 +79,15 @@ class Utilities {
    * @static
    */
   static setter(object, fieldName, value, defaultValue, transformer) {
-    const oldValue = object[fieldName]
-    let newValue = value != null ? value : defaultValue
+    const oldValue = object[fieldName];
+    let newValue = value != null ? value : defaultValue;
     if (typeof transformer === 'function') {
-      newValue = transformer(newValue)
+      newValue = transformer(newValue);
     }
 
-    object[fieldName] = newValue
+    object[fieldName] = newValue;
 
-    return newValue !== oldValue
+    return newValue !== oldValue;
   }
 
   /**
@@ -101,7 +101,7 @@ class Utilities {
    * @static
    */
   static throwUnimplemented(className, methodName) {
-    throw new Error(`"${methodName}" method must be implemented on the ${className} class`)
+    throw new Error(`"${methodName}" method must be implemented on the ${className} class`);
   }
 
   /**
@@ -113,9 +113,9 @@ class Utilities {
    * @static
    */
   static toUpperCase(string) {
-    return string != null && string.toUpperCase()
+    return string != null && string.toUpperCase();
   }
 
 }
 
-export default Utilities
+export default Utilities;
