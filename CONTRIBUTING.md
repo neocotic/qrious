@@ -16,16 +16,15 @@ $ npm install
 $ npm test
 ```
 
-This will recompile the distribution files as well so feel free to make use of the `demo.html` to test your changes
-locally before committing.
+You must have at least [Node.js](https://nodejs.org) version 4 or newer and [npm](https://npmjs.com) installed version 5
+or newer installed.
 
-If you're using a version of [Node.js](https://nodejs.org) that is older than 0.12, then linting is not performed by
-this step. Please consider upgrading to at least 0.12 or your pull request may fail on the CI build.
+Feel free to make use of the `demo.html` to test your changes locally before committing. You will need to rebuild the
+distribution files in order to see your changes in the `demo.html`, but you can do so by running the following command:
 
-Likewise, [Node.js](https://nodejs.org) versions older than 0.10 will also not be able to compile the source code using
-[Rollup](http://rollupjs.org) so the test suite will not be executed against any changes you've made to `src/**.js`. For
-this reason, 0.10 is not supported from a development perspective, but our CI builds do run the test suite against the
-pre-compiled code for this version to ensure that it works.
+``` bash
+$ npm run build
+```
 
 All pull requests should be made to the `develop` branch.
 

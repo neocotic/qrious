@@ -38,11 +38,11 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-rollup": "^1.0.1",
+    "load-grunt-tasks": "^3.5.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "~2.0.0",
-    "rollup-plugin-uglify": "^1.0.2",
-    "semver": "^5.3.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
   },
   "browser": "dist/umd/qrious.js",
   "main": "dist/cjs/qrious.js",
@@ -50,6 +50,7 @@
   "jsnext:main": "src/runtime/node.js",
   "scripts": {
     "build": "grunt build",
+    "ci": "grunt ci",
     "test": "grunt test"
   }
 }
