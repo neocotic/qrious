@@ -34,26 +34,21 @@ class ImageRenderer extends Renderer {
    * @override
    */
   draw() {
-    const qrious = this.qrious;
-
-    qrious.image.src = qrious.toDataURL();
+    this.element.src = this.qrious.toDataURL();
   }
 
   /**
    * @override
    */
   reset() {
-    this.qrious.image.src = '';
+    this.element.src = '';
   }
 
   /**
    * @override
    */
   resize() {
-    const qrious = this.qrious;
-    const image = qrious.image;
-
-    image.width = image.height = qrious.size;
+    this.element.width = this.element.height = this.qrious.size;
   }
 
 }

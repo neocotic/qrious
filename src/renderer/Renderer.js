@@ -22,19 +22,24 @@ import Utilities from '../util/Utilities';
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
  *
- * A renderer may be dependant on the rendering of another element, so ordering of their execution is important.
+ * A renderer may be dependant on the rendering of another element, so the ordering of their execution is important.
+ *
+ * The rendering of a element can be deferred by disabling the renderer initially, however, any attempt get the element
+ * from the renderer will result in it being immediately enabled and the element being rendered.
  *
  * @public
  */
 class Renderer {
 
   /**
-   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance provided.
+   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance and <code>element</code> provided.
    *
    * @param {QRious} qrious - the {@link QRious} instance to be used
+   * @param {*} element - the element onto which the QR code is to be rendered
+   * @param {boolean} [enabled] - <code>true</code> this {@link Renderer} is enabled; otherwise <code>false</code>.
    * @public
    */
-  constructor(qrious) {
+  constructor(qrious, element, enabled) {
     /**
      * The {@link QRious} instance.
      *
@@ -42,6 +47,23 @@ class Renderer {
      * @type {QRious}
      */
     this.qrious = qrious;
+
+    /**
+     * The element onto which this {@link Renderer} is rendering the QR code.
+     *
+     * @protected
+     * @type {*}
+     */
+    this.element = element;
+    this.element.qrious = qrious;
+
+    /**
+     * Whether this {@link Renderer} is enabled.
+     *
+     * @protected
+     * @type {boolean}
+     */
+    this.enabled = Boolean(enabled);
   }
 
   /**
@@ -55,6 +77,24 @@ class Renderer {
    */
   draw(frame) {
     Utilities.throwUnimplemented('Renderer', 'draw');
+  }
+
+  /**
+   * Returns the element onto which this {@link Renderer} is rendering the QR code.
+   *
+   * If this method is called while this {@link Renderer} is disabled, it will be immediately enabled and rendered
+   * before the element is returned.
+   *
+   * @return {*} The element.
+   * @public
+   */
+  getElement() {
+    if (!this.enabled) {
+      this.enabled = true;
+      this.render();
+    }
+
+    return this.element;
   }
 
   /**
@@ -113,9 +153,11 @@ class Renderer {
    * @public
    */
   render(frame) {
-    this.resize();
-    this.reset();
-    this.draw(frame);
+    if (this.enabled) {
+      this.resize();
+      this.reset();
+      this.draw(frame);
+    }
   }
 
   /**

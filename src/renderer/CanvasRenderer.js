@@ -34,7 +34,7 @@ class CanvasRenderer extends Renderer {
     const qrious = this.qrious;
     const moduleSize = this.getModuleSize(frame);
     const offset = this.getOffset(frame);
-    const context = qrious.canvas.getContext('2d');
+    const context = this.element.getContext('2d');
 
     context.fillStyle = qrious.foreground;
     context.globalAlpha = qrious.foregroundAlpha;
@@ -53,7 +53,7 @@ class CanvasRenderer extends Renderer {
    */
   reset() {
     const qrious = this.qrious;
-    const context = qrious.canvas.getContext('2d');
+    const context = this.element.getContext('2d');
     const size = qrious.size;
 
     context.lineWidth = 1;
@@ -67,10 +67,7 @@ class CanvasRenderer extends Renderer {
    * @override
    */
   resize() {
-    const qrious = this.qrious;
-    const canvas = qrious.canvas;
-
-    canvas.width = canvas.height = qrious.size;
+    this.element.width = this.element.height = this.qrious.size;
   }
 
 }
