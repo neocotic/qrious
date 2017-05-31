@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ElementService from './ElementService'
+import ElementService from './ElementService';
 
 /**
  * An implementation of {@link ElementService} intended for use within a browser environment.
@@ -31,30 +31,30 @@ class BrowserElementService extends ElementService {
    * @override
    */
   createCanvas() {
-    return document.createElement('canvas')
+    return document.createElement('canvas');
   }
 
   /**
    * @override
    */
   createImage() {
-    return document.createElement('img')
+    return document.createElement('img');
   }
 
   /**
    * @override
    */
   isCanvas(element) {
-    return element instanceof HTMLCanvasElement
+    return element instanceof HTMLCanvasElement;
   }
 
   /**
    * @override
    */
   isImage(element) {
-    return element instanceof HTMLImageElement
+    return element instanceof HTMLImageElement;
   }
 
 }
 
-export default BrowserElementService
+export default BrowserElementService;

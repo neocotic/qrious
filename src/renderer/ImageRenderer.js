@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Renderer from './Renderer'
+import Renderer from './Renderer';
 
 /**
  * An implementation of {@link Renderer} for working with <code>img</code> elements.
@@ -34,31 +34,23 @@ class ImageRenderer extends Renderer {
    * @override
    */
   draw() {
-    const qrious = this.qrious
-
-    qrious.image.src = qrious.toDataURL()
+    this.element.src = this.qrious.toDataURL();
   }
 
   /**
    * @override
    */
   reset() {
-    const qrious = this.qrious
-
-    qrious.image.src = ''
+    this.element.src = '';
   }
 
   /**
    * @override
    */
   resize() {
-    const qrious = this.qrious
-    const image = qrious.image
-
-    image.width = qrious.size
-    image.height = qrious.size
+    this.element.width = this.element.height = this.qrious.size;
   }
 
 }
 
-export default ImageRenderer
+export default ImageRenderer;

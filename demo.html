@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 QRious
-Copyright (C) 2016 Alasdair Mercer
+Copyright (C) 2017 Alasdair Mercer
 Copyright (C) 2010 Tom Zerucha
 
 This program is free software: you can redistribute it and/or modify
@@ -146,63 +146,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="./dist/umd/qrious.js"></script>
 <script>
   (function() {
-    var $background = document.querySelector('main form [name="background"]')
-    var $backgroundAlpha = document.querySelector('main form [name="backgroundAlpha"]')
-    var $foreground = document.querySelector('main form [name="foreground"]')
-    var $foregroundAlpha = document.querySelector('main form [name="foregroundAlpha"]')
-    var $level = document.querySelector('main form [name="level"]')
-    var $section = document.querySelector('main section')
-    var $padding = document.querySelector('main form [name="padding"]')
-    var $size = document.querySelector('main form [name="size"]')
-    var $value = document.querySelector('main form [name="value"]')
+    var $background = document.querySelector('main form [name="background"]');
+    var $backgroundAlpha = document.querySelector('main form [name="backgroundAlpha"]');
+    var $foreground = document.querySelector('main form [name="foreground"]');
+    var $foregroundAlpha = document.querySelector('main form [name="foregroundAlpha"]');
+    var $level = document.querySelector('main form [name="level"]');
+    var $section = document.querySelector('main section');
+    var $padding = document.querySelector('main form [name="padding"]');
+    var $size = document.querySelector('main form [name="size"]');
+    var $value = document.querySelector('main form [name="value"]');
 
     var qr = window.qr = new QRious({
       element: document.getElementById('qrious'),
       size: 250,
       value: 'QRious v' + QRious.VERSION
-    })
+    });
 
     $background.addEventListener('change', function() {
-      qr.background = $background.value || null
-    })
+      qr.background = $background.value || null;
+    });
 
     $backgroundAlpha.addEventListener('change', function() {
-      qr.backgroundAlpha = $backgroundAlpha.value || null
-    })
+      qr.backgroundAlpha = $backgroundAlpha.value || null;
+    });
 
     $foreground.addEventListener('change', function() {
-      qr.foreground = $foreground.value || null
-    })
+      qr.foreground = $foreground.value || null;
+    });
 
     $foregroundAlpha.addEventListener('change', function() {
-      qr.foregroundAlpha = $foregroundAlpha.value || null
-    })
+      qr.foregroundAlpha = $foregroundAlpha.value || null;
+    });
 
     $level.addEventListener('change', function() {
-      qr.level = $level.value
-    })
+      qr.level = $level.value;
+    });
 
     $padding.addEventListener('change', function() {
       if ($padding.validity.valid) {
-        qr.padding = $padding.value !== '' ? $padding.value : null
+        qr.padding = $padding.value !== '' ? $padding.value : null;
       }
-    })
+    });
 
     $size.addEventListener('change', function() {
       if (!$size.validity.valid) {
-        return
+        return;
       }
 
-      qr.size = $size.value || null
+      qr.size = $size.value || null;
 
-      $section.style.minWidth = qr.size + 'px'
-    })
+      $section.style.minWidth = qr.size + 'px';
+    });
 
-    $value.value = 'QRious v' + QRious.VERSION
+    $value.value = 'QRious v' + QRious.VERSION;
     $value.addEventListener('input', function() {
-      qr.value = $value.value
-    })
-  })()
+      qr.value = $value.value;
+    });
+  })();
 </script>
 </body>
 </html>

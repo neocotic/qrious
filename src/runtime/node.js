@@ -1,6 +1,6 @@
 /*
  * QRious
- * Copyright (C) 2016 Alasdair Mercer
+ * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import NodeElementService from '../service/element/NodeElementService'
-import QRious from '../QRious'
+import NodeElementService from '../service/element/NodeElementService';
+import QRious from '../QRious';
 
-QRious.use(new NodeElementService())
+QRious.use(new NodeElementService());
 
-export default QRious
+export default QRious;

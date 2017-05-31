@@ -1,3 +1,11 @@
+## Version 2.3.0, 2017.05.31
+
+* Enable setting of multiple properties at once resulting in a single re-render [#69](https://github.com/neocotic/qrious/issues/69)
+* Deferring or avoiding ImageRenderer [#71](https://github.com/neocotic/qrious/issues/71)
+* Switch to container-based Travis builds for faster boot times [#73](https://github.com/neocotic/qrious/issues/73)
+* Change code style to be more contributor-friendly [#75](https://github.com/neocotic/qrious/issues/75)
+* Improve download links in README [#76](https://github.com/neocotic/qrious/issues/76)
+
 ## Version 2.2.0, 2016.10.30
 
 * Add `backgroundAlpha` and `foregroundAlpha` options to control transparency [#63](https://github.com/neocotic/qrious/issues/63)

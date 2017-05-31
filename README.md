@@ -9,9 +9,9 @@
 [QRious](https://github.com/neocotic/qrious) is a pure JavaScript library for generating QR codes using HTML5 canvas.
 
 [![Chat](https://img.shields.io/gitter/room/neocotic/qrious.svg?style=flat-square)](https://gitter.im/neocotic/qrious)
-[![Build](https://img.shields.io/travis/neocotic/qrious/develop.svg?style=flat-square)](https://travis-ci.org/neocotic/qrious)
-[![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
-[![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/neocotic/qrious/develop.svg?style=flat-square)](https://travis-ci.org/neocotic/qrious)
+[![Optional Dependency Status](https://img.shields.io/david/optional/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=optional)
+[![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/npm/v/qrious.svg?style=flat-square)](https://www.npmjs.com/package/qrious)
 
@@ -38,8 +38,8 @@ you want to install that way instead of using `npm`.
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.js)
-* [Production Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.min.js)
+* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js.map))
+* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js.map))
 
 ### Node.js Dependencies
 
@@ -75,8 +75,8 @@ In the browser:
         const qr = new QRious({
           element: document.getElementById('qr'),
           value: 'https://github.com/neocotic/qrious'
-        })
-      })()
+        });
+      })();
     </script>
   </body>
 </html>
@@ -85,18 +85,18 @@ In the browser:
 In Node.js:
 
 ``` javascript
-const express = require('express')
-const QRious = require('qrious')
+const express = require('express');
+const QRious = require('qrious');
 
-const app = express()
+const app = express();
 
 app.get('/qr', (req, res) => {
-  const qr = new QRious({ value: 'https://github.com/neocotic/qrious' })
+  const qr = new QRious({ value: 'https://github.com/neocotic/qrious' });
 
-  res.end(new Buffer(qr.toDataURL(), 'base64'))
-})
+  res.end(new Buffer(qr.toDataURL(), 'base64'));
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
 
 Open up `demo.html` in your browser to play around a bit.
@@ -119,30 +119,48 @@ using the following fields on your instance:
 | value           | String | Value encoded within the QR code                   | `""`          |
 
 ``` javascript
-const qr = new QRious()
-qr.background = '#000'
-qr.backgroundAlpha = 0.8
-qr.foreground = '#fff'
-qr.foregroundAlpha = 0.8
-qr.level = 'H'
-qr.padding = 25
-qr.size = 500
-qr.value = 'https://github.com/neocotic/qrious'
+const qr = new QRious();
+qr.background = 'green';
+qr.backgroundAlpha = 0.8;
+qr.foreground = 'blue';
+qr.foregroundAlpha = 0.8;
+qr.level = 'H';
+qr.padding = 25;
+qr.size = 500;
+qr.value = 'https://github.com/neocotic/qrious';
+```
+
+The QR code will automatically update when you change one of these fields, so be wary when you plan on changing lots of
+fields at the same time. You probably want to make a single call to `set(options)` instead as it will only update the QR
+code once:
+
+``` javascript
+const qr = new QRious();
+qr.set({
+  background: 'green',
+  backgroundAlpha: 0.8,
+  foreground: 'blue',
+  foregroundAlpha: 0.8,
+  level: 'H',
+  padding: 25,
+  size: 500,
+  value: 'https://github.com/neocotic/qrious'
+});
 ```
 
 These can also be passed as options to the constructor itself:
 
 ``` javascript
 const qr = new QRious({
-  background: '#000',
+  background: 'green',
   backgroundAlpha: 0.8,
-  foreground: '#fff',
+  foreground: 'blue',
   foregroundAlpha: 0.8,
   level: 'H',
   padding: 25,
   size: 500,
   value: 'https://github.com/neocotic/qrious'
-})
+});
 ```
 
 You can also pass in an `element` option to the constructor which can be used to generate the QR code using an existing
@@ -154,21 +172,21 @@ for both if no `element` is specified, which means that they can be appeneded to
 const qr = new QRious({
   element: document.querySelector('canvas'),
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-qr.canvas.parentNode.appendChild(qr.image)
+qr.canvas.parentNode.appendChild(qr.image);
 ```
 
 A reference to the `QRious` instance is also stored on both of the elements for convenience.
 
 ``` javascript
-const canvas = document.querySelector('canvas')
+const canvas = document.querySelector('canvas');
 const qr = new QRious({
   element: canvas,
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-console.log(qr === canvas.qrious)
+qr === canvas.qrious;
 //=> true
 ```
 
@@ -180,11 +198,11 @@ passed to the constructor as an option or the default value for the `mime` optio
 ``` javascript
 const qr = new QRious({
   value: 'https://github.com/neocotic/qrious'
-})
+});
 
-console.log(qr.toDataURL())
+qr.toDataURL();
 //=> "data:image/png;base64,iVBOR...AIpqDnseH86KAAAAAElFTkSuQmCC"
-console.log(qr.toDataURL('image/jpeg'))
+qr.toDataURL('image/jpeg');
 //=> "data:image/jpeg;base64,/9j/...xqAqIqgKFAAAAAq3RRQAUUUUAf/Z"
 ```
 
@@ -193,8 +211,8 @@ console.log(qr.toDataURL('image/jpeg'))
 The current version of `QRious`.
 
 ``` javascript
-console.log(QRious.VERSION)
-//=> "2.2.0"
+QRious.VERSION;
+//=> "2.3.0"
 ```
 
 ## Migrating from v1
@@ -223,7 +241,7 @@ A list of QRious contributors can be found in [AUTHORS.md](https://github.com/ne
 
 ## License
 
-Copyright © 2016 Alasdair Mercer  
+Copyright © 2017 Alasdair Mercer  
 Copyright © 2010 Tom Zerucha
 
 See [LICENSE.md](https://github.com/neocotic/qrious/blob/master/LICENSE.md) for more information on our GPLv3 license.
