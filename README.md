@@ -212,7 +212,7 @@ The current version of `QRious`.
 
 ``` javascript
 QRious.VERSION;
-//=> "2.2.0"
+//=> "2.3.0"
 ```
 
 ## Migrating from v1
