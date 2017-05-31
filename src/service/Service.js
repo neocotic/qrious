@@ -17,25 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Utilities from '../util/Utilities';
+'use strict';
+
+var Nevis = require('nevis/lite');
+
+var Utilities = require('../util/Utilities');
 
 /**
  * Defines a service contract that must be met by all implementations.
  *
  * @public
+ * @class
+ * @extends Nevis
  */
-class Service {
+var Service = Nevis.extend('Service', {
 
   /**
    * Returns the name of this {@link Service}.
    *
    * @return {string} The service name.
    * @public
+   * @memberof Service#
    */
-  getName() {
+  getName: function() {
     Utilities.throwUnimplemented('Service', 'getName');
   }
 
-}
+});
 
-export default Service;
+module.exports = Service;

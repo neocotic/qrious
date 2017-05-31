@@ -17,43 +17,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Service from '../Service';
-import Utilities from '../../util/Utilities';
+'use strict';
+
+var Service = require('../Service');
+var Utilities = require('../../util/Utilities');
 
 /**
  * A service for working with elements.
  *
  * @public
+ * @class
  * @extends Service
  */
-class ElementService extends Service {
+var ElementService = Service.extend('ElementService', {
 
   /**
    * Creates an instance of a canvas element.
    *
    * @return {*} The newly created canvas element.
    * @public
+   * @memberof ElementService#
    */
-  createCanvas() {
+  createCanvas: function() {
     Utilities.throwUnimplemented('ElementService', 'createCanvas');
-  }
+  },
 
   /**
    * Creates an instance of a image element.
    *
    * @return {*} The newly created image element.
    * @public
+   * @memberof ElementService#
    */
-  createImage() {
+  createImage: function() {
     Utilities.throwUnimplemented('ElementService', 'createImage');
-  }
+  },
 
   /**
    * @override
    */
-  getName() {
+  getName: function() {
     return 'element';
-  }
+  },
 
   /**
    * Returns whether the specified <code>element</code> is a canvas.
@@ -61,10 +66,11 @@ class ElementService extends Service {
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
    * @public
+   * @memberof ElementService#
    */
-  isCanvas(element) {
+  isCanvas: function(element) {
     Utilities.throwUnimplemented('ElementService', 'isCanvas');
-  }
+  },
 
   /**
    * Returns whether the specified <code>element</code> is an image.
@@ -72,11 +78,12 @@ class ElementService extends Service {
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
    * @public
+   * @memberof ElementService#
    */
-  isImage(element) {
+  isImage: function(element) {
     Utilities.throwUnimplemented('ElementService', 'isImage');
   }
 
-}
+});
 
-export default ElementService;
+module.exports = ElementService;

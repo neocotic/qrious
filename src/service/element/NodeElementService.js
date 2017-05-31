@@ -17,54 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Canvas, { Image } from 'canvas';
+'use strict';
 
-import ElementService from './ElementService';
+var Canvas = require('canvas');
+
+var ElementService = require('./ElementService');
 
 /**
  * An implementation of {@link ElementService} intended for use within a Node.js environment but is only supported when
  * the <code>canvas</code> module has also been depended on.
  *
  * @public
+ * @class
  * @extends ElementService
  */
-class NodeElementService extends ElementService {
+var NodeElementService = ElementService.extend('NodeElementService', {
 
   /**
    * @override
    */
-  static isSupported() {
-    return Canvas != null;
-  }
-
-  /**
-   * @override
-   */
-  createCanvas() {
+  createCanvas: function() {
     return new Canvas();
-  }
+  },
 
   /**
    * @override
    */
-  createImage() {
-    return new Image();
-  }
+  createImage: function() {
+    return new Canvas.Image();
+  },
 
   /**
    * @override
    */
-  isCanvas(element) {
+  isCanvas: function(element) {
     return element instanceof Canvas;
-  }
+  },
 
   /**
    * @override
    */
-  isImage(element) {
-    return element instanceof Image;
+  isImage: function(element) {
+    return element instanceof Canvas.Image;
   }
 
-}
+});
 
-export default NodeElementService;
+module.exports = NodeElementService;

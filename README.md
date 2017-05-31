@@ -10,6 +10,7 @@
 
 [![Chat](https://img.shields.io/gitter/room/neocotic/qrious.svg?style=flat-square)](https://gitter.im/neocotic/qrious)
 [![Build Status](https://img.shields.io/travis/neocotic/qrious/develop.svg?style=flat-square)](https://travis-ci.org/neocotic/qrious)
+[![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
 [![Optional Dependency Status](https://img.shields.io/david/optional/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=optional)
 [![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
@@ -38,8 +39,8 @@ you want to install that way instead of using `npm`.
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js.map))
-* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js.map))
+* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
+* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
 
 ### Node.js Dependencies
 

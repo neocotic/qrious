@@ -17,47 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Utilities from '../util/Utilities';
+'use strict';
+
+var Nevis = require('nevis/lite');
+
+var Utilities = require('../util/Utilities');
 
 /**
  * Manages multiple {@link Option} instances that are intended to be used by multiple implementations.
  *
  * Although the option definitions are shared between targets, the values are maintained on the targets themselves.
  *
- * While a value associated with each option can be changed on the target objects, the manager and the option
- * definitions themselves are immutable.
- *
+ * @param {Option[]} options - the options to be used
  * @public
+ * @class
+ * @extends Nevis
  */
-class OptionManager {
-
-  static _get(option, target) {
-    return target[option.fieldName];
-  }
-
-  static _set(option, value, target) {
-    const fieldName = option.fieldName;
-    const oldValue = target[fieldName];
-    const newValue = option.transform(value != null ? value : option.defaultValue);
-
-    target[fieldName] = newValue;
-
-    return newValue !== oldValue;
-  }
-
+var OptionManager = Nevis.extend('OptionManager', function(options) {
   /**
-   * Creates a new instance of {@link OptionManager} for the specified available <code>options</code>.
+   * The available options for this {@link OptionManager}.
    *
-   * @param {Option[]} options - the options to be used
    * @public
+   * @type {Object.<string, Option>}
+   * @memberof OptionManager#
    */
-  constructor(options) {
-    this._options = {};
+  this.options = {};
 
-    options.forEach((option) => {
-      this._options[option.name] = option;
-    });
-  }
+  options.forEach(function(option) {
+    this.options[option.name] = option;
+  }, this);
+}, {
 
   /**
    * Sets the default values for all of the available options on the <code>target</code> object provided.
@@ -65,18 +54,20 @@ class OptionManager {
    * @param {Object} target - the object on which the default values are to be set for each available option
    * @return {void}
    * @public
+   * @memberof OptionManager#
    */
-  applyDefaults(target) {
-    const options = this._options;
+  applyDefaults: function(target) {
+    var name, option;
+    var options = this.options;
 
-    for (const name in options) {
+    for (name in options) {
       if (Utilities.hasOwn(options, name)) {
-        const option = options[name];
+        option = options[name];
 
         OptionManager._set(option, option.defaultValue, target);
       }
     }
-  }
+  },
 
   /**
    * Returns whether an option with the specified <code>name</code> is available.
@@ -85,10 +76,11 @@ class OptionManager {
    * @return {boolean} <code>true</code> if an {@link Option} exists with <code>name</code>; otherwise
    * <code>false</code>.
    * @public
+   * @memberof OptionManager#
    */
-  exists(name) {
-    return this._options[name] != null;
-  }
+  exists: function(name) {
+    return this.options[name] != null;
+  },
 
   /**
    * Returns the value of the option with the specified <code>name</code> on the <code>target</code> object provided.
@@ -97,10 +89,11 @@ class OptionManager {
    * @param {Object} target - the object from which the value of the named {@link Option} is to be returned
    * @return {*} The value of the {@link Option} with <code>name</code> on <code>target</code>.
    * @public
+   * @memberof OptionManager#
    */
-  get(name, target) {
-    return OptionManager._get(this._options[name], target);
-  }
+  get: function(name, target) {
+    return OptionManager._get(this.options[name], target);
+  },
 
   /**
    * Returns a copy of all of the available options on the <code>target</code> object provided.
@@ -108,19 +101,21 @@ class OptionManager {
    * @param {Object} target - the object from which the option name/value pairs are to be returned
    * @return {Object.<string, *>} A hash containing the name/value pairs of all options on <code>target</code>.
    * @public
+   * @memberof OptionManager#
    */
-  getAll(target) {
-    const options = this._options;
-    const result = {};
+  getAll: function(target) {
+    var name;
+    var options = this.options;
+    var result = {};
 
-    for (const name in options) {
+    for (name in options) {
       if (Utilities.hasOwn(options, name)) {
         result[name] = OptionManager._get(options[name], target);
       }
     }
 
     return result;
-  }
+  },
 
   /**
    * Sets the value of the option with the specified <code>name</code> on the <code>target</code> object provided to
@@ -141,15 +136,16 @@ class OptionManager {
    * <code>false</code>.
    * @throws {Error} If no {@link Option} is being managed with <code>name</code>.
    * @public
+   * @memberof OptionManager#
    */
-  set(name, value, target) {
-    const option = this._options[name];
+  set: function(name, value, target) {
+    var option = this.options[name];
     if (!option) {
-      throw new Error(`Invalid option: ${name}`);
+      throw new Error('Invalid option: ' + name);
     }
 
     return OptionManager._set(option, value, target);
-  }
+  },
 
   /**
    * Sets all of the specified <code>options</code> on the <code>target</code> object provided to their corresponding
@@ -170,15 +166,17 @@ class OptionManager {
    * <code>false</code>.
    * @throws {Error} If no {@link Option} is being managed with for any of the names within <code>options</code>.
    * @public
+   * @memberof OptionManager#
    */
-  setAll(options, target) {
+  setAll: function(options, target) {
     if (!options) {
       return false;
     }
 
-    let changed = false;
+    var name;
+    var changed = false;
 
-    for (const name in options) {
+    for (name in options) {
       if (Utilities.hasOwn(options, name) && this.set(name, options[name], target)) {
         changed = true;
       }
@@ -187,16 +185,22 @@ class OptionManager {
     return changed;
   }
 
-  /**
-   * Returns a copy of the available options for this {@link OptionManager}.
-   *
-   * @return {Option[]} The available options.
-   * @public
-   */
-  get options() {
-    return Object.values(this._options);
+}, {
+
+  _get: function(option, target) {
+    return target[option.fieldName];
+  },
+
+  _set: function(option, value, target) {
+    var fieldName = option.fieldName;
+    var oldValue = target[fieldName];
+    var newValue = option.transform(value != null ? value : option.defaultValue);
+
+    target[fieldName] = newValue;
+
+    return newValue !== oldValue;
   }
 
-}
+});
 
-export default OptionManager;
+module.exports = OptionManager;
