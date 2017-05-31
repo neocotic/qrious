@@ -101,29 +101,11 @@ class QRious {
 
     const element = optionManager.get('element', this);
     const elementService = serviceManager.getService('element');
+    const canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas();
+    const image = element && elementService.isImage(element) ? element : elementService.createImage();
 
-    /**
-     * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
-     *
-     * @public
-     * @type {*}
-     */
-    this.canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas();
-    this.canvas.qrious = this;
-
-    /**
-     * The <code>img</code> to contain the rendered QR code for this {@link QRious}.
-     *
-     * @public
-     * @type {*}
-     */
-    this.image = element && elementService.isImage(element) ? element : elementService.createImage();
-    this.image.qrious = this;
-
-    this._renderers = [
-      new CanvasRenderer(this),
-      new ImageRenderer(this)
-    ];
+    this._canvasRenderer = new CanvasRenderer(this, canvas, true);
+    this._imageRenderer = new ImageRenderer(this, image, image === element);
 
     this.update();
   }
@@ -182,7 +164,8 @@ class QRious {
       value: this.value
     });
 
-    this._renderers.forEach((renderer) => renderer.render(frame));
+    this._canvasRenderer.render(frame);
+    this._imageRenderer.render(frame);
   }
 
   /**
@@ -232,6 +215,16 @@ class QRious {
   }
 
   /**
+   * Returns the <code>canvas</code> element being used to render the QR code for this {@link QRious}.
+   *
+   * @return {*} The <code>canvas</code> element.
+   * @public
+   */
+  get canvas() {
+    return this._canvasRenderer.getElement();
+  }
+
+  /**
    * Returns the foreground color for the QR code.
    *
    * @return {string} The foreground color.
@@ -275,6 +268,16 @@ class QRious {
     if (optionManager.set('foregroundAlpha', foregroundAlpha, this)) {
       this.update();
     }
+  }
+
+  /**
+   * Returns the <code>img</code> element being used to render the QR code for this {@link QRious}.
+   *
+   * @return {*} The <code>img</code> element.
+   * @public
+   */
+  get image() {
+    return this._imageRenderer.getElement();
   }
 
   /**

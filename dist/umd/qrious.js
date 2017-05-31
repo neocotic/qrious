@@ -1517,7 +1517,10 @@
 	/**
 	 * Responsible for rendering a QR code {@link Frame} on a specific type of element.
 	 *
-	 * A renderer may be dependant on the rendering of another element, so ordering of their execution is important.
+	 * A renderer may be dependant on the rendering of another element, so the ordering of their execution is important.
+	 *
+	 * The rendering of a element can be deferred by disabling the renderer initially, however, any attempt get the element
+	 * from the renderer will result in it being immediately enabled and the element being rendered.
 	 *
 	 * @public
 	 */
@@ -1525,12 +1528,14 @@
 	var Renderer = function () {
 
 	  /**
-	   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance provided.
+	   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance and <code>element</code> provided.
 	   *
 	   * @param {QRious} qrious - the {@link QRious} instance to be used
+	   * @param {*} element - the element onto which the QR code is to be rendered
+	   * @param {boolean} [enabled] - <code>true</code> this {@link Renderer} is enabled; otherwise <code>false</code>.
 	   * @public
 	   */
-	  function Renderer(qrious) {
+	  function Renderer(qrious, element, enabled) {
 	    _classCallCheck(this, Renderer);
 
 	    /**
@@ -1540,6 +1545,23 @@
 	     * @type {QRious}
 	     */
 	    this.qrious = qrious;
+
+	    /**
+	     * The element onto which this {@link Renderer} is rendering the QR code.
+	     *
+	     * @protected
+	     * @type {*}
+	     */
+	    this.element = element;
+	    this.element.qrious = qrious;
+
+	    /**
+	     * Whether this {@link Renderer} is enabled.
+	     *
+	     * @protected
+	     * @type {boolean}
+	     */
+	    this.enabled = Boolean(enabled);
 	  }
 
 	  /**
@@ -1557,6 +1579,27 @@
 	    key: 'draw',
 	    value: function draw(frame) {
 	      Utilities.throwUnimplemented('Renderer', 'draw');
+	    }
+
+	    /**
+	     * Returns the element onto which this {@link Renderer} is rendering the QR code.
+	     *
+	     * If this method is called while this {@link Renderer} is disabled, it will be immediately enabled and rendered
+	     * before the element is returned.
+	     *
+	     * @return {*} The element.
+	     * @public
+	     */
+
+	  }, {
+	    key: 'getElement',
+	    value: function getElement() {
+	      if (!this.enabled) {
+	        this.enabled = true;
+	        this.render();
+	      }
+
+	      return this.element;
 	    }
 
 	    /**
@@ -1624,9 +1667,11 @@
 	  }, {
 	    key: 'render',
 	    value: function render(frame) {
-	      this.resize();
-	      this.reset();
-	      this.draw(frame);
+	      if (this.enabled) {
+	        this.resize();
+	        this.reset();
+	        this.draw(frame);
+	      }
 	    }
 
 	    /**
@@ -1709,7 +1754,7 @@
 	      var qrious = this.qrious;
 	      var moduleSize = this.getModuleSize(frame);
 	      var offset = this.getOffset(frame);
-	      var context = qrious.canvas.getContext('2d');
+	      var context = this.element.getContext('2d');
 
 	      context.fillStyle = qrious.foreground;
 	      context.globalAlpha = qrious.foregroundAlpha;
@@ -1731,7 +1776,7 @@
 	    key: 'reset',
 	    value: function reset() {
 	      var qrious = this.qrious;
-	      var context = qrious.canvas.getContext('2d');
+	      var context = this.element.getContext('2d');
 	      var size = qrious.size;
 
 	      context.lineWidth = 1;
@@ -1748,10 +1793,7 @@
 	  }, {
 	    key: 'resize',
 	    value: function resize() {
-	      var qrious = this.qrious;
-	      var canvas = qrious.canvas;
-
-	      canvas.width = canvas.height = qrious.size;
+	      this.element.width = this.element.height = this.qrious.size;
 	    }
 	  }]);
 
@@ -2953,9 +2995,7 @@
 	     * @override
 	     */
 	    value: function draw() {
-	      var qrious = this.qrious;
-
-	      qrious.image.src = qrious.toDataURL();
+	      this.element.src = this.qrious.toDataURL();
 	    }
 
 	    /**
@@ -2965,7 +3005,7 @@
 	  }, {
 	    key: 'reset',
 	    value: function reset() {
-	      this.qrious.image.src = '';
+	      this.element.src = '';
 	    }
 
 	    /**
@@ -2975,10 +3015,7 @@
 	  }, {
 	    key: 'resize',
 	    value: function resize() {
-	      var qrious = this.qrious;
-	      var image = qrious.image;
-
-	      image.width = image.height = qrious.size;
+	      this.element.width = this.element.height = this.qrious.size;
 	    }
 	  }]);
 
@@ -3579,26 +3616,11 @@
 
 	    var element = optionManager.get('element', this);
 	    var elementService = serviceManager.getService('element');
+	    var canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas();
+	    var image = element && elementService.isImage(element) ? element : elementService.createImage();
 
-	    /**
-	     * The <code>canvas</code> being used to render the QR code for this {@link QRious}.
-	     *
-	     * @public
-	     * @type {*}
-	     */
-	    this.canvas = element && elementService.isCanvas(element) ? element : elementService.createCanvas();
-	    this.canvas.qrious = this;
-
-	    /**
-	     * The <code>img</code> to contain the rendered QR code for this {@link QRious}.
-	     *
-	     * @public
-	     * @type {*}
-	     */
-	    this.image = element && elementService.isImage(element) ? element : elementService.createImage();
-	    this.image.qrious = this;
-
-	    this._renderers = [new CanvasRenderer(this), new ImageRenderer(this)];
+	    this._canvasRenderer = new CanvasRenderer(this, canvas, true);
+	    this._imageRenderer = new ImageRenderer(this, image, image === element);
 
 	    this.update();
 	  }
@@ -3670,9 +3692,8 @@
 	        value: this.value
 	      });
 
-	      this._renderers.forEach(function (renderer) {
-	        return renderer.render(frame);
-	      });
+	      this._canvasRenderer.render(frame);
+	      this._imageRenderer.render(frame);
 	    }
 
 	    /**
@@ -3730,6 +3751,19 @@
 	    }
 
 	    /**
+	     * Returns the <code>canvas</code> element being used to render the QR code for this {@link QRious}.
+	     *
+	     * @return {*} The <code>canvas</code> element.
+	     * @public
+	     */
+
+	  }, {
+	    key: 'canvas',
+	    get: function get() {
+	      return this._canvasRenderer.getElement();
+	    }
+
+	    /**
 	     * Returns the foreground color for the QR code.
 	     *
 	     * @return {string} The foreground color.
@@ -3781,6 +3815,19 @@
 	      if (optionManager.set('foregroundAlpha', foregroundAlpha, this)) {
 	        this.update();
 	      }
+	    }
+
+	    /**
+	     * Returns the <code>img</code> element being used to render the QR code for this {@link QRious}.
+	     *
+	     * @return {*} The <code>img</code> element.
+	     * @public
+	     */
+
+	  }, {
+	    key: 'image',
+	    get: function get() {
+	      return this._imageRenderer.getElement();
 	    }
 
 	    /**
