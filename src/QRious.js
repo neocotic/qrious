@@ -47,24 +47,6 @@ const serviceManager = new ServiceManager();
 class QRious {
 
   /**
-   * Returns the default options for {@link QRious}.
-   *
-   * @return {QRious~Options} The default options.
-   * @deprecated Since 2.3.0
-   * @public
-   * @static
-   */
-  static get DEFAULTS() {
-    const result = {};
-
-    optionManager.options.forEach((option) => {
-      result[option.name] = option.defaultValue;
-    });
-
-    return result;
-  }
-
-  /**
    * Returns the current version of {@link QRious}.
    *
    * @return {string} The current version.

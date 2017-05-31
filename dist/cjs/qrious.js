@@ -3584,26 +3584,8 @@ var QRious$1 = function () {
      */
 
   }, {
-    key: 'DEFAULTS',
+    key: 'VERSION',
 
-
-    /**
-     * Returns the default options for {@link QRious}.
-     *
-     * @return {QRious~Options} The default options.
-     * @deprecated Since 2.3.0
-     * @public
-     * @static
-     */
-    get: function get() {
-      var result = {};
-
-      optionManager.options.forEach(function (option) {
-        result[option.name] = option.defaultValue;
-      });
-
-      return result;
-    }
 
     /**
      * Returns the current version of {@link QRious}.
@@ -3612,9 +3594,6 @@ var QRious$1 = function () {
      * @public
      * @static
      */
-
-  }, {
-    key: 'VERSION',
     get: function get() {
       return '2.3.0';
     }
