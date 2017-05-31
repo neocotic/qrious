@@ -38,8 +38,8 @@ you want to install that way instead of using `npm`.
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.js)
-* [Production Version](https://github.com/neocotic/qrious/blob/master/dist/umd/qrious.min.js)
+* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js) (TODOkb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js.map))
+* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js) (TODOkb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js.map))
 
 ### Node.js Dependencies
 
