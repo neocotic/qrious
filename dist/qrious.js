@@ -1704,23 +1704,25 @@
   /**
    * Defines an available option while also configuring how values are applied to the target object.
    *
-   * Optionally, a default value can be specified as well a value transformer and a field name resolver for greater
-   * control over how the option value is applied.
+   * Optionally, a default value can be specified as well a value transformer for greater control over how the option
+   * value is applied.
    *
-   * If no value transformer is specified, then any specified option will be applied directly.
+   * If no value transformer is specified, then any specified option will be applied directly. All values are maintained
+   * on the target object itself as a field using the option name prefixed with a single underscore.
    *
-   * If no field name resolver is specified, then the field name will be resolved to the option name prefixed with a
-   * single underscore when the option is applied.
+   * When an option is specified as modifiable, the {@link OptionManager} will be required to include a setter for the
+   * property that is defined on the target object that uses the option name.
    *
    * @param {string} name - the name to be used
+   * @param {boolean} [modifiable] - <code>true</code> if the property defined on target objects should include a setter;
+   * otherwise <code>false</code>
    * @param {*} [defaultValue] - the default value to be used
    * @param {Option~ValueTransformer} [valueTransformer] - the value transformer to be used
-   * @param {Option~FieldNameResolver} [fieldNameResolver] - the field name resolver to be used
    * @public
    * @class
    * @extends Nevis
    */
-  var Option = lite.extend('Option', function(name, defaultValue, valueTransformer, fieldNameResolver) {
+  var Option = lite.extend('Option', function(name, modifiable, defaultValue, valueTransformer) {
     /**
      * The name for this {@link Option}.
      *
@@ -1729,6 +1731,15 @@
      * @memberof Option#
      */
     this.name = name;
+
+    /**
+     * Whether a setter should be included on the property defined on target objects for this {@link Option}.
+     *
+     * @public
+     * @type {boolean}
+     * @memberof Option#
+     */
+    this.modifiable = Boolean(modifiable);
 
     /**
      * The default value for this {@link Option}.
@@ -1740,15 +1751,6 @@
     this.defaultValue = defaultValue;
 
     this._valueTransformer = valueTransformer;
-
-    /**
-     * The field name for this {@link Option}.
-     *
-     * @public
-     * @type {string}
-     * @memberof Option#
-     */
-    this.fieldName = typeof fieldNameResolver === 'function' ? fieldNameResolver(this) : '_' + name;
   }, {
 
     /**
@@ -1774,19 +1776,6 @@
   });
 
   var Option_1 = Option;
-
-  /**
-   * Returns the field name to which the specified <code>option</code> is associated on the target object.
-   *
-   * The resolved name will be used to identify the field that values for <code>option</code> are to be read from and
-   * written to.
-   *
-   * This function will only called once for <code>option</code>, upon initialization.
-   *
-   * @callback Option~FieldNameResolver
-   * @param {Option} option - the {@link Option} whose field name is to be resolved
-   * @return {string} The resolved field name for <code>option</code>.
-   */
 
   /**
    * Returns a transformed value for the specified <code>value</code> to be applied for the <code>option</code> provided.
@@ -1839,6 +1828,16 @@
     },
 
     /**
+     * A non-operation method that does absolutely nothing.
+     *
+     * @return {void}
+     * @public
+     * @static
+     * @memberof Utilities
+     */
+    noop: function() {},
+
+    /**
      * Transforms the specified <code>string</code> to upper case while remaining null-safe.
      *
      * @param {string} string - the string to be transformed to upper case
@@ -1879,27 +1878,6 @@
       this.options[option.name] = option;
     }, this);
   }, {
-
-    /**
-     * Sets the default values for all of the available options on the <code>target</code> object provided.
-     *
-     * @param {Object} target - the object on which the default values are to be set for each available option
-     * @return {void}
-     * @public
-     * @memberof OptionManager#
-     */
-    applyDefaults: function(target) {
-      var name, option;
-      var options = this.options;
-
-      for (name in options) {
-        if (Utilities_1.hasOwn(options, name)) {
-          option = options[name];
-
-          OptionManager._set(option, option.defaultValue, target);
-        }
-      }
-    },
 
     /**
      * Returns whether an option with the specified <code>name</code> is available.
@@ -1950,10 +1928,53 @@
     },
 
     /**
+     * Initializes the available options for the <code>target</code> object provided and then applies the initial values
+     * within the speciifed <code>options</code>.
+     *
+     * This method will throw an error if any of the names within <code>options</code> does not match an available option.
+     *
+     * This involves setting the default values and defining properties for all of the available options on
+     * <code>target</code> before finally calling {@link OptionMananger#setAll} with <code>options</code> and
+     * <code>target</code>. Any options that are configured to be modifiable will have a setter included in their defined
+     * property that will allow its corresponding value to be modified.
+     *
+     * If a change handler is specified, it will be called whenever the value changes on <code>target</code> for a
+     * modifiable option, but only when done so via the defined property's setter.
+     *
+     * @param {Object.<string, *>} options - the name/value pairs of the initial options to be set
+     * @param {Object} target - the object on which the options are to be initialized
+     * @param {Function} [changeHandler] - the function to be called whenever the value of an modifiable option changes on
+     * <code>target</code>
+     * @return {void}
+     * @throws {Error} If <code>options</code> contains an invalid option name.
+     * @public
+     * @memberof OptionManager#
+     */
+    init: function(options, target, changeHandler) {
+      if (typeof changeHandler !== 'function') {
+        changeHandler = Utilities_1.noop;
+      }
+
+      var name, option;
+
+      for (name in this.options) {
+        if (Utilities_1.hasOwn(this.options, name)) {
+          option = this.options[name];
+
+          OptionManager._set(option, option.defaultValue, target);
+          OptionManager._createAccessor(option, target, changeHandler);
+        }
+      }
+
+      this._setAll(options, target, true);
+    },
+
+    /**
      * Sets the value of the option with the specified <code>name</code> on the <code>target</code> object provided to
      * <code>value</code>.
      *
-     * This method will throw an error if <code>name</code> does not match an available option.
+     * This method will throw an error if <code>name</code> does not match an available option or matches an option that
+     * cannot be modified.
      *
      * If <code>value</code> is <code>null</code> and the {@link Option} has a default value configured, then that default
      * value will be used instead. If the {@link Option} also has a value transformer configured, it will be used to
@@ -1966,24 +1987,20 @@
      * @param {Object} target - the object on which <code>value</code> is to be set for the named {@link Option}
      * @return {boolean} <code>true</code> if the underlying field on <code>target</code> was changed; otherwise
      * <code>false</code>.
-     * @throws {Error} If no {@link Option} is being managed with <code>name</code>.
+     * @throws {Error} If <code>name</code> is invalid or is for an option that cannot be modified.
      * @public
      * @memberof OptionManager#
      */
     set: function(name, value, target) {
-      var option = this.options[name];
-      if (!option) {
-        throw new Error('Invalid option: ' + name);
-      }
-
-      return OptionManager._set(option, value, target);
+      return this._set(name, value, target);
     },
 
     /**
      * Sets all of the specified <code>options</code> on the <code>target</code> object provided to their corresponding
      * values.
      *
-     * This method will throw an error if any of the names within <code>options</code> does not match an available option.
+     * This method will throw an error if any of the names within <code>options</code> does not match an available option
+     * or matches an option that cannot be modified.
      *
      * If any value within <code>options</code> is <code>null</code> and the corresponding {@link Option} has a default
      * value configured, then that default value will be used instead. If an {@link Option} also has a value transformer
@@ -1996,11 +2013,27 @@
      * @param {Object} target - the object on which the options are to be set
      * @return {boolean} <code>true</code> if any of the underlying fields on <code>target</code> were changed; otherwise
      * <code>false</code>.
-     * @throws {Error} If no {@link Option} is being managed with for any of the names within <code>options</code>.
+     * @throws {Error} If <code>options</code> contains an invalid option name or an option that cannot be modiifed.
      * @public
      * @memberof OptionManager#
      */
     setAll: function(options, target) {
+      return this._setAll(options, target);
+    },
+
+    _set: function(name, value, target, allowUnmodifiable) {
+      var option = this.options[name];
+      if (!option) {
+        throw new Error('Invalid option: ' + name);
+      }
+      if (!option.modifiable && !allowUnmodifiable) {
+        throw new Error('Option cannot be modified: ' + name);
+      }
+
+      return OptionManager._set(option, value, target);
+    },
+
+    _setAll: function(options, target, allowUnmodifiable) {
       if (!options) {
         return false;
       }
@@ -2009,7 +2042,7 @@
       var changed = false;
 
       for (name in options) {
-        if (Utilities_1.hasOwn(options, name) && this.set(name, options[name], target)) {
+        if (Utilities_1.hasOwn(options, name) && this._set(name, options[name], target, allowUnmodifiable)) {
           changed = true;
         }
       }
@@ -2019,12 +2052,30 @@
 
   }, {
 
+    _createAccessor: function(option, target, changeHandler) {
+      var descriptor = {
+        get: function() {
+          return OptionManager._get(option, target);
+        }
+      };
+
+      if (option.modifiable) {
+        descriptor.set = function(value) {
+          if (OptionManager._set(option, value, target)) {
+            changeHandler(value, option);
+          }
+        };
+      }
+
+      Object.defineProperty(target, option.name, descriptor);
+    },
+
     _get: function(option, target) {
-      return target[option.fieldName];
+      return target['_' + option.name];
     },
 
     _set: function(option, value, target) {
-      var fieldName = option.fieldName;
+      var fieldName = '_' + option.name;
       var oldValue = target[fieldName];
       var newValue = option.transform(value != null ? value : option.defaultValue);
 
@@ -2036,6 +2087,16 @@
   });
 
   var OptionManager_1 = OptionManager;
+
+  /**
+   * Called whenever the value of a modifiable {@link Option} is changed on a target object via the defined property's
+   * setter.
+   *
+   * @callback OptionManager~ChangeHandler
+   * @param {*} value - the new value for <code>option</code> on the target object
+   * @param {Option} option - the modifable {@link Option} whose value has changed on the target object.
+   * @return {void}
+   */
 
   /**
    * A basic manager for {@link Service} implementations that are mapped to simple names.
@@ -2092,16 +2153,16 @@
   var ServiceManager_1 = ServiceManager;
 
   var optionManager = new OptionManager_1([
-    new Option_1('background', 'white'),
-    new Option_1('backgroundAlpha', 1, Utilities_1.abs),
+    new Option_1('background', true, 'white'),
+    new Option_1('backgroundAlpha', true, 1, Utilities_1.abs),
     new Option_1('element'),
-    new Option_1('foreground', 'black'),
-    new Option_1('foregroundAlpha', 1, Utilities_1.abs),
-    new Option_1('level', 'L', Utilities_1.toUpperCase),
-    new Option_1('mime', 'image/png'),
-    new Option_1('padding', null, Utilities_1.abs),
-    new Option_1('size', 100, Utilities_1.abs),
-    new Option_1('value', '')
+    new Option_1('foreground', true, 'black'),
+    new Option_1('foregroundAlpha', true, 1, Utilities_1.abs),
+    new Option_1('level', true, 'L', Utilities_1.toUpperCase),
+    new Option_1('mime', true, 'image/png'),
+    new Option_1('padding', true, null, Utilities_1.abs),
+    new Option_1('size', true, 100, Utilities_1.abs),
+    new Option_1('value', true, '')
   ]);
   var serviceManager = new ServiceManager_1();
 
@@ -2115,8 +2176,7 @@
    * @extends Nevis
    */
   var QRious = lite.extend('QRious', function(options) {
-    optionManager.applyDefaults(this);
-    optionManager.setAll(options, this);
+    optionManager.init(options, this, this.update.bind(this));
 
     var element = optionManager.get('element', this);
     var elementService = serviceManager.getService('element');
@@ -2152,7 +2212,7 @@
      *
      * @param {QRious~Options} options - the options to be set
      * @return {void}
-     * @throws {Error} If any <code>options</code> are invalid.
+     * @throws {Error} If any <code>options</code> are invalid or cannot be modified.
      * @public
      * @memberof QRious#
      */
@@ -2221,66 +2281,6 @@
 
   Object.defineProperties(QRious.prototype, {
 
-    background: {
-      /**
-       * Returns the background color for the QR code.
-       *
-       * @return {string} The background color.
-       * @public
-       * @memberof QRious#
-       * @alias background
-       */
-      get: function() {
-        return optionManager.get('background', this);
-      },
-
-      /**
-       * Sets the background color for the QR code to <code>background</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * @param {string} [background="white"] - the background color to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias background
-       */
-      set: function(background) {
-        if (optionManager.set('background', background, this)) {
-          this.update();
-        }
-      }
-    },
-
-    backgroundAlpha: {
-      /**
-       * Returns the background alpha for the QR code.
-       *
-       * @return {number} The background alpha.
-       * @public
-       * @memberof QRious#
-       * @alias backgroundAlpha
-       */
-      get: function() {
-        return optionManager.get('backgroundAlpha', this);
-      },
-
-      /**
-       * Sets the background alpha for the QR code to <code>backgroundAlpha</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * @param {number} [backgroundAlpha=1] - the background alpha to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias backgroundAlpha
-       */
-      set: function(backgroundAlpha) {
-        if (optionManager.set('backgroundAlpha', backgroundAlpha, this)) {
-          this.update();
-        }
-      }
-    },
-
     canvas: {
       /**
        * Returns the <code>canvas</code> element being used to render the QR code for this {@link QRious}.
@@ -2295,66 +2295,6 @@
       }
     },
 
-    foreground: {
-      /**
-       * Returns the foreground color for the QR code.
-       *
-       * @return {string} The foreground color.
-       * @public
-       * @memberof QRious#
-       * @alias foreground
-       */
-      get: function() {
-        return optionManager.get('foreground', this);
-      },
-
-      /**
-       * Sets the foreground color for the QR code to <code>foreground</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * @param {string} [foreground="black"] - the foreground color to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias foreground
-       */
-      set: function(foreground) {
-        if (optionManager.set('foreground', foreground, this)) {
-          this.update();
-        }
-      }
-    },
-
-    foregroundAlpha: {
-      /**
-       * Returns the foreground alpha for the QR code.
-       *
-       * @return {number} The foreground alpha.
-       * @public
-       * @memberof QRious#
-       * @alias foregroundAlpha
-       */
-      get: function() {
-        return optionManager.get('foregroundAlpha', this);
-      },
-
-      /**
-       * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * @param {number} [foregroundAlpha=1] - the foreground alpha to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias foregroundAlpha
-       */
-      set: function(foregroundAlpha) {
-        if (optionManager.set('foregroundAlpha', foregroundAlpha, this)) {
-          this.update();
-        }
-      }
-    },
-
     image: {
       /**
        * Returns the <code>img</code> element being used to render the QR code for this {@link QRious}.
@@ -2366,164 +2306,6 @@
        */
       get: function() {
         return this._imageRenderer.getElement();
-      }
-    },
-
-    level: {
-      /**
-       * Returns the error correction level for the QR code.
-       *
-       * @return {string} The ECC level.
-       * @public
-       * @memberof QRious#
-       * @alias level
-       */
-      get: function() {
-        return optionManager.get('level', this);
-      },
-
-      /**
-       * Sets the error correction level for the QR code to <code>level</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
-       *
-       * @param {string} [level="L"] - the ECC level to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias level
-       */
-      set: function(level) {
-        if (optionManager.set('level', level, this)) {
-          this.update();
-        }
-      }
-    },
-
-    mime: {
-      /**
-       * Returns the MIME type for the image rendered for the QR code.
-       *
-       * @return {string} The image MIME type.
-       * @public
-       * @memberof QRious#
-       * @alias mime
-       */
-      get: function() {
-        return optionManager.get('mime', this);
-      },
-
-      /**
-       * Sets the MIME type for the image rendered for the QR code to <code>mime</code> and automatically updates this
-       * {@link QRious} if the underlying field is changed as a result.
-       *
-       * @param {string} [mime="image/png"] - the image MIME type to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias mime
-       */
-      set: function(mime) {
-        if (optionManager.set('mime', mime, this)) {
-          this.update();
-        }
-      }
-    },
-
-    padding: {
-      /**
-       * Returns the padding for the QR code.
-       *
-       * @return {number} The padding in pixels.
-       * @public
-       * @memberof QRious#
-       * @alias padding
-       */
-      get: function() {
-        return optionManager.get('padding', this);
-      },
-
-      /**
-       * Sets the padding for the QR code to <code>padding</code> and automatically updates this {@link QRious} if the
-       * underlying field is changed as a result.
-       *
-       * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
-       * <code>-10</code> would become <code>10</code>).
-       *
-       * @param {number} [padding] - the padding in pixels to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias padding
-       */
-      set: function(padding) {
-        if (optionManager.set('padding', padding, this)) {
-          this.update();
-        }
-      }
-    },
-
-    size: {
-      /**
-       * Returns the size of the QR code.
-       *
-       * @return {number} The size in pixels.
-       * @public
-       * @memberof QRious#
-       * @alias size
-       */
-      get: function() {
-        return optionManager.get('size', this);
-      },
-
-      /**
-       * Sets the size of the QR code to <code>size</code> and automatically updates this {@link QRious} if the underlying
-       * field is changed as a result.
-       *
-       * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
-       * <code>-100</code> would become <code>100</code>).
-       *
-       * @param {number} [size=100] - the size in pixels to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias size
-       */
-      set: function(size) {
-        if (optionManager.set('size', size, this)) {
-          this.update();
-        }
-      }
-    },
-
-    value: {
-      /**
-       * Returns the value of the QR code.
-       *
-       * @return {string} The value.
-       * @public
-       * @memberof QRious#
-       * @alias value
-       */
-      get: function() {
-        return optionManager.get('value', this);
-      },
-
-      /**
-       * Sets the value of the QR code to <code>value</code> and automatically updates this {@link QRious} if the
-       * underlying field is changed as a result.
-       *
-       * @param {string} [value=""] - the value to be set
-       * @return {void}
-       * @public
-       * @memberof QRious#
-       * @alias value
-       */
-      set: function(value) {
-        if (optionManager.set('value', value, this)) {
-          this.update();
-        }
       }
     }
 

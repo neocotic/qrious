@@ -63,6 +63,16 @@ var Utilities = Nevis.extend('Utilities', null, {
   },
 
   /**
+   * A non-operation method that does absolutely nothing.
+   *
+   * @return {void}
+   * @public
+   * @static
+   * @memberof Utilities
+   */
+  noop: function() {},
+
+  /**
    * Transforms the specified <code>string</code> to upper case while remaining null-safe.
    *
    * @param {string} string - the string to be transformed to upper case

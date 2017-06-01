@@ -24,23 +24,25 @@ var Nevis = require('nevis/lite');
 /**
  * Defines an available option while also configuring how values are applied to the target object.
  *
- * Optionally, a default value can be specified as well a value transformer and a field name resolver for greater
- * control over how the option value is applied.
+ * Optionally, a default value can be specified as well a value transformer for greater control over how the option
+ * value is applied.
  *
- * If no value transformer is specified, then any specified option will be applied directly.
+ * If no value transformer is specified, then any specified option will be applied directly. All values are maintained
+ * on the target object itself as a field using the option name prefixed with a single underscore.
  *
- * If no field name resolver is specified, then the field name will be resolved to the option name prefixed with a
- * single underscore when the option is applied.
+ * When an option is specified as modifiable, the {@link OptionManager} will be required to include a setter for the
+ * property that is defined on the target object that uses the option name.
  *
  * @param {string} name - the name to be used
+ * @param {boolean} [modifiable] - <code>true</code> if the property defined on target objects should include a setter;
+ * otherwise <code>false</code>
  * @param {*} [defaultValue] - the default value to be used
  * @param {Option~ValueTransformer} [valueTransformer] - the value transformer to be used
- * @param {Option~FieldNameResolver} [fieldNameResolver] - the field name resolver to be used
  * @public
  * @class
  * @extends Nevis
  */
-var Option = Nevis.extend('Option', function(name, defaultValue, valueTransformer, fieldNameResolver) {
+var Option = Nevis.extend('Option', function(name, modifiable, defaultValue, valueTransformer) {
   /**
    * The name for this {@link Option}.
    *
@@ -49,6 +51,15 @@ var Option = Nevis.extend('Option', function(name, defaultValue, valueTransforme
    * @memberof Option#
    */
   this.name = name;
+
+  /**
+   * Whether a setter should be included on the property defined on target objects for this {@link Option}.
+   *
+   * @public
+   * @type {boolean}
+   * @memberof Option#
+   */
+  this.modifiable = Boolean(modifiable);
 
   /**
    * The default value for this {@link Option}.
@@ -60,15 +71,6 @@ var Option = Nevis.extend('Option', function(name, defaultValue, valueTransforme
   this.defaultValue = defaultValue;
 
   this._valueTransformer = valueTransformer;
-
-  /**
-   * The field name for this {@link Option}.
-   *
-   * @public
-   * @type {string}
-   * @memberof Option#
-   */
-  this.fieldName = typeof fieldNameResolver === 'function' ? fieldNameResolver(this) : '_' + name;
 }, {
 
   /**
@@ -94,19 +96,6 @@ var Option = Nevis.extend('Option', function(name, defaultValue, valueTransforme
 });
 
 module.exports = Option;
-
-/**
- * Returns the field name to which the specified <code>option</code> is associated on the target object.
- *
- * The resolved name will be used to identify the field that values for <code>option</code> are to be read from and
- * written to.
- *
- * This function will only called once for <code>option</code>, upon initialization.
- *
- * @callback Option~FieldNameResolver
- * @param {Option} option - the {@link Option} whose field name is to be resolved
- * @return {string} The resolved field name for <code>option</code>.
- */
 
 /**
  * Returns a transformed value for the specified <code>value</code> to be applied for the <code>option</code> provided.

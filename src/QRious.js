@@ -30,16 +30,16 @@ var ServiceManager = require('./service/ServiceManager');
 var Utilities = require('./util/Utilities');
 
 var optionManager = new OptionManager([
-  new Option('background', 'white'),
-  new Option('backgroundAlpha', 1, Utilities.abs),
+  new Option('background', true, 'white'),
+  new Option('backgroundAlpha', true, 1, Utilities.abs),
   new Option('element'),
-  new Option('foreground', 'black'),
-  new Option('foregroundAlpha', 1, Utilities.abs),
-  new Option('level', 'L', Utilities.toUpperCase),
-  new Option('mime', 'image/png'),
-  new Option('padding', null, Utilities.abs),
-  new Option('size', 100, Utilities.abs),
-  new Option('value', '')
+  new Option('foreground', true, 'black'),
+  new Option('foregroundAlpha', true, 1, Utilities.abs),
+  new Option('level', true, 'L', Utilities.toUpperCase),
+  new Option('mime', true, 'image/png'),
+  new Option('padding', true, null, Utilities.abs),
+  new Option('size', true, 100, Utilities.abs),
+  new Option('value', true, '')
 ]);
 var serviceManager = new ServiceManager();
 
@@ -53,8 +53,7 @@ var serviceManager = new ServiceManager();
  * @extends Nevis
  */
 var QRious = Nevis.extend('QRious', function(options) {
-  optionManager.applyDefaults(this);
-  optionManager.setAll(options, this);
+  optionManager.init(options, this, this.update.bind(this));
 
   var element = optionManager.get('element', this);
   var elementService = serviceManager.getService('element');
@@ -90,7 +89,7 @@ var QRious = Nevis.extend('QRious', function(options) {
    *
    * @param {QRious~Options} options - the options to be set
    * @return {void}
-   * @throws {Error} If any <code>options</code> are invalid.
+   * @throws {Error} If any <code>options</code> are invalid or cannot be modified.
    * @public
    * @memberof QRious#
    */
@@ -159,66 +158,6 @@ var QRious = Nevis.extend('QRious', function(options) {
 
 Object.defineProperties(QRious.prototype, {
 
-  background: {
-    /**
-     * Returns the background color for the QR code.
-     *
-     * @return {string} The background color.
-     * @public
-     * @memberof QRious#
-     * @alias background
-     */
-    get: function() {
-      return optionManager.get('background', this);
-    },
-
-    /**
-     * Sets the background color for the QR code to <code>background</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * @param {string} [background="white"] - the background color to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias background
-     */
-    set: function(background) {
-      if (optionManager.set('background', background, this)) {
-        this.update();
-      }
-    }
-  },
-
-  backgroundAlpha: {
-    /**
-     * Returns the background alpha for the QR code.
-     *
-     * @return {number} The background alpha.
-     * @public
-     * @memberof QRious#
-     * @alias backgroundAlpha
-     */
-    get: function() {
-      return optionManager.get('backgroundAlpha', this);
-    },
-
-    /**
-     * Sets the background alpha for the QR code to <code>backgroundAlpha</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * @param {number} [backgroundAlpha=1] - the background alpha to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias backgroundAlpha
-     */
-    set: function(backgroundAlpha) {
-      if (optionManager.set('backgroundAlpha', backgroundAlpha, this)) {
-        this.update();
-      }
-    }
-  },
-
   canvas: {
     /**
      * Returns the <code>canvas</code> element being used to render the QR code for this {@link QRious}.
@@ -233,66 +172,6 @@ Object.defineProperties(QRious.prototype, {
     }
   },
 
-  foreground: {
-    /**
-     * Returns the foreground color for the QR code.
-     *
-     * @return {string} The foreground color.
-     * @public
-     * @memberof QRious#
-     * @alias foreground
-     */
-    get: function() {
-      return optionManager.get('foreground', this);
-    },
-
-    /**
-     * Sets the foreground color for the QR code to <code>foreground</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * @param {string} [foreground="black"] - the foreground color to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias foreground
-     */
-    set: function(foreground) {
-      if (optionManager.set('foreground', foreground, this)) {
-        this.update();
-      }
-    }
-  },
-
-  foregroundAlpha: {
-    /**
-     * Returns the foreground alpha for the QR code.
-     *
-     * @return {number} The foreground alpha.
-     * @public
-     * @memberof QRious#
-     * @alias foregroundAlpha
-     */
-    get: function() {
-      return optionManager.get('foregroundAlpha', this);
-    },
-
-    /**
-     * Sets the foreground alpha for the QR code to <code>foregroundAlpha</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * @param {number} [foregroundAlpha=1] - the foreground alpha to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias foregroundAlpha
-     */
-    set: function(foregroundAlpha) {
-      if (optionManager.set('foregroundAlpha', foregroundAlpha, this)) {
-        this.update();
-      }
-    }
-  },
-
   image: {
     /**
      * Returns the <code>img</code> element being used to render the QR code for this {@link QRious}.
@@ -304,164 +183,6 @@ Object.defineProperties(QRious.prototype, {
      */
     get: function() {
       return this._imageRenderer.getElement();
-    }
-  },
-
-  level: {
-    /**
-     * Returns the error correction level for the QR code.
-     *
-     * @return {string} The ECC level.
-     * @public
-     * @memberof QRious#
-     * @alias level
-     */
-    get: function() {
-      return optionManager.get('level', this);
-    },
-
-    /**
-     * Sets the error correction level for the QR code to <code>level</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * <code>level</code> will be transformed to upper case to aid mapping to known ECC level blocks.
-     *
-     * @param {string} [level="L"] - the ECC level to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias level
-     */
-    set: function(level) {
-      if (optionManager.set('level', level, this)) {
-        this.update();
-      }
-    }
-  },
-
-  mime: {
-    /**
-     * Returns the MIME type for the image rendered for the QR code.
-     *
-     * @return {string} The image MIME type.
-     * @public
-     * @memberof QRious#
-     * @alias mime
-     */
-    get: function() {
-      return optionManager.get('mime', this);
-    },
-
-    /**
-     * Sets the MIME type for the image rendered for the QR code to <code>mime</code> and automatically updates this
-     * {@link QRious} if the underlying field is changed as a result.
-     *
-     * @param {string} [mime="image/png"] - the image MIME type to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias mime
-     */
-    set: function(mime) {
-      if (optionManager.set('mime', mime, this)) {
-        this.update();
-      }
-    }
-  },
-
-  padding: {
-    /**
-     * Returns the padding for the QR code.
-     *
-     * @return {number} The padding in pixels.
-     * @public
-     * @memberof QRious#
-     * @alias padding
-     */
-    get: function() {
-      return optionManager.get('padding', this);
-    },
-
-    /**
-     * Sets the padding for the QR code to <code>padding</code> and automatically updates this {@link QRious} if the
-     * underlying field is changed as a result.
-     *
-     * <code>padding</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
-     * <code>-10</code> would become <code>10</code>).
-     *
-     * @param {number} [padding] - the padding in pixels to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias padding
-     */
-    set: function(padding) {
-      if (optionManager.set('padding', padding, this)) {
-        this.update();
-      }
-    }
-  },
-
-  size: {
-    /**
-     * Returns the size of the QR code.
-     *
-     * @return {number} The size in pixels.
-     * @public
-     * @memberof QRious#
-     * @alias size
-     */
-    get: function() {
-      return optionManager.get('size', this);
-    },
-
-    /**
-     * Sets the size of the QR code to <code>size</code> and automatically updates this {@link QRious} if the underlying
-     * field is changed as a result.
-     *
-     * <code>size</code> will be transformed to ensure that it is always an absolute positive numbers (e.g.
-     * <code>-100</code> would become <code>100</code>).
-     *
-     * @param {number} [size=100] - the size in pixels to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias size
-     */
-    set: function(size) {
-      if (optionManager.set('size', size, this)) {
-        this.update();
-      }
-    }
-  },
-
-  value: {
-    /**
-     * Returns the value of the QR code.
-     *
-     * @return {string} The value.
-     * @public
-     * @memberof QRious#
-     * @alias value
-     */
-    get: function() {
-      return optionManager.get('value', this);
-    },
-
-    /**
-     * Sets the value of the QR code to <code>value</code> and automatically updates this {@link QRious} if the
-     * underlying field is changed as a result.
-     *
-     * @param {string} [value=""] - the value to be set
-     * @return {void}
-     * @public
-     * @memberof QRious#
-     * @alias value
-     */
-    set: function(value) {
-      if (optionManager.set('value', value, this)) {
-        this.update();
-      }
     }
   }
 
