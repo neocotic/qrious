@@ -1,3 +1,7 @@
+## Version 3.0.1, 2017.06.01
+
+* Correct file sizes of distribution files in README [#82](https://github.com/neocotic/qrious/issues/82)
+
 ## Version 3.0.0, 2017.06.01
 
 * Reduce size of distribution files [#59](https://github.com/neocotic/qrious/issues/59) (**breaking change**)
