@@ -8,21 +8,6 @@ before_script:
   - npm install -g npm@latest
 script:
   - npm run ci
-env:
-  - CXX=g++-4.8
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - build-essential
-      - g++-4.8
-      - libcairo2-dev
-      - libgif-dev
-      - libjpeg-dev
-      - libpango1.0-dev
-      - make
-      - python
 notifications:
   webhooks:
     urls:

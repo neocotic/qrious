@@ -12,19 +12,14 @@ This can be done easily via command-line:
 ``` bash
 # install/update package dependencies
 $ npm install
-# run test suite
-$ npm test
+# run build & test suite
+$ npm run ci
 ```
 
 You must have at least [Node.js](https://nodejs.org) version 4 or newer and [npm](https://npmjs.com) installed version 5
 or newer installed.
 
-Feel free to make use of the `demo.html` to test your changes locally before committing. You will need to rebuild the
-distribution files in order to see your changes in the `demo.html`, but you can do so by running the following command:
-
-``` bash
-$ npm run build
-```
+Feel free to make use of the `demo.html` to test your changes locally before committing.
 
 All pull requests should be made to the `develop` branch.
 

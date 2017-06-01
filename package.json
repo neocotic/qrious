@@ -1,6 +1,6 @@
 {
   "name": "qrious",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Library for QR code generation using canvas",
   "homepage": "https://github.com/neocotic/qrious",
   "bugs": {
@@ -23,28 +23,21 @@
     "type": "git",
     "url": "https://github.com/neocotic/qrious.git"
   },
-  "dependencies": {
-    "nevis": "^0.5.0"
-  },
-  "optionalDependencies": {
-    "canvas": "^1.6.5"
-  },
   "devDependencies": {
     "eslint-config-notninja": "^0.1.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-rollup": "^1.0.1",
     "load-grunt-tasks": "^3.5.2",
     "micromatch": "^2.3.11",
+    "qrious-core": "^4.0.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1"
   },
-  "browser": "dist/qrious.js",
-  "main": "src/runtime/node.js",
+  "main": "dist/qrious.js",
   "scripts": {
     "build": "grunt build",
     "ci": "grunt ci",

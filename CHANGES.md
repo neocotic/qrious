@@ -1,3 +1,8 @@
+## Version 4.0.0, 2017.06.02
+
+* Split into multiple modules [#53](https://github.com/neocotic/qrious/issues/53) (**breaking change**)
+* Remove QRious.VERSION [#84](https://github.com/neocotic/qrious/issues/84) (**breaking change**)
+
 ## Version 3.0.1, 2017.06.01
 
 * Correct file sizes of distribution files in README [#82](https://github.com/neocotic/qrious/issues/82)
