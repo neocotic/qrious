@@ -71,7 +71,9 @@ var CanvasRenderer = Renderer.extend('CanvasRenderer', {
    * @override
    */
   resize: function() {
-    this.element.width = this.element.height = this.qrious.size;
+    var element = this.element;
+
+    element.width = element.height = this.qrious.size;
   }
 
 });

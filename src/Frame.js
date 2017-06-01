@@ -36,12 +36,12 @@ var Version = require('./Version');
  */
 var Frame = Nevis.extend('Frame', function(options) {
   var dataBlock, eccBlock, index, neccBlock1, neccBlock2;
+  var valueLength = options.value.length;
 
   this._badness = [];
   this._level = ErrorCorrection.LEVELS[options.level];
   this._polynomial = [];
   this._value = options.value;
-  this._valueLength = this._value.length;
   this._version = 0;
   this._stringBuffer = [];
 
@@ -57,7 +57,7 @@ var Frame = Nevis.extend('Frame', function(options) {
 
     index = (dataBlock * (neccBlock1 + neccBlock2)) + neccBlock2 - 3 + (this._version <= 9);
 
-    if (this._valueLength <= index) {
+    if (valueLength <= index) {
       break;
     }
   }
@@ -75,7 +75,7 @@ var Frame = Nevis.extend('Frame', function(options) {
    * @memberof Frame#
    */
   // FIXME: Ensure that it fits instead of being truncated.
-  this.width = 17 + (4 * this._version);
+  var width = this.width = 17 + (4 * this._version);
 
   /**
    * The image buffer.
@@ -84,24 +84,23 @@ var Frame = Nevis.extend('Frame', function(options) {
    * @type {number[]}
    * @memberof Frame#
    */
-  this.buffer = Frame._createArray(this.width * this.width);
+  this.buffer = Frame._createArray(width * width);
 
-  this._ecc = Frame._createArray(this._dataBlock + ((this._dataBlock + this._eccBlock) *
-    (this._neccBlock1 + this._neccBlock2)) + this._neccBlock2);
-  this._mask = Frame._createArray(((this.width * (this.width + 1)) + 1) / 2);
+  this._ecc = Frame._createArray(dataBlock + ((dataBlock + eccBlock) * (neccBlock1 + neccBlock2)) + neccBlock2);
+  this._mask = Frame._createArray(((width * (width + 1)) + 1) / 2);
 
   this._insertFinders();
   this._insertAlignments();
 
   // Insert single foreground cell.
-  this.buffer[8 + (this.width * (this.width - 8))] = 1;
+  this.buffer[8 + (width * (width - 8))] = 1;
 
   this._insertTimingGap();
   this._reverseMask();
   this._insertTimingRowAndColumn();
   this._insertVersion();
   this._syncMask();
-  this._convertBitStream(this._value.length);
+  this._convertBitStream(valueLength);
   this._calculatePolynomial();
   this._appendEccToData();
   this._interleaveBlocks();
@@ -111,14 +110,16 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _addAlignment: function(x, y) {
     var i;
+    var buffer = this.buffer;
+    var width = this.width;
 
-    this.buffer[x + (this.width * y)] = 1;
+    buffer[x + (width * y)] = 1;
 
     for (i = -2; i < 2; i++) {
-      this.buffer[x + i + (this.width * (y - 2))] = 1;
-      this.buffer[x - 2 + (this.width * (y + i + 1))] = 1;
-      this.buffer[x + 2 + (this.width * (y + i))] = 1;
-      this.buffer[x + i + 1 + (this.width * (y + 2))] = 1;
+      buffer[x + i + (width * (y - 2))] = 1;
+      buffer[x - 2 + (width * (y + i + 1))] = 1;
+      buffer[x + 2 + (width * (y + i))] = 1;
+      buffer[x + i + 1 + (width * (y + 2))] = 1;
     }
 
     for (i = 0; i < 2; i++) {
@@ -131,52 +132,56 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _appendData: function(data, dataLength, ecc, eccLength) {
     var bit, i, j;
+    var polynomial = this._polynomial;
+    var stringBuffer = this._stringBuffer;
 
     for (i = 0; i < eccLength; i++) {
-      this._stringBuffer[ecc + i] = 0;
+      stringBuffer[ecc + i] = 0;
     }
 
     for (i = 0; i < dataLength; i++) {
-      bit = Galois.LOG[this._stringBuffer[data + i] ^ this._stringBuffer[ecc]];
+      bit = Galois.LOG[stringBuffer[data + i] ^ stringBuffer[ecc]];
 
       if (bit !== 255) {
         for (j = 1; j < eccLength; j++) {
-          this._stringBuffer[ecc + j - 1] = this._stringBuffer[ecc + j] ^
-            Galois.EXPONENT[Frame._modN(bit + this._polynomial[eccLength - j])];
+          stringBuffer[ecc + j - 1] = stringBuffer[ecc + j] ^
+            Galois.EXPONENT[Frame._modN(bit + polynomial[eccLength - j])];
         }
       } else {
         for (j = ecc; j < ecc + eccLength; j++) {
-          this._stringBuffer[j] = this._stringBuffer[j + 1];
+          stringBuffer[j] = stringBuffer[j + 1];
         }
       }
 
-      this._stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0
-        : Galois.EXPONENT[Frame._modN(bit + this._polynomial[0])];
+      stringBuffer[ecc + eccLength - 1] = bit === 255 ? 0 : Galois.EXPONENT[Frame._modN(bit + polynomial[0])];
     }
   },
 
   _appendEccToData: function() {
     var i;
     var data = 0;
+    var dataBlock = this._dataBlock;
     var ecc = this._calculateMaxLength();
+    var eccBlock = this._eccBlock;
 
     for (i = 0; i < this._neccBlock1; i++) {
-      this._appendData(data, this._dataBlock, ecc, this._eccBlock);
+      this._appendData(data, dataBlock, ecc, eccBlock);
 
-      data += this._dataBlock;
-      ecc += this._eccBlock;
+      data += dataBlock;
+      ecc += eccBlock;
     }
 
     for (i = 0; i < this._neccBlock2; i++) {
-      this._appendData(data, this._dataBlock + 1, ecc, this._eccBlock);
+      this._appendData(data, dataBlock + 1, ecc, eccBlock);
 
-      data += this._dataBlock + 1;
-      ecc += this._eccBlock;
+      data += dataBlock + 1;
+      ecc += eccBlock;
     }
   },
 
   _applyMask: function(mask) {
     var r3x, r3y, x, y;
+    var buffer = this.buffer;
     var width = this.width;
 
     switch (mask) {
@@ -184,7 +189,7 @@ var Frame = Nevis.extend('Frame', function(options) {
       for (y = 0; y < width; y++) {
         for (x = 0; x < width; x++) {
           if (!((x + y) & 1) && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -194,7 +199,7 @@ var Frame = Nevis.extend('Frame', function(options) {
       for (y = 0; y < width; y++) {
         for (x = 0; x < width; x++) {
           if (!(y & 1) && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -208,7 +213,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!r3x && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -226,7 +231,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!r3x && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -241,7 +246,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!r3y && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -259,7 +264,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!((x & y & 1) + !(!r3x | !r3y)) && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -277,7 +282,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!((x & y & 1) + (r3x && r3x === r3y) & 1) && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -295,7 +300,7 @@ var Frame = Nevis.extend('Frame', function(options) {
           }
 
           if (!((r3x && r3x === r3y) + (x + y & 1) & 1) && !this._isMasked(x, y)) {
-            this.buffer[x + (y * width)] ^= 1;
+            buffer[x + (y * width)] ^= 1;
           }
         }
       }
@@ -310,44 +315,48 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _calculatePolynomial: function() {
     var i, j;
+    var eccBlock = this._eccBlock;
+    var polynomial = this._polynomial;
 
-    this._polynomial[0] = 1;
+    polynomial[0] = 1;
 
-    for (i = 0; i < this._eccBlock; i++) {
-      this._polynomial[i + 1] = 1;
+    for (i = 0; i < eccBlock; i++) {
+      polynomial[i + 1] = 1;
 
       for (j = i; j > 0; j--) {
-        this._polynomial[j] = this._polynomial[j] ? this._polynomial[j - 1] ^
-          Galois.EXPONENT[Frame._modN(Galois.LOG[this._polynomial[j]] + i)] : this._polynomial[j - 1];
+        polynomial[j] = polynomial[j] ? polynomial[j - 1] ^
+          Galois.EXPONENT[Frame._modN(Galois.LOG[polynomial[j]] + i)] : polynomial[j - 1];
       }
 
-      this._polynomial[0] = Galois.EXPONENT[Frame._modN(Galois.LOG[this._polynomial[0]] + i)];
+      polynomial[0] = Galois.EXPONENT[Frame._modN(Galois.LOG[polynomial[0]] + i)];
     }
 
     // Use logs for generator polynomial to save calculation step.
-    for (i = 0; i <= this._eccBlock; i++) {
-      this._polynomial[i] = Galois.LOG[this._polynomial[i]];
+    for (i = 0; i <= eccBlock; i++) {
+      polynomial[i] = Galois.LOG[polynomial[i]];
     }
   },
 
   _checkBadness: function() {
     var b, b1, h, x, y;
     var bad = 0;
+    var badness = this._badness;
+    var buffer = this.buffer;
     var width = this.width;
 
     // Blocks of same colour.
     for (y = 0; y < width - 1; y++) {
       for (x = 0; x < width - 1; x++) {
         // All foreground colour.
-        if ((this.buffer[x + (width * y)] &&
-          this.buffer[x + 1 + (width * y)] &&
-          this.buffer[x + (width * (y + 1))] &&
-          this.buffer[x + 1 + (width * (y + 1))]) ||
+        if ((buffer[x + (width * y)] &&
+          buffer[x + 1 + (width * y)] &&
+          buffer[x + (width * (y + 1))] &&
+          buffer[x + 1 + (width * (y + 1))]) ||
           // All background colour.
-          !(this.buffer[x + (width * y)] ||
-          this.buffer[x + 1 + (width * y)] ||
-          this.buffer[x + (width * (y + 1))] ||
-          this.buffer[x + 1 + (width * (y + 1))])) {
+          !(buffer[x + (width * y)] ||
+          buffer[x + 1 + (width * y)] ||
+          buffer[x + (width * (y + 1))] ||
+          buffer[x + 1 + (width * (y + 1))])) {
           bad += Frame.N2;
         }
       }
@@ -359,15 +368,15 @@ var Frame = Nevis.extend('Frame', function(options) {
     for (y = 0; y < width; y++) {
       h = 0;
 
-      this._badness[0] = 0;
+      badness[0] = 0;
 
       for (b = 0, x = 0; x < width; x++) {
-        b1 = this.buffer[x + (width * y)];
+        b1 = buffer[x + (width * y)];
 
         if (b === b1) {
-          this._badness[h]++;
+          badness[h]++;
         } else {
-          this._badness[++h] = 1;
+          badness[++h] = 1;
         }
 
         b = b1;
@@ -397,15 +406,15 @@ var Frame = Nevis.extend('Frame', function(options) {
     for (x = 0; x < width; x++) {
       h = 0;
 
-      this._badness[0] = 0;
+      badness[0] = 0;
 
       for (b = 0, y = 0; y < width; y++) {
-        b1 = this.buffer[x + (width * y)];
+        b1 = buffer[x + (width * y)];
 
         if (b === b1) {
-          this._badness[h]++;
+          badness[h]++;
         } else {
-          this._badness[++h] = 1;
+          badness[++h] = 1;
         }
 
         b = b1;
@@ -419,20 +428,21 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _convertBitStream: function(length) {
     var bit, i;
+    var ecc = this._ecc;
+    var version = this._version;
 
     // Convert string to bit stream. 8-bit data to QR-coded 8-bit data (numeric, alphanumeric, or kanji not supported).
     for (i = 0; i < length; i++) {
-      this._ecc[i] = this._value.charCodeAt(i);
+      ecc[i] = this._value.charCodeAt(i);
     }
 
-    this._stringBuffer = this._ecc.slice();
-
+    var stringBuffer = this._stringBuffer = ecc.slice();
     var maxLength = this._calculateMaxLength();
 
     if (length >= maxLength - 2) {
       length = maxLength - 2;
 
-      if (this._version > 9) {
+      if (version > 9) {
         length--;
       }
     }
@@ -440,64 +450,65 @@ var Frame = Nevis.extend('Frame', function(options) {
     // Shift and re-pack to insert length prefix.
     var index = length;
 
-    if (this._version > 9) {
-      this._stringBuffer[index + 2] = 0;
-      this._stringBuffer[index + 3] = 0;
+    if (version > 9) {
+      stringBuffer[index + 2] = 0;
+      stringBuffer[index + 3] = 0;
 
       while (index--) {
-        bit = this._stringBuffer[index];
+        bit = stringBuffer[index];
 
-        this._stringBuffer[index + 3] |= 255 & (bit << 4);
-        this._stringBuffer[index + 2] = bit >> 4;
+        stringBuffer[index + 3] |= 255 & (bit << 4);
+        stringBuffer[index + 2] = bit >> 4;
       }
 
-      this._stringBuffer[2] |= 255 & (length << 4);
-      this._stringBuffer[1] = length >> 4;
-      this._stringBuffer[0] = 0x40 | (length >> 12);
+      stringBuffer[2] |= 255 & (length << 4);
+      stringBuffer[1] = length >> 4;
+      stringBuffer[0] = 0x40 | (length >> 12);
     } else {
-      this._stringBuffer[index + 1] = 0;
-      this._stringBuffer[index + 2] = 0;
+      stringBuffer[index + 1] = 0;
+      stringBuffer[index + 2] = 0;
 
       while (index--) {
-        bit = this._stringBuffer[index];
+        bit = stringBuffer[index];
 
-        this._stringBuffer[index + 2] |= 255 & (bit << 4);
-        this._stringBuffer[index + 1] = bit >> 4;
+        stringBuffer[index + 2] |= 255 & (bit << 4);
+        stringBuffer[index + 1] = bit >> 4;
       }
 
-      this._stringBuffer[1] |= 255 & (length << 4);
-      this._stringBuffer[0] = 0x40 | (length >> 4);
+      stringBuffer[1] |= 255 & (length << 4);
+      stringBuffer[0] = 0x40 | (length >> 4);
     }
 
     // Fill to end with pad pattern.
-    index = length + 3 - (this._version < 10);
+    index = length + 3 - (version < 10);
 
     while (index < maxLength) {
-      this._stringBuffer[index++] = 0xec;
-      this._stringBuffer[index++] = 0x11;
+      stringBuffer[index++] = 0xec;
+      stringBuffer[index++] = 0x11;
     }
   },
 
   _getBadness: function(length) {
     var i;
     var badRuns = 0;
+    var badness = this._badness;
 
     for (i = 0; i <= length; i++) {
-      if (this._badness[i] >= 5) {
-        badRuns += Frame.N1 + this._badness[i] - 5;
+      if (badness[i] >= 5) {
+        badRuns += Frame.N1 + badness[i] - 5;
       }
     }
 
     // FBFFFBF as in finder.
     for (i = 3; i < length - 1; i += 2) {
-      if (this._badness[i - 2] === this._badness[i + 2] &&
-        this._badness[i + 2] === this._badness[i - 1] &&
-        this._badness[i - 1] === this._badness[i + 1] &&
-        this._badness[i - 1] * 3 === this._badness[i] &&
+      if (badness[i - 2] === badness[i + 2] &&
+        badness[i + 2] === badness[i - 1] &&
+        badness[i - 1] === badness[i + 1] &&
+        badness[i - 1] * 3 === badness[i] &&
         // Background around the foreground pattern? Not part of the specs.
-        (this._badness[i - 3] === 0 || i + 3 > length ||
-        this._badness[i - 3] * 3 >= this._badness[i] * 4 ||
-        this._badness[i + 3] * 3 >= this._badness[i] * 4)) {
+        (badness[i - 3] === 0 || i + 3 > length ||
+        badness[i - 3] * 3 >= badness[i] * 4 ||
+        badness[i + 3] * 3 >= badness[i] * 4)) {
         badRuns += Frame.N3;
       }
     }
@@ -546,15 +557,18 @@ var Frame = Nevis.extend('Frame', function(options) {
     // Add in final mask/ECC level bytes.
     mask = ErrorCorrection.FINAL_FORMAT[bit + (this._level - 1 << 3)];
 
+    var buffer = this.buffer;
+    var width = this.width;
+
     // Low byte.
     for (i = 0; i < 8; i++, mask >>= 1) {
       if (mask & 1) {
-        this.buffer[this.width - 1 - i + (this.width * 8)] = 1;
+        buffer[width - 1 - i + (width * 8)] = 1;
 
         if (i < 6) {
-          this.buffer[8 + (this.width * i)] = 1;
+          buffer[8 + (width * i)] = 1;
         } else {
-          this.buffer[8 + (this.width * (i + 1))] = 1;
+          buffer[8 + (width * (i + 1))] = 1;
         }
       }
     }
@@ -562,12 +576,12 @@ var Frame = Nevis.extend('Frame', function(options) {
     // High byte.
     for (i = 0; i < 7; i++, mask >>= 1) {
       if (mask & 1) {
-        this.buffer[8 + (this.width * (this.width - 7 + i))] = 1;
+        buffer[8 + (width * (width - 7 + i))] = 1;
 
         if (i) {
-          this.buffer[6 - i + (this.width * 8)] = 1;
+          buffer[6 - i + (width * 8)] = 1;
         } else {
-          this.buffer[7 + (this.width * 8)] = 1;
+          buffer[7 + (width * 8)] = 1;
         }
       }
     }
@@ -575,38 +589,45 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _interleaveBlocks: function() {
     var i, j;
+    var dataBlock = this._dataBlock;
+    var ecc = this._ecc;
+    var eccBlock = this._eccBlock;
     var k = 0;
     var maxLength = this._calculateMaxLength();
+    var neccBlock1 = this._neccBlock1;
+    var neccBlock2 = this._neccBlock2;
+    var stringBuffer = this._stringBuffer;
 
-    for (i = 0; i < this._dataBlock; i++) {
-      for (j = 0; j < this._neccBlock1; j++) {
-        this._ecc[k++] = this._stringBuffer[i + (j * this._dataBlock)];
+    for (i = 0; i < dataBlock; i++) {
+      for (j = 0; j < neccBlock1; j++) {
+        ecc[k++] = stringBuffer[i + (j * dataBlock)];
       }
 
-      for (j = 0; j < this._neccBlock2; j++) {
-        this._ecc[k++] = this._stringBuffer[(this._neccBlock1 * this._dataBlock) + i + (j * (this._dataBlock + 1))];
-      }
-    }
-
-    for (j = 0; j < this._neccBlock2; j++) {
-      this._ecc[k++] = this._stringBuffer[(this._neccBlock1 * this._dataBlock) + i + (j * (this._dataBlock + 1))];
-    }
-
-    for (i = 0; i < this._eccBlock; i++) {
-      for (j = 0; j < this._neccBlock1 + this._neccBlock2; j++) {
-        this._ecc[k++] = this._stringBuffer[maxLength + i + (j * this._eccBlock)];
+      for (j = 0; j < neccBlock2; j++) {
+        ecc[k++] = stringBuffer[(neccBlock1 * dataBlock) + i + (j * (dataBlock + 1))];
       }
     }
 
-    this._stringBuffer = this._ecc;
+    for (j = 0; j < neccBlock2; j++) {
+      ecc[k++] = stringBuffer[(neccBlock1 * dataBlock) + i + (j * (dataBlock + 1))];
+    }
+
+    for (i = 0; i < eccBlock; i++) {
+      for (j = 0; j < neccBlock1 + neccBlock2; j++) {
+        ecc[k++] = stringBuffer[maxLength + i + (j * eccBlock)];
+      }
+    }
+
+    this._stringBuffer = ecc;
   },
 
   _insertAlignments: function() {
     var i, x, y;
+    var version = this._version;
     var width = this.width;
 
-    if (this._version > 1) {
-      i = Alignment.BLOCK[this._version];
+    if (version > 1) {
+      i = Alignment.BLOCK[version];
       y = width - 7;
 
       for (;;) {
@@ -636,6 +657,7 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _insertFinders: function() {
     var i, j, x, y;
+    var buffer = this.buffer;
     var width = this.width;
 
     for (i = 0; i < 3; i++) {
@@ -649,13 +671,13 @@ var Frame = Nevis.extend('Frame', function(options) {
         y = width - 7;
       }
 
-      this.buffer[y + 3 + (width * (j + 3))] = 1;
+      buffer[y + 3 + (width * (j + 3))] = 1;
 
       for (x = 0; x < 6; x++) {
-        this.buffer[y + x + (width * j)] = 1;
-        this.buffer[y + (width * (j + x + 1))] = 1;
-        this.buffer[y + 6 + (width * (j + x))] = 1;
-        this.buffer[y + x + 1 + (width * (j + 6))] = 1;
+        buffer[y + x + (width * j)] = 1;
+        buffer[y + (width * (j + x + 1))] = 1;
+        buffer[y + 6 + (width * (j + x))] = 1;
+        buffer[y + x + 1 + (width * (j + 6))] = 1;
       }
 
       for (x = 1; x < 5; x++) {
@@ -666,10 +688,10 @@ var Frame = Nevis.extend('Frame', function(options) {
       }
 
       for (x = 2; x < 4; x++) {
-        this.buffer[y + x + (width * (j + 2))] = 1;
-        this.buffer[y + 2 + (width * (j + x + 1))] = 1;
-        this.buffer[y + 4 + (width * (j + x))] = 1;
-        this.buffer[y + x + 1 + (width * (j + 4))] = 1;
+        buffer[y + x + (width * (j + 2))] = 1;
+        buffer[y + 2 + (width * (j + x + 1))] = 1;
+        buffer[y + 4 + (width * (j + x))] = 1;
+        buffer[y + x + 1 + (width * (j + 4))] = 1;
       }
     }
   },
@@ -693,6 +715,7 @@ var Frame = Nevis.extend('Frame', function(options) {
 
   _insertTimingRowAndColumn: function() {
     var x;
+    var buffer = this.buffer;
     var width = this.width;
 
     for (x = 0; x < width - 14; x++) {
@@ -700,25 +723,27 @@ var Frame = Nevis.extend('Frame', function(options) {
         this._setMask(8 + x, 6);
         this._setMask(6, 8 + x);
       } else {
-        this.buffer[8 + x + (width * 6)] = 1;
-        this.buffer[6 + (width * (8 + x))] = 1;
+        buffer[8 + x + (width * 6)] = 1;
+        buffer[6 + (width * (8 + x))] = 1;
       }
     }
   },
 
   _insertVersion: function() {
     var i, j, x, y;
+    var buffer = this.buffer;
+    var version = this._version;
     var width = this.width;
 
-    if (this._version > 6) {
-      i = Version.BLOCK[this._version - 7];
+    if (version > 6) {
+      i = Version.BLOCK[version - 7];
       j = 17;
 
       for (x = 0; x < 6; x++) {
         for (y = 0; y < 3; y++, j--) {
-          if (1 & (j > 11 ? this._version >> j - 12 : i >> j)) {
-            this.buffer[5 - x + (width * (2 - y + width - 11))] = 1;
-            this.buffer[2 - y + width - 11 + (width * (5 - x))] = 1;
+          if (1 & (j > 11 ? version >> j - 12 : i >> j)) {
+            buffer[5 - x + (width * (2 - y + width - 11))] = 1;
+            buffer[2 - y + width - 11 + (width * (5 - x))] = 1;
           } else {
             this._setMask(5 - x, 2 - y + width - 11);
             this._setMask(2 - y + width - 11, 5 - x);
@@ -738,8 +763,9 @@ var Frame = Nevis.extend('Frame', function(options) {
     var bit, i, j;
     var k = 1;
     var v = 1;
-    var x = this.width - 1;
-    var y = this.width - 1;
+    var width = this.width;
+    var x = width - 1;
+    var y = width - 1;
 
     // Interleaved data and ECC codes.
     var length = ((this._dataBlock + this._eccBlock) * (this._neccBlock1 + this._neccBlock2)) + this._neccBlock2;
@@ -749,7 +775,7 @@ var Frame = Nevis.extend('Frame', function(options) {
 
       for (j = 0; j < 8; j++, bit <<= 1) {
         if (0x80 & bit) {
-          this.buffer[x + (this.width * y)] = 1;
+          this.buffer[x + (width * y)] = 1;
         }
 
         // Find next fill position.
@@ -771,7 +797,7 @@ var Frame = Nevis.extend('Frame', function(options) {
                   y = 9;
                 }
               }
-            } else if (y !== this.width - 1) {
+            } else if (y !== width - 1) {
               y++;
             } else {
               x -= 2;
