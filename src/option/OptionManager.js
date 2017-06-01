@@ -33,7 +33,7 @@ var Utilities = require('../util/Utilities');
  * @class
  * @extends Nevis
  */
-var OptionManager = Nevis.extend('OptionManager', function(options) {
+var OptionManager = Nevis.extend(function(options) {
   /**
    * The available options for this {@link OptionManager}.
    *

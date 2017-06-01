@@ -28,7 +28,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Galois = Nevis.extend('Galois', null, {
+var Galois = Nevis.extend(null, {
 
   /**
    * The Galois field exponent table.

@@ -28,7 +28,7 @@ var Renderer = require('./Renderer');
  * @class
  * @extends Renderer
  */
-var CanvasRenderer = Renderer.extend('CanvasRenderer', {
+var CanvasRenderer = Renderer.extend({
 
   /**
    * @override

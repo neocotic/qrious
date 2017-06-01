@@ -52,7 +52,7 @@ var serviceManager = new ServiceManager();
  * @class
  * @extends Nevis
  */
-var QRious = Nevis.extend('QRious', function(options) {
+var QRious = Nevis.extend(function(options) {
   optionManager.init(options, this, this.update.bind(this));
 
   var element = optionManager.get('element', this);

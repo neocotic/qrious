@@ -36,7 +36,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Renderer = Nevis.extend('Renderer', function(qrious, element, enabled) {
+var Renderer = Nevis.extend(function(qrious, element, enabled) {
   /**
    * The {@link QRious} instance.
    *

@@ -31,7 +31,7 @@ var Renderer = require('./Renderer');
  * @class
  * @extends Renderer
  */
-var ImageRenderer = Renderer.extend('ImageRenderer', {
+var ImageRenderer = Renderer.extend({
 
   /**
    * @override

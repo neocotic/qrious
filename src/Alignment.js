@@ -30,7 +30,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Alignment = Nevis.extend('Alignment', null, {
+var Alignment = Nevis.extend(null, {
 
   /**
    * The alignment pattern block.

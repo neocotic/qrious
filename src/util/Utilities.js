@@ -28,7 +28,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Utilities = Nevis.extend('Utilities', null, {
+var Utilities = Nevis.extend(null, {
 
   /**
    * Returns the absolute value of a given number.

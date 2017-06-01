@@ -31,7 +31,7 @@ var ElementService = require('./ElementService');
  * @class
  * @extends ElementService
  */
-var NodeElementService = ElementService.extend('NodeElementService', {
+var NodeElementService = ElementService.extend({
 
   /**
    * @override

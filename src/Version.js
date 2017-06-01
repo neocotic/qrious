@@ -28,7 +28,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Version = Nevis.extend('Version', null, {
+var Version = Nevis.extend(null, {
 
   /**
    * The version pattern block.

@@ -42,7 +42,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Option = Nevis.extend('Option', function(name, modifiable, defaultValue, valueTransformer) {
+var Option = Nevis.extend(function(name, modifiable, defaultValue, valueTransformer) {
   /**
    * The name for this {@link Option}.
    *

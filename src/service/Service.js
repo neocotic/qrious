@@ -28,7 +28,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var Service = Nevis.extend('Service', {
+var Service = Nevis.extend({
 
   /**
    * Returns the name of this {@link Service}.

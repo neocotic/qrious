@@ -28,7 +28,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var ServiceManager = Nevis.extend('ServiceManager', function() {
+var ServiceManager = Nevis.extend(function() {
   this._services = {};
 }, {
 

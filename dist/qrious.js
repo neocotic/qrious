@@ -221,7 +221,7 @@
    * @class
    * @extends Nevis
    */
-  var Service = lite.extend('Service', {
+  var Service = lite.extend({
 
     /**
      * Returns the name of this {@link Service}.
@@ -244,7 +244,7 @@
    * @class
    * @extends Service
    */
-  var ElementService = Service_1.extend('ElementService', {
+  var ElementService = Service_1.extend({
 
     /**
      * Creates an instance of a canvas element.
@@ -314,7 +314,7 @@
    * @class
    * @extends ElementService
    */
-  var BrowserElementService = ElementService_1.extend('BrowserElementService', {
+  var BrowserElementService = ElementService_1.extend({
 
     /**
      * @override
@@ -363,7 +363,7 @@
    * @class
    * @extends Nevis
    */
-  var Renderer = lite.extend('Renderer', function(qrious, element, enabled) {
+  var Renderer = lite.extend(function(qrious, element, enabled) {
     /**
      * The {@link QRious} instance.
      *
@@ -526,7 +526,7 @@
    * @class
    * @extends Renderer
    */
-  var CanvasRenderer = Renderer_1.extend('CanvasRenderer', {
+  var CanvasRenderer = Renderer_1.extend({
 
     /**
      * @override
@@ -589,7 +589,7 @@
    * @class
    * @extends Nevis
    */
-  var Alignment = lite.extend('Alignment', null, {
+  var Alignment = lite.extend(null, {
 
     /**
      * The alignment pattern block.
@@ -620,7 +620,7 @@
    * @class
    * @extends Nevis
    */
-  var ErrorCorrection = lite.extend('ErrorCorrection', null, {
+  var ErrorCorrection = lite.extend(null, {
 
     /**
      * The error correction blocks.
@@ -721,7 +721,7 @@
    * @class
    * @extends Nevis
    */
-  var Galois = lite.extend('Galois', null, {
+  var Galois = lite.extend(null, {
 
     /**
      * The Galois field exponent table.
@@ -788,7 +788,7 @@
    * @class
    * @extends Nevis
    */
-  var Version = lite.extend('Version', null, {
+  var Version = lite.extend(null, {
 
     /**
      * The version pattern block.
@@ -816,7 +816,7 @@
    * @class
    * @extends Nevis
    */
-  var Frame = lite.extend('Frame', function(options) {
+  var Frame = lite.extend(function(options) {
     var dataBlock, eccBlock, index, neccBlock1, neccBlock2;
     var valueLength = options.value.length;
 
@@ -1702,7 +1702,7 @@
    * @class
    * @extends Renderer
    */
-  var ImageRenderer = Renderer_1.extend('ImageRenderer', {
+  var ImageRenderer = Renderer_1.extend({
 
     /**
      * @override
@@ -1752,7 +1752,7 @@
    * @class
    * @extends Nevis
    */
-  var Option = lite.extend('Option', function(name, modifiable, defaultValue, valueTransformer) {
+  var Option = lite.extend(function(name, modifiable, defaultValue, valueTransformer) {
     /**
      * The name for this {@link Option}.
      *
@@ -1823,7 +1823,7 @@
    * @class
    * @extends Nevis
    */
-  var Utilities = lite.extend('Utilities', null, {
+  var Utilities = lite.extend(null, {
 
     /**
      * Returns the absolute value of a given number.
@@ -1894,7 +1894,7 @@
    * @class
    * @extends Nevis
    */
-  var OptionManager = lite.extend('OptionManager', function(options) {
+  var OptionManager = lite.extend(function(options) {
     /**
      * The available options for this {@link OptionManager}.
      *
@@ -2135,7 +2135,7 @@
    * @class
    * @extends Nevis
    */
-  var ServiceManager = lite.extend('ServiceManager', function() {
+  var ServiceManager = lite.extend(function() {
     this._services = {};
   }, {
 
@@ -2205,7 +2205,7 @@
    * @class
    * @extends Nevis
    */
-  var QRious = lite.extend('QRious', function(options) {
+  var QRious = lite.extend(function(options) {
     optionManager.init(options, this, this.update.bind(this));
 
     var element = optionManager.get('element', this);

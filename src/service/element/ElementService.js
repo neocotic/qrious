@@ -28,7 +28,7 @@ var Service = require('../Service');
  * @class
  * @extends Service
  */
-var ElementService = Service.extend('ElementService', {
+var ElementService = Service.extend({
 
   /**
    * Creates an instance of a canvas element.

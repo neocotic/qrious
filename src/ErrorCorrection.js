@@ -30,7 +30,7 @@ var Nevis = require('nevis/lite');
  * @class
  * @extends Nevis
  */
-var ErrorCorrection = Nevis.extend('ErrorCorrection', null, {
+var ErrorCorrection = Nevis.extend(null, {
 
   /**
    * The error correction blocks.

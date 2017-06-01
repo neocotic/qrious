@@ -34,7 +34,7 @@ var Version = require('./Version');
  * @class
  * @extends Nevis
  */
-var Frame = Nevis.extend('Frame', function(options) {
+var Frame = Nevis.extend(function(options) {
   var dataBlock, eccBlock, index, neccBlock1, neccBlock2;
   var valueLength = options.value.length;
 
