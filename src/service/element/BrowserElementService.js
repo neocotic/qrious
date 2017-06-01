@@ -19,7 +19,7 @@
 
 'use strict';
 
-var ElementService = require('./ElementService');
+var ElementService = require('qrious-core/src/service/element/ElementService');
 
 /**
  * An implementation of {@link ElementService} intended for use within a browser environment.
