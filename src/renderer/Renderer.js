@@ -21,8 +21,6 @@
 
 var Nevis = require('nevis/lite');
 
-var Utilities = require('../util/Utilities');
-
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
  *
@@ -76,11 +74,10 @@ var Renderer = Nevis.extend('Renderer', function(qrious, element, enabled) {
    * @param {Frame} frame - the {@link Frame} to be drawn
    * @return {void}
    * @protected
+   * @abstract
    * @memberof Renderer#
    */
-  draw: function(frame) {
-    Utilities.throwUnimplemented('Renderer', 'draw');
-  },
+  draw: function(frame) {},
 
   /**
    * Returns the element onto which this {@link Renderer} is rendering the QR code.
@@ -174,11 +171,10 @@ var Renderer = Nevis.extend('Renderer', function(qrious, element, enabled) {
    *
    * @return {void}
    * @protected
+   * @abstract
    * @memberof Renderer#
    */
-  reset: function() {
-    Utilities.throwUnimplemented('Renderer', 'reset');
-  },
+  reset: function() {},
 
   /**
    * Ensures that the size of the underlying element matches that defined on the associated {@link QRious} instance.
@@ -187,11 +183,10 @@ var Renderer = Nevis.extend('Renderer', function(qrious, element, enabled) {
    *
    * @return {void}
    * @protected
+   * @abstract
    * @memberof Renderer#
    */
-  resize: function() {
-    Utilities.throwUnimplemented('Renderer', 'resize');
-  }
+  resize: function() {}
 
 });
 

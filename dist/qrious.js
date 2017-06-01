@@ -215,79 +215,6 @@
   var lite = nevis;
 
   /**
-   * Contains utility methods that are useful throughout the library.
-   *
-   * @public
-   * @class
-   * @extends Nevis
-   */
-  var Utilities = lite.extend('Utilities', null, {
-
-    /**
-     * Returns the absolute value of a given number.
-     *
-     * This method is simply a convenient shorthand for <code>Math.abs</code> while ensuring that nulls are returned as
-     * <code>null</code> instead of zero.
-     *
-     * @param {number} value - the number whose absolute value is to be returned
-     * @return {number} The absolute value of <code>value</code> or <code>null</code> if <code>value</code> is
-     * <code>null</code>.
-     * @public
-     * @static
-     * @memberof Utilities
-     */
-    abs: function(value) {
-      return value != null ? Math.abs(value) : null;
-    },
-
-    /**
-     * Returns whether the specified <code>object</code> has a property with the specified <code>name</code> as an own
-     * (not inherited) property.
-     *
-     * @param {Object} object - the object on which the property is to be checked
-     * @param {string} name - the name of the property to be checked
-     * @return {boolean} <code>true</code> if <code>object</code> has an own property with <code>name</code>.
-     * @public
-     * @static
-     * @memberof Utilities
-     */
-    hasOwn: function(object, name) {
-      return Object.prototype.hasOwnProperty.call(object, name);
-    },
-
-    /**
-     * Throws an error indicating that the a given method on a specific class has not been implemented.
-     *
-     * @param {string} className - the name of the class on which the method has not been implemented
-     * @param {string} methodName - the name of the method which has not been implemented
-     * @return {void}
-     * @throws {Error} The error describing the class method which has not been implemented.
-     * @public
-     * @static
-     * @memberof Utilities
-     */
-    throwUnimplemented: function(className, methodName) {
-      throw new Error('"' + methodName + '" method must be implemented on the ' + className + ' class');
-    },
-
-    /**
-     * Transforms the specified <code>string</code> to upper case while remaining null-safe.
-     *
-     * @param {string} string - the string to be transformed to upper case
-     * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
-     * @public
-     * @static
-     * @memberof Utilities
-     */
-    toUpperCase: function(string) {
-      return string != null ? string.toUpperCase() : null;
-    }
-
-  });
-
-  var Utilities_1 = Utilities;
-
-  /**
    * Defines a service contract that must be met by all implementations.
    *
    * @public
@@ -301,11 +228,10 @@
      *
      * @return {string} The service name.
      * @public
+     * @abstract
      * @memberof Service#
      */
-    getName: function() {
-      Utilities_1.throwUnimplemented('Service', 'getName');
-    }
+    getName: function() {}
 
   });
 
@@ -323,24 +249,26 @@
     /**
      * Creates an instance of a canvas element.
      *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
      * @return {*} The newly created canvas element.
      * @public
+     * @abstract
      * @memberof ElementService#
      */
-    createCanvas: function() {
-      Utilities_1.throwUnimplemented('ElementService', 'createCanvas');
-    },
+    createCanvas: function() {},
 
     /**
      * Creates an instance of a image element.
      *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
      * @return {*} The newly created image element.
      * @public
+     * @abstract
      * @memberof ElementService#
      */
-    createImage: function() {
-      Utilities_1.throwUnimplemented('ElementService', 'createImage');
-    },
+    createImage: function() {},
 
     /**
      * @override
@@ -352,26 +280,28 @@
     /**
      * Returns whether the specified <code>element</code> is a canvas.
      *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
      * @param {*} element - the element to be checked
      * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
      * @public
+     * @abstract
      * @memberof ElementService#
      */
-    isCanvas: function(element) {
-      Utilities_1.throwUnimplemented('ElementService', 'isCanvas');
-    },
+    isCanvas: function(element) {},
 
     /**
      * Returns whether the specified <code>element</code> is an image.
      *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
      * @param {*} element - the element to be checked
      * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
      * @public
+     * @abstract
      * @memberof ElementService#
      */
-    isImage: function(element) {
-      Utilities_1.throwUnimplemented('ElementService', 'isImage');
-    }
+    isImage: function(element) {}
 
   });
 
@@ -471,11 +401,10 @@
      * @param {Frame} frame - the {@link Frame} to be drawn
      * @return {void}
      * @protected
+     * @abstract
      * @memberof Renderer#
      */
-    draw: function(frame) {
-      Utilities_1.throwUnimplemented('Renderer', 'draw');
-    },
+    draw: function(frame) {},
 
     /**
      * Returns the element onto which this {@link Renderer} is rendering the QR code.
@@ -569,11 +498,10 @@
      *
      * @return {void}
      * @protected
+     * @abstract
      * @memberof Renderer#
      */
-    reset: function() {
-      Utilities_1.throwUnimplemented('Renderer', 'reset');
-    },
+    reset: function() {},
 
     /**
      * Ensures that the size of the underlying element matches that defined on the associated {@link QRious} instance.
@@ -582,11 +510,10 @@
      *
      * @return {void}
      * @protected
+     * @abstract
      * @memberof Renderer#
      */
-    resize: function() {
-      Utilities_1.throwUnimplemented('Renderer', 'resize');
-    }
+    resize: function() {}
 
   });
 
@@ -1871,6 +1798,64 @@
    */
 
   /**
+   * Contains utility methods that are useful throughout the library.
+   *
+   * @public
+   * @class
+   * @extends Nevis
+   */
+  var Utilities = lite.extend('Utilities', null, {
+
+    /**
+     * Returns the absolute value of a given number.
+     *
+     * This method is simply a convenient shorthand for <code>Math.abs</code> while ensuring that nulls are returned as
+     * <code>null</code> instead of zero.
+     *
+     * @param {number} value - the number whose absolute value is to be returned
+     * @return {number} The absolute value of <code>value</code> or <code>null</code> if <code>value</code> is
+     * <code>null</code>.
+     * @public
+     * @static
+     * @memberof Utilities
+     */
+    abs: function(value) {
+      return value != null ? Math.abs(value) : null;
+    },
+
+    /**
+     * Returns whether the specified <code>object</code> has a property with the specified <code>name</code> as an own
+     * (not inherited) property.
+     *
+     * @param {Object} object - the object on which the property is to be checked
+     * @param {string} name - the name of the property to be checked
+     * @return {boolean} <code>true</code> if <code>object</code> has an own property with <code>name</code>.
+     * @public
+     * @static
+     * @memberof Utilities
+     */
+    hasOwn: function(object, name) {
+      return Object.prototype.hasOwnProperty.call(object, name);
+    },
+
+    /**
+     * Transforms the specified <code>string</code> to upper case while remaining null-safe.
+     *
+     * @param {string} string - the string to be transformed to upper case
+     * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
+     * @public
+     * @static
+     * @memberof Utilities
+     */
+    toUpperCase: function(string) {
+      return string != null ? string.toUpperCase() : null;
+    }
+
+  });
+
+  var Utilities_1 = Utilities;
+
+  /**
    * Manages multiple {@link Option} instances that are intended to be used by multiple implementations.
    *
    * Although the option definitions are shared between targets, the values are maintained on the targets themselves.
@@ -2209,6 +2194,16 @@
   }, {
 
     /**
+     * The current version of {@link QRious}.
+     *
+     * @public
+     * @static
+     * @type {string}
+     * @memberof QRious
+     */
+    VERSION: '2.3.0',
+
+    /**
      * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
      *
      * @param {Service} service - the {@link Service} to be configured
@@ -2529,25 +2524,6 @@
         if (optionManager.set('value', value, this)) {
           this.update();
         }
-      }
-    }
-
-  });
-
-  Object.defineProperties(QRious, {
-
-    VERSION: {
-      /**
-       * Returns the current version of {@link QRious}.
-       *
-       * @return {string} The current version.
-       * @public
-       * @static
-       * @memberof QRious
-       * @alias VERSION
-       */
-      get: function() {
-        return '2.3.0';
       }
     }
 

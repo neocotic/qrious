@@ -20,7 +20,6 @@
 'use strict';
 
 var Service = require('../Service');
-var Utilities = require('../../util/Utilities');
 
 /**
  * A service for working with elements.
@@ -34,24 +33,26 @@ var ElementService = Service.extend('ElementService', {
   /**
    * Creates an instance of a canvas element.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @return {*} The newly created canvas element.
    * @public
+   * @abstract
    * @memberof ElementService#
    */
-  createCanvas: function() {
-    Utilities.throwUnimplemented('ElementService', 'createCanvas');
-  },
+  createCanvas: function() {},
 
   /**
    * Creates an instance of a image element.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @return {*} The newly created image element.
    * @public
+   * @abstract
    * @memberof ElementService#
    */
-  createImage: function() {
-    Utilities.throwUnimplemented('ElementService', 'createImage');
-  },
+  createImage: function() {},
 
   /**
    * @override
@@ -63,26 +64,28 @@ var ElementService = Service.extend('ElementService', {
   /**
    * Returns whether the specified <code>element</code> is a canvas.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
    * @public
+   * @abstract
    * @memberof ElementService#
    */
-  isCanvas: function(element) {
-    Utilities.throwUnimplemented('ElementService', 'isCanvas');
-  },
+  isCanvas: function(element) {},
 
   /**
    * Returns whether the specified <code>element</code> is an image.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
    * @public
+   * @abstract
    * @memberof ElementService#
    */
-  isImage: function(element) {
-    Utilities.throwUnimplemented('ElementService', 'isImage');
-  }
+  isImage: function(element) {}
 
 });
 

@@ -10,6 +10,7 @@
       5
     ],
     "no-bitwise": "off",
+    "no-empty-function": "off",
     "no-invalid-this": "off",
     "no-unused-vars": [
       "warn",

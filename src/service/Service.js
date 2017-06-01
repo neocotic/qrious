@@ -21,8 +21,6 @@
 
 var Nevis = require('nevis/lite');
 
-var Utilities = require('../util/Utilities');
-
 /**
  * Defines a service contract that must be met by all implementations.
  *
@@ -37,11 +35,10 @@ var Service = Nevis.extend('Service', {
    *
    * @return {string} The service name.
    * @public
+   * @abstract
    * @memberof Service#
    */
-  getName: function() {
-    Utilities.throwUnimplemented('Service', 'getName');
-  }
+  getName: function() {}
 
 });
 

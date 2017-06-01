@@ -132,6 +132,16 @@ var QRious = Nevis.extend('QRious', function(options) {
 }, {
 
   /**
+   * The current version of {@link QRious}.
+   *
+   * @public
+   * @static
+   * @type {string}
+   * @memberof QRious
+   */
+  VERSION: '2.3.0',
+
+  /**
    * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
    *
    * @param {Service} service - the {@link Service} to be configured
@@ -452,25 +462,6 @@ Object.defineProperties(QRious.prototype, {
       if (optionManager.set('value', value, this)) {
         this.update();
       }
-    }
-  }
-
-});
-
-Object.defineProperties(QRious, {
-
-  VERSION: {
-    /**
-     * Returns the current version of {@link QRious}.
-     *
-     * @return {string} The current version.
-     * @public
-     * @static
-     * @memberof QRious
-     * @alias VERSION
-     */
-    get: function() {
-      return '2.3.0';
     }
   }
 

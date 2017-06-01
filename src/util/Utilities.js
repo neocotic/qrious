@@ -63,21 +63,6 @@ var Utilities = Nevis.extend('Utilities', null, {
   },
 
   /**
-   * Throws an error indicating that the a given method on a specific class has not been implemented.
-   *
-   * @param {string} className - the name of the class on which the method has not been implemented
-   * @param {string} methodName - the name of the method which has not been implemented
-   * @return {void}
-   * @throws {Error} The error describing the class method which has not been implemented.
-   * @public
-   * @static
-   * @memberof Utilities
-   */
-  throwUnimplemented: function(className, methodName) {
-    throw new Error('"' + methodName + '" method must be implemented on the ' + className + ' class');
-  },
-
-  /**
    * Transforms the specified <code>string</code> to upper case while remaining null-safe.
    *
    * @param {string} string - the string to be transformed to upper case
