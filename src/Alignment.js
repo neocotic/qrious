@@ -17,30 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 /* eslint no-multi-spaces: "off" */
+
+var Nevis = require('nevis/lite');
 
 /**
  * Contains alignment pattern information.
  *
  * @public
+ * @class
+ * @extends Nevis
  */
-class Alignment {
+var Alignment = Nevis.extend(null, {
 
   /**
-   * Returns the alignment pattern block.
+   * The alignment pattern block.
    *
-   * @return {number[]} The alignment pattern block.
    * @public
    * @static
+   * @type {number[]}
+   * @memberof Alignment
    */
-  static get BLOCK() {
-    return [
-      0,  11, 15, 19, 23, 27, 31,
-      16, 18, 20, 22, 24, 26, 28, 20, 22, 24, 24, 26, 28, 28, 22, 24, 24,
-      26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28
-    ];
-  }
+  BLOCK: [
+    0,  11, 15, 19, 23, 27, 31,
+    16, 18, 20, 22, 24, 26, 28, 20, 22, 24, 24, 26, 28, 28, 22, 24, 24,
+    26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28
+  ]
 
-}
+});
 
-export default Alignment;
+module.exports = Alignment;

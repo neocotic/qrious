@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import BrowserElementService from '../service/element/BrowserElementService';
-import QRious from '../QRious';
+'use strict';
+
+var BrowserElementService = require('../service/element/BrowserElementService');
+var QRious = require('../QRious');
 
 QRious.use(new BrowserElementService());
 
-export default QRious;
+module.exports = QRious;

@@ -1,12 +1,8 @@
 {
-  "extends": "notninja/es6",
+  "extends": "notninja/es5",
   "env": {
     "browser": true,
     "node": true
-  },
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module"
   },
   "rules": {
     "max-params": [
@@ -14,6 +10,8 @@
       5
     ],
     "no-bitwise": "off",
+    "no-empty-function": "off",
+    "no-invalid-this": "off",
     "no-unused-vars": [
       "warn",
       {

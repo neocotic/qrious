@@ -17,12 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var Nevis = require('nevis/lite');
+
 /**
  * Contains utility methods that are useful throughout the library.
  *
  * @public
+ * @class
+ * @extends Nevis
  */
-class Utilities {
+var Utilities = Nevis.extend(null, {
 
   /**
    * Returns the absolute value of a given number.
@@ -35,10 +41,11 @@ class Utilities {
    * <code>null</code>.
    * @public
    * @static
+   * @memberof Utilities
    */
-  static abs(value) {
+  abs: function(value) {
     return value != null ? Math.abs(value) : null;
-  }
+  },
 
   /**
    * Returns whether the specified <code>object</code> has a property with the specified <code>name</code> as an own
@@ -49,24 +56,21 @@ class Utilities {
    * @return {boolean} <code>true</code> if <code>object</code> has an own property with <code>name</code>.
    * @public
    * @static
+   * @memberof Utilities
    */
-  static hasOwn(object, name) {
+  hasOwn: function(object, name) {
     return Object.prototype.hasOwnProperty.call(object, name);
-  }
+  },
 
   /**
-   * Throws an error indicating that the a given method on a specific class has not been implemented.
+   * A non-operation method that does absolutely nothing.
    *
-   * @param {string} className - the name of the class on which the method has not been implemented
-   * @param {string} methodName - the name of the method which has not been implemented
    * @return {void}
-   * @throws {Error} The error describing the class method which has not been implemented.
    * @public
    * @static
+   * @memberof Utilities
    */
-  static throwUnimplemented(className, methodName) {
-    throw new Error(`"${methodName}" method must be implemented on the ${className} class`);
-  }
+  noop: function() {},
 
   /**
    * Transforms the specified <code>string</code> to upper case while remaining null-safe.
@@ -75,11 +79,12 @@ class Utilities {
    * @return {string} <code>string</code> transformed to upper case if <code>string</code> is not <code>null</code>.
    * @public
    * @static
+   * @memberof Utilities
    */
-  static toUpperCase(string) {
+  toUpperCase: function(string) {
     return string != null ? string.toUpperCase() : null;
   }
 
-}
+});
 
-export default Utilities;
+module.exports = Utilities;

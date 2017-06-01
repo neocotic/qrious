@@ -17,59 +17,65 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Renderer from './Renderer';
+'use strict';
+
+var Renderer = require('./Renderer');
 
 /**
  * An implementation of {@link Renderer} for working with <code>canvas</code> elements.
  *
  * @public
+ * @class
  * @extends Renderer
  */
-class CanvasRenderer extends Renderer {
+var CanvasRenderer = Renderer.extend({
 
   /**
    * @override
    */
-  draw(frame) {
-    const qrious = this.qrious;
-    const moduleSize = this.getModuleSize(frame);
-    const offset = this.getOffset(frame);
-    const context = this.element.getContext('2d');
+  draw: function(frame) {
+    var i, j;
+    var qrious = this.qrious;
+    var moduleSize = this.getModuleSize(frame);
+    var offset = this.getOffset(frame);
+    var context = this.element.getContext('2d');
 
     context.fillStyle = qrious.foreground;
     context.globalAlpha = qrious.foregroundAlpha;
 
-    for (let i = 0; i < frame.width; i++) {
-      for (let j = 0; j < frame.width; j++) {
+    for (i = 0; i < frame.width; i++) {
+      for (j = 0; j < frame.width; j++) {
         if (frame.buffer[(j * frame.width) + i]) {
           context.fillRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize);
         }
       }
     }
-  }
+  },
 
   /**
    * @override
    */
-  reset() {
-    const qrious = this.qrious;
-    const context = this.element.getContext('2d');
-    const size = qrious.size;
+  reset: function() {
+    var qrious = this.qrious;
+    var context = this.element.getContext('2d');
+    var size = qrious.size;
 
     context.lineWidth = 1;
     context.clearRect(0, 0, size, size);
     context.fillStyle = qrious.background;
     context.globalAlpha = qrious.backgroundAlpha;
     context.fillRect(0, 0, size, size);
-  }
+  },
 
   /**
    * @override
    */
-  resize() {
-    this.element.width = this.element.height = this.qrious.size;
+  resize: function() {
+    var element = this.element;
+
+    element.width = element.height = this.qrious.size;
   }
 
-}
+});
 
-export default CanvasRenderer;
+module.exports = CanvasRenderer;

@@ -17,66 +17,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Service from '../Service';
-import Utilities from '../../util/Utilities';
+'use strict';
+
+var Service = require('../Service');
 
 /**
  * A service for working with elements.
  *
  * @public
+ * @class
  * @extends Service
  */
-class ElementService extends Service {
+var ElementService = Service.extend({
 
   /**
    * Creates an instance of a canvas element.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @return {*} The newly created canvas element.
    * @public
+   * @abstract
+   * @memberof ElementService#
    */
-  createCanvas() {
-    Utilities.throwUnimplemented('ElementService', 'createCanvas');
-  }
+  createCanvas: function() {},
 
   /**
    * Creates an instance of a image element.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @return {*} The newly created image element.
    * @public
+   * @abstract
+   * @memberof ElementService#
    */
-  createImage() {
-    Utilities.throwUnimplemented('ElementService', 'createImage');
-  }
+  createImage: function() {},
 
   /**
    * @override
    */
-  getName() {
+  getName: function() {
     return 'element';
-  }
+  },
 
   /**
    * Returns whether the specified <code>element</code> is a canvas.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
    * @public
+   * @abstract
+   * @memberof ElementService#
    */
-  isCanvas(element) {
-    Utilities.throwUnimplemented('ElementService', 'isCanvas');
-  }
+  isCanvas: function(element) {},
 
   /**
    * Returns whether the specified <code>element</code> is an image.
    *
+   * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+   *
    * @param {*} element - the element to be checked
    * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
    * @public
+   * @abstract
+   * @memberof ElementService#
    */
-  isImage(element) {
-    Utilities.throwUnimplemented('ElementService', 'isImage');
-  }
+  isImage: function(element) {}
 
-}
+});
 
-export default ElementService;
+module.exports = ElementService;

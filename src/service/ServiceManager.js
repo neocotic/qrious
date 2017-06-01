@@ -17,21 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var Nevis = require('nevis/lite');
+
 /**
  * A basic manager for {@link Service} implementations that are mapped to simple names.
  *
  * @public
+ * @class
+ * @extends Nevis
  */
-class ServiceManager {
-
-  /**
-   * Creates a new instance of {@link ServiceManager}.
-   *
-   * @public
-   */
-  constructor() {
-    this._services = {};
-  }
+var ServiceManager = Nevis.extend(function() {
+  this._services = {};
+}, {
 
   /**
    * Returns the {@link Service} being managed with the specified <code>name</code>.
@@ -40,15 +39,16 @@ class ServiceManager {
    * @return {Service} The {@link Service} is being managed with <code>name</code>.
    * @throws {Error} If no {@link Service} is being managed with <code>name</code>.
    * @public
+   * @memberof ServiceManager#
    */
-  getService(name) {
-    const service = this._services[name];
+  getService: function(name) {
+    var service = this._services[name];
     if (!service) {
-      throw new Error(`Service is not being managed with name: ${name}`);
+      throw new Error('Service is not being managed with name: ' + name);
     }
 
     return service;
-  }
+  },
 
   /**
    * Sets the {@link Service} implementation to be managed for the specified <code>name</code> to the
@@ -59,10 +59,11 @@ class ServiceManager {
    * @return {void}
    * @throws {Error} If a {@link Service} is already being managed with the same <code>name</code>.
    * @public
+   * @memberof ServiceManager#
    */
-  setService(name, service) {
+  setService: function(name, service) {
     if (this._services[name]) {
-      throw new Error(`Service is already managed with name: ${name}`);
+      throw new Error('Service is already managed with name: ' + name);
     }
 
     if (service) {
@@ -70,6 +71,6 @@ class ServiceManager {
     }
   }
 
-}
+});
 
-export default ServiceManager;
+module.exports = ServiceManager;

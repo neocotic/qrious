@@ -17,7 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Renderer from './Renderer';
+'use strict';
+
+var Renderer = require('./Renderer');
 
 /**
  * An implementation of {@link Renderer} for working with <code>img</code> elements.
@@ -26,31 +28,34 @@ import Renderer from './Renderer';
  * the rendered <code>canvas</code> element as the <code>src</code> for the <code>img</code> element being rendered.
  *
  * @public
+ * @class
  * @extends Renderer
  */
-class ImageRenderer extends Renderer {
+var ImageRenderer = Renderer.extend({
 
   /**
    * @override
    */
-  draw() {
+  draw: function() {
     this.element.src = this.qrious.toDataURL();
-  }
+  },
 
   /**
    * @override
    */
-  reset() {
+  reset: function() {
     this.element.src = '';
-  }
+  },
 
   /**
    * @override
    */
-  resize() {
-    this.element.width = this.element.height = this.qrious.size;
+  resize: function() {
+    var element = this.element;
+
+    element.width = element.height = this.qrious.size;
   }
 
-}
+});
 
-export default ImageRenderer;
+module.exports = ImageRenderer;

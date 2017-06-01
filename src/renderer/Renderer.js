@@ -17,7 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Utilities from '../util/Utilities';
+'use strict';
+
+var Nevis = require('nevis/lite');
 
 /**
  * Responsible for rendering a QR code {@link Frame} on a specific type of element.
@@ -27,44 +29,42 @@ import Utilities from '../util/Utilities';
  * The rendering of a element can be deferred by disabling the renderer initially, however, any attempt get the element
  * from the renderer will result in it being immediately enabled and the element being rendered.
  *
+ * @param {QRious} qrious - the {@link QRious} instance to be used
+ * @param {*} element - the element onto which the QR code is to be rendered
+ * @param {boolean} [enabled] - <code>true</code> this {@link Renderer} is enabled; otherwise <code>false</code>.
  * @public
+ * @class
+ * @extends Nevis
  */
-class Renderer {
+var Renderer = Nevis.extend(function(qrious, element, enabled) {
+  /**
+   * The {@link QRious} instance.
+   *
+   * @protected
+   * @type {QRious}
+   * @memberof Renderer#
+   */
+  this.qrious = qrious;
 
   /**
-   * Creates a new instance of {@link Renderer} for the <code>qrious</code> instance and <code>element</code> provided.
+   * The element onto which this {@link Renderer} is rendering the QR code.
    *
-   * @param {QRious} qrious - the {@link QRious} instance to be used
-   * @param {*} element - the element onto which the QR code is to be rendered
-   * @param {boolean} [enabled] - <code>true</code> this {@link Renderer} is enabled; otherwise <code>false</code>.
-   * @public
+   * @protected
+   * @type {*}
+   * @memberof Renderer#
    */
-  constructor(qrious, element, enabled) {
-    /**
-     * The {@link QRious} instance.
-     *
-     * @protected
-     * @type {QRious}
-     */
-    this.qrious = qrious;
+  this.element = element;
+  this.element.qrious = qrious;
 
-    /**
-     * The element onto which this {@link Renderer} is rendering the QR code.
-     *
-     * @protected
-     * @type {*}
-     */
-    this.element = element;
-    this.element.qrious = qrious;
-
-    /**
-     * Whether this {@link Renderer} is enabled.
-     *
-     * @protected
-     * @type {boolean}
-     */
-    this.enabled = Boolean(enabled);
-  }
+  /**
+   * Whether this {@link Renderer} is enabled.
+   *
+   * @protected
+   * @type {boolean}
+   * @memberof Renderer#
+   */
+  this.enabled = Boolean(enabled);
+}, {
 
   /**
    * Draws the specified QR code <code>frame</code> on the underlying element.
@@ -74,10 +74,10 @@ class Renderer {
    * @param {Frame} frame - the {@link Frame} to be drawn
    * @return {void}
    * @protected
+   * @abstract
+   * @memberof Renderer#
    */
-  draw(frame) {
-    Utilities.throwUnimplemented('Renderer', 'draw');
-  }
+  draw: function(frame) {},
 
   /**
    * Returns the element onto which this {@link Renderer} is rendering the QR code.
@@ -87,15 +87,16 @@ class Renderer {
    *
    * @return {*} The element.
    * @public
+   * @memberof Renderer#
    */
-  getElement() {
+  getElement: function() {
     if (!this.enabled) {
       this.enabled = true;
       this.render();
     }
 
     return this.element;
-  }
+  },
 
   /**
    * Calculates the size (in pixel units) to represent an individual module within the QR code based on the
@@ -110,14 +111,15 @@ class Renderer {
    * @param {Frame} frame - the {@link Frame} from which the module size is to be derived
    * @return {number} The pixel size for each module in the QR code which will be no less than one.
    * @protected
+   * @memberof Renderer#
    */
-  getModuleSize(frame) {
-    const qrious = this.qrious;
-    const padding = qrious.padding || 0;
-    const pixels = Math.floor((qrious.size - (padding * 2)) / frame.width);
+  getModuleSize: function(frame) {
+    var qrious = this.qrious;
+    var padding = qrious.padding || 0;
+    var pixels = Math.floor((qrious.size - (padding * 2)) / frame.width);
 
     return Math.max(1, pixels);
-  }
+  },
 
   /**
    * Calculates the offset/padding (in pixel units) to be inserted before the QR code based on the <code>frame</code>
@@ -130,20 +132,21 @@ class Renderer {
    * @param {Frame} frame - the {@link Frame} from which the offset is to be derived
    * @return {number} The pixel offset for the QR code which will be no less than zero.
    * @protected
+   * @memberof Renderer#
    */
-  getOffset(frame) {
-    const qrious = this.qrious;
-    const padding = qrious.padding;
+  getOffset: function(frame) {
+    var qrious = this.qrious;
+    var padding = qrious.padding;
 
     if (padding != null) {
       return padding;
     }
 
-    const moduleSize = this.getModuleSize(frame);
-    const offset = Math.floor((qrious.size - (moduleSize * frame.width)) / 2);
+    var moduleSize = this.getModuleSize(frame);
+    var offset = Math.floor((qrious.size - (moduleSize * frame.width)) / 2);
 
     return Math.max(0, offset);
-  }
+  },
 
   /**
    * Renders a QR code on the underlying element based on the <code>frame</code> provided.
@@ -151,14 +154,15 @@ class Renderer {
    * @param {Frame} frame - the {@link Frame} to be rendered
    * @return {void}
    * @public
+   * @memberof Renderer#
    */
-  render(frame) {
+  render: function(frame) {
     if (this.enabled) {
       this.resize();
       this.reset();
       this.draw(frame);
     }
-  }
+  },
 
   /**
    * Resets the underlying element, effectively clearing any previously rendered QR code.
@@ -167,10 +171,10 @@ class Renderer {
    *
    * @return {void}
    * @protected
+   * @abstract
+   * @memberof Renderer#
    */
-  reset() {
-    Utilities.throwUnimplemented('Renderer', 'reset');
-  }
+  reset: function() {},
 
   /**
    * Ensures that the size of the underlying element matches that defined on the associated {@link QRious} instance.
@@ -179,11 +183,11 @@ class Renderer {
    *
    * @return {void}
    * @protected
+   * @abstract
+   * @memberof Renderer#
    */
-  resize() {
-    Utilities.throwUnimplemented('Renderer', 'resize');
-  }
+  resize: function() {}
 
-}
+});
 
-export default Renderer;
+module.exports = Renderer;

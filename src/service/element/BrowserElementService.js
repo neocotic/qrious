@@ -17,44 +17,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import ElementService from './ElementService';
+'use strict';
+
+var ElementService = require('./ElementService');
 
 /**
  * An implementation of {@link ElementService} intended for use within a browser environment.
  *
  * @public
+ * @class
  * @extends ElementService
  */
-class BrowserElementService extends ElementService {
+var BrowserElementService = ElementService.extend({
 
   /**
    * @override
    */
-  createCanvas() {
+  createCanvas: function() {
     return document.createElement('canvas');
-  }
+  },
 
   /**
    * @override
    */
-  createImage() {
+  createImage: function() {
     return document.createElement('img');
-  }
+  },
 
   /**
    * @override
    */
-  isCanvas(element) {
+  isCanvas: function(element) {
     return element instanceof HTMLCanvasElement;
-  }
+  },
 
   /**
    * @override
    */
-  isImage(element) {
+  isImage: function(element) {
     return element instanceof HTMLImageElement;
   }
 
-}
+});
 
-export default BrowserElementService;
+module.exports = BrowserElementService;

@@ -10,6 +10,7 @@
 
 [![Chat](https://img.shields.io/gitter/room/neocotic/qrious.svg?style=flat-square)](https://gitter.im/neocotic/qrious)
 [![Build Status](https://img.shields.io/travis/neocotic/qrious/develop.svg?style=flat-square)](https://travis-ci.org/neocotic/qrious)
+[![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
 [![Optional Dependency Status](https://img.shields.io/david/optional/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=optional)
 [![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
@@ -38,8 +39,8 @@ you want to install that way instead of using `npm`.
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.js.map))
-* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/umd/qrious.min.js.map))
+* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
+* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
 
 ### Node.js Dependencies
 
@@ -106,17 +107,18 @@ Open up `demo.html` in your browser to play around a bit.
 Simply create an instance of `QRious` and you've done most of the work. You can control many aspects of the QR code
 using the following fields on your instance:
 
-| Field           | Type   | Description                                        | Default       |
-| --------------- | ------ | -------------------------------------------------- | ------------- |
-| background      | String | Background color of the QR code                    | `"white"`     |
-| backgroundAlpha | Number | Background alpha of the QR code                    | `1.0`         |
-| foreground      | String | Foreground color of the QR code                    | `"black"`     |
-| foregroundAlpha | Number | Foreground alpha of the QR code                    | `1.0`         |
-| level           | String | Error correction level of the QR code (L, M, Q, H) | `"L"`         |
-| mime            | String | MIME type used to render the image for the QR code | `"image/png"` |
-| padding         | Number | Padding for the QR code (pixels)                   | `null` (auto) |
-| size            | Number | Size of the QR code (pixels)                       | `100`         |
-| value           | String | Value encoded within the QR code                   | `""`          |
+| Field           | Type    | Description                                        | Default       | Read Only |
+| --------------- | ------- | -------------------------------------------------- | ------------- | --------- |
+| background      | String  | Background color of the QR code                    | `"white"`     | No        |
+| backgroundAlpha | Number  | Background alpha of the QR code                    | `1.0`         | No        |
+| element         | Element | Element to render the QR code                      | `<canvas>`    | Yes       |
+| foreground      | String  | Foreground color of the QR code                    | `"black"`     | No        |
+| foregroundAlpha | Number  | Foreground alpha of the QR code                    | `1.0`         | No        |
+| level           | String  | Error correction level of the QR code (L, M, Q, H) | `"L"`         | No        |
+| mime            | String  | MIME type used to render the image for the QR code | `"image/png"` | No        |
+| padding         | Number  | Padding for the QR code (pixels)                   | `null` (auto) | No        |
+| size            | Number  | Size of the QR code (pixels)                       | `100`         | No        |
+| value           | String  | Value encoded within the QR code                   | `""`          | No        |
 
 ``` javascript
 const qr = new QRious();
@@ -164,9 +166,10 @@ const qr = new QRious({
 ```
 
 You can also pass in an `element` option to the constructor which can be used to generate the QR code using an existing
-DOM element. `element` must either be a `<canvas>` element or an `<img>` element which can then be accessed via the
-`canvas` or `image` fields on the instance respectively. An element will be created for whichever one isn't provided or
-for both if no `element` is specified, which means that they can be appeneded to the document at a later time.
+DOM element, which is the only time that you can specify read only options. `element` must either be a `<canvas>`
+element or an `<img>` element which can then be accessed via the `canvas` or `image` fields on the instance
+respectively. An element will be created for whichever one isn't provided or for both if no `element` is specified,
+which means that they can be appended to the document at a later time.
 
 ``` javascript
 const qr = new QRious({
@@ -212,7 +215,7 @@ The current version of `QRious`.
 
 ``` javascript
 QRious.VERSION;
-//=> "2.3.0"
+//=> "3.0.0"
 ```
 
 ## Migrating from v1

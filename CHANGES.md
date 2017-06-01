@@ -1,3 +1,10 @@
+## Version 3.0.0, 2017.06.01
+
+* Reduce size of distribution files [#59](https://github.com/neocotic/qrious/issues/59) (**breaking change**)
+* Drop support for Node.js < 4 [#74](https://github.com/neocotic/qrious/issues/74) (**breaking change**)
+* Remove QRious.DEFAULTS [#77](https://github.com/neocotic/qrious/issues/77) (**breaking change**)
+* Rewrite code in ES5 [#81](https://github.com/neocotic/qrious/issues/81) (**breaking change**)
+
 ## Version 2.3.0, 2017.05.31
 
 * Enable setting of multiple properties at once resulting in a single re-render [#69](https://github.com/neocotic/qrious/issues/69)
