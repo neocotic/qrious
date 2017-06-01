@@ -53,7 +53,7 @@ Check out [node-qrious](https://github.com/neocotic/node-qrious) if you want to 
     <script src="/path/to/qrious.js"></script>
     <script>
       (function() {
-        const qr = new QRious({
+        var qr = new QRious({
           element: document.getElementById('qr'),
           value: 'https://github.com/neocotic/qrious'
         });
@@ -84,7 +84,7 @@ using the following fields on your instance:
 | value           | String  | Value encoded within the QR code                   | `""`          | No        |
 
 ``` javascript
-const qr = new QRious();
+var qr = new QRious();
 qr.background = 'green';
 qr.backgroundAlpha = 0.8;
 qr.foreground = 'blue';
@@ -100,7 +100,7 @@ fields at the same time. You probably want to make a single call to `set(options
 code once:
 
 ``` javascript
-const qr = new QRious();
+var qr = new QRious();
 qr.set({
   background: 'green',
   backgroundAlpha: 0.8,
@@ -116,7 +116,7 @@ qr.set({
 These can also be passed as options to the constructor itself:
 
 ``` javascript
-const qr = new QRious({
+var qr = new QRious({
   background: 'green',
   backgroundAlpha: 0.8,
   foreground: 'blue',
@@ -135,7 +135,7 @@ respectively. An element will be created for whichever one isn't provided or for
 which means that they can be appended to the document at a later time.
 
 ``` javascript
-const qr = new QRious({
+var qr = new QRious({
   element: document.querySelector('canvas'),
   value: 'https://github.com/neocotic/qrious'
 });
@@ -146,8 +146,8 @@ qr.canvas.parentNode.appendChild(qr.image);
 A reference to the `QRious` instance is also stored on both of the elements for convenience.
 
 ``` javascript
-const canvas = document.querySelector('canvas');
-const qr = new QRious({
+var canvas = document.querySelector('canvas');
+var qr = new QRious({
   element: canvas,
   value: 'https://github.com/neocotic/qrious'
 });
@@ -162,7 +162,7 @@ Generates a base64 encoded data URI for the QR code. If you don't specify a MIME
 passed to the constructor as an option or the default value for the `mime` option.
 
 ``` javascript
-const qr = new QRious({
+var qr = new QRious({
   value: 'https://github.com/neocotic/qrious'
 });
 
