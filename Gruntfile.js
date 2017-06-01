@@ -32,7 +32,10 @@ module.exports = function(grunt) {
     },
 
     eslint: {
-      target: [ 'src/**/*.js' ]
+      target: [
+        'index.js',
+        'src/**/*.js'
+      ]
     },
 
     rollup: {
@@ -43,6 +46,7 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
+          external: [ 'qrious-core' ],
           banner: [
             '/*',
             ' * QRious v<%= pkg.version %>',
@@ -65,13 +69,13 @@ module.exports = function(grunt) {
           ].join('\n'),
           plugins: function() {
             return [
-              nodeResolve({ main: true }),
+              nodeResolve(),
               commonjs()
             ];
           }
         },
         files: {
-          'dist/qrious.js': 'src/runtime/browser.js'
+          'dist/qrious.js': 'src/QRious.js'
         }
       },
       umdProduction: {
@@ -81,6 +85,7 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
+          external: [ 'qrious-core' ],
           banner: [
             '/*! QRious v<%= pkg.version %> | (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | GPL v3 License',
             'Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License',
@@ -88,7 +93,7 @@ module.exports = function(grunt) {
           ].join('\n'),
           plugins: function() {
             return [
-              nodeResolve({ main: true }),
+              nodeResolve(),
               commonjs(),
               uglify({
                 output: {
@@ -101,15 +106,8 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'dist/qrious.min.js': 'src/runtime/browser.js'
+          'dist/qrious.min.js': 'src/QRious.js'
         }
-      }
-    },
-
-    watch: {
-      all: {
-        files: [ 'src/**/*.js' ],
-        tasks: [ 'eslint' ]
       }
     }
   });

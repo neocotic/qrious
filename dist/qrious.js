@@ -1,5 +1,5 @@
 /*
- * QRious v3.0.1
+ * QRious v4.0.0-alpha
  * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define('qrious', factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('qrious-core')) :
+  typeof define === 'function' && define.amd ? define('qrious', ['qrious-core'], factory) :
   (global.QRious = factory());
 }(this, (function () { 'use strict';
 
@@ -2205,7 +2205,7 @@
    * @class
    * @extends Nevis
    */
-  var QRious = lite.extend(function(options) {
+  var QRious$1 = lite.extend(function(options) {
     optionManager.init(options, this, this.update.bind(this));
 
     var element = optionManager.get('element', this);
@@ -2284,16 +2284,6 @@
   }, {
 
     /**
-     * The current version of {@link QRious}.
-     *
-     * @public
-     * @static
-     * @type {string}
-     * @memberof QRious
-     */
-    VERSION: '3.0.1',
-
-    /**
      * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
      *
      * @param {Service} service - the {@link Service} to be configured
@@ -2309,7 +2299,7 @@
 
   });
 
-  Object.defineProperties(QRious.prototype, {
+  Object.defineProperties(QRious$1.prototype, {
 
     canvas: {
       /**
@@ -2341,7 +2331,7 @@
 
   });
 
-  var QRious_1 = QRious;
+  var QRious_1$2 = QRious$1;
 
   /**
    * The options used by {@link QRious}.
@@ -2360,11 +2350,22 @@
    * @property {string} [value=""] - The value to be encoded within the QR code.
    */
 
-  QRious_1.use(new BrowserElementService_1());
+  var index = QRious_1$2;
 
-  var browser = QRious_1;
 
-  return browser;
+
+  var index$2 = Object.freeze({
+  	default: index,
+  	__moduleExports: index
+  });
+
+  var QRious = ( index$2 && index ) || index$2;
+
+  QRious.use(new BrowserElementService_1());
+
+  var QRious_1 = QRious;
+
+  return QRious_1;
 
 })));
 

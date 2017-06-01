@@ -159,7 +159,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     var qr = window.qr = new QRious({
       element: document.getElementById('qrious'),
       size: 250,
-      value: 'QRious v' + QRious.VERSION
+      value: 'QRious'
     });
 
     $background.addEventListener('change', function() {
@@ -198,7 +198,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       $section.style.minWidth = qr.size + 'px';
     });
 
-    $value.value = 'QRious v' + QRious.VERSION;
+    $value.value = 'QRious';
     $value.addEventListener('input', function() {
       qr.value = $value.value;
     });
