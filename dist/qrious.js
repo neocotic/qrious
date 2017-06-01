@@ -1,5 +1,5 @@
 /*
- * QRious v2.3.0
+ * QRious v3.0.0
  * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -2291,7 +2291,7 @@
      * @type {string}
      * @memberof QRious
      */
-    VERSION: '2.3.0',
+    VERSION: '3.0.0',
 
     /**
      * Configures the <code>service</code> provided to be used by all {@link QRious} instances.
