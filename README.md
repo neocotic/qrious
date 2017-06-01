@@ -166,9 +166,10 @@ const qr = new QRious({
 ```
 
 You can also pass in an `element` option to the constructor which can be used to generate the QR code using an existing
-DOM element. `element` must either be a `<canvas>` element or an `<img>` element which can then be accessed via the
-`canvas` or `image` fields on the instance respectively. An element will be created for whichever one isn't provided or
-for both if no `element` is specified, which means that they can be appeneded to the document at a later time.
+DOM element, which is the only time that you can specify read only options. `element` must either be a `<canvas>`
+element or an `<img>` element which can then be accessed via the `canvas` or `image` fields on the instance
+respectively. An element will be created for whichever one isn't provided or for both if no `element` is specified,
+which means that they can be appended to the document at a later time.
 
 ``` javascript
 const qr = new QRious({
