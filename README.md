@@ -39,8 +39,8 @@ you want to install that way instead of using `npm`.
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (123kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
-* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (37kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
+* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (71kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
+* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (18kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
 
 ### Node.js Dependencies
 
