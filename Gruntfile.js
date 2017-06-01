@@ -20,36 +20,9 @@
 'use strict';
 
 module.exports = function(grunt) {
-  var babel = require('rollup-plugin-babel');
   var commonjs = require('rollup-plugin-commonjs');
   var nodeResolve = require('rollup-plugin-node-resolve');
   var uglify = require('rollup-plugin-uglify');
-
-  var bannerLarge = [
-    '/*',
-    ' * QRious v<%= pkg.version %>',
-    ' * Copyright (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>',
-    ' * Copyright (C) 2010 Tom Zerucha',
-    ' *',
-    ' * This program is free software: you can redistribute it and/or modify',
-    ' * it under the terms of the GNU General Public License as published by',
-    ' * the Free Software Foundation, either version 3 of the License, or',
-    ' * (at your option) any later version.',
-    ' *',
-    ' * This program is distributed in the hope that it will be useful,',
-    ' * but WITHOUT ANY WARRANTY; without even the implied warranty of',
-    ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the',
-    ' * GNU General Public License for more details.',
-    ' *',
-    ' * You should have received a copy of the GNU General Public License',
-    ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.',
-    ' */'
-  ].join('\n');
-  var bannerSmall = [
-    '/*! QRious v<%= pkg.version %> | (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | GPL v3 License',
-    'Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License',
-    '*/'
-  ].join('\n');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -63,31 +36,6 @@ module.exports = function(grunt) {
     },
 
     rollup: {
-      cjs: {
-        options: {
-          format: 'cjs',
-          sourceMap: true,
-          sourceMapRelativePaths: true,
-          banner: bannerLarge,
-          external: [ 'canvas' ],
-          plugins: function() {
-            return [
-              nodeResolve({
-                jsnext: true,
-                main: true
-              }),
-              commonjs(),
-              babel({
-                exclude: [ 'node_modules/**' ],
-                runtimeHelpers: true
-              })
-            ];
-          }
-        },
-        files: {
-          'dist/cjs/qrious.js': 'src/runtime/node.js'
-        }
-      },
       umdDevelopment: {
         options: {
           format: 'umd',
@@ -95,23 +43,35 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
-          banner: bannerLarge,
+          banner: [
+            '/*',
+            ' * QRious v<%= pkg.version %>',
+            ' * Copyright (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>',
+            ' * Copyright (C) 2010 Tom Zerucha',
+            ' *',
+            ' * This program is free software: you can redistribute it and/or modify',
+            ' * it under the terms of the GNU General Public License as published by',
+            ' * the Free Software Foundation, either version 3 of the License, or',
+            ' * (at your option) any later version.',
+            ' *',
+            ' * This program is distributed in the hope that it will be useful,',
+            ' * but WITHOUT ANY WARRANTY; without even the implied warranty of',
+            ' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the',
+            ' * GNU General Public License for more details.',
+            ' *',
+            ' * You should have received a copy of the GNU General Public License',
+            ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.',
+            ' */'
+          ].join('\n'),
           plugins: function() {
             return [
-              nodeResolve({
-                jsnext: true,
-                main: true
-              }),
-              commonjs(),
-              babel({
-                exclude: [ 'node_modules/**' ],
-                runtimeHelpers: true
-              })
+              nodeResolve({ main: true }),
+              commonjs()
             ];
           }
         },
         files: {
-          'dist/umd/qrious.js': 'src/runtime/browser.js'
+          'dist/qrious.js': 'src/runtime/browser.js'
         }
       },
       umdProduction: {
@@ -121,18 +81,15 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
-          banner: bannerSmall,
+          banner: [
+            '/*! QRious v<%= pkg.version %> | (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | GPL v3 License',
+            'Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License',
+            '*/'
+          ].join('\n'),
           plugins: function() {
             return [
-              nodeResolve({
-                jsnext: true,
-                main: true
-              }),
+              nodeResolve({ main: true }),
               commonjs(),
-              babel({
-                exclude: [ 'node_modules/**' ],
-                runtimeHelpers: true
-              }),
               uglify({
                 output: {
                   comments: function(node, comment) {
@@ -144,7 +101,7 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'dist/umd/qrious.min.js': 'src/runtime/browser.js'
+          'dist/qrious.min.js': 'src/runtime/browser.js'
         }
       }
     },

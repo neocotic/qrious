@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import NodeElementService from '../service/element/NodeElementService';
-import QRious from '../QRious';
+'use strict';
+
+var NodeElementService = require('../service/element/NodeElementService');
+var QRious = require('../QRious');
 
 QRious.use(new NodeElementService());
 
-export default QRious;
+module.exports = QRious;
