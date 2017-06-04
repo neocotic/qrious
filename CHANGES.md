@@ -1,3 +1,7 @@
+## Version 4.0.2, 2017.06.04
+
+* Correct CDNJS links in README [#93](https://github.com/neocotic/qrious/issues/93)
+
 ## Version 4.0.1, 2017.06.04
 
 * Publish releases to open source CDN [#87](https://github.com/neocotic/qrious/issues/87)

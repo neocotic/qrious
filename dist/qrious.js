@@ -1,5 +1,5 @@
 /*
- * QRious v4.0.1
+ * QRious v4.0.2
  * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
