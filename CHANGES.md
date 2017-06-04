@@ -1,3 +1,10 @@
+## Version 4.0.1, 2017.06.04
+
+* Publish releases to open source CDN [#87](https://github.com/neocotic/qrious/issues/87)
+* Add live demo link to README [#89](https://github.com/neocotic/qrious/issues/89)
+* webpack - need to manually install qrious-core [#90](https://github.com/neocotic/qrious/issues/90)
+* Remove dependencies (non-dev) badge from README [#91](https://github.com/neocotic/qrious/issues/91)
+
 ## Version 4.0.0, 2017.06.02
 
 * Split into multiple modules [#53](https://github.com/neocotic/qrious/issues/53) (**breaking change**)

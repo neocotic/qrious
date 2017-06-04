@@ -11,7 +11,7 @@
 [QRious](https://github.com/neocotic/qrious) is a pure JavaScript library for generating QR codes using HTML5 canvas.
 
 [![Chat](https://img.shields.io/gitter/room/neocotic/qrious.svg?style=flat-square)](https://gitter.im/neocotic/qrious)
-[![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg?style=flat-square)](https://codepen.io/neocotic/pen/YQzmBm)
 [![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/npm/v/qrious.svg?style=flat-square)](https://www.npmjs.com/package/qrious)
@@ -36,8 +36,8 @@ $ bower install --save qrious
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (71kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
-* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (18kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
+* [Development Version](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.1/qrious.js) (71kb - [Source Map](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.1/qrious.js.map))
+* [Production Version](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.1/qrious.min.js) (18kb - [Source Map](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.1/qrious.min.js.map))
 
 Check out [node-qrious](https://github.com/neocotic/node-qrious) if you want to install it for use within
 [Node.js](https://nodejs.org).

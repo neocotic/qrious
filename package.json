@@ -1,6 +1,6 @@
 {
   "name": "qrious",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Library for QR code generation using canvas",
   "homepage": "https://github.com/neocotic/qrious",
   "bugs": {
@@ -31,7 +31,6 @@
     "grunt-eslint": "^19.0.0",
     "grunt-rollup": "^1.0.1",
     "load-grunt-tasks": "^3.5.2",
-    "micromatch": "^2.3.11",
     "qrious-core": "^4.0.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
