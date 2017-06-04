@@ -36,8 +36,8 @@ $ bower install --save qrious
 
 If you want to simply download the file to be used in the browser you can find them below:
 
-* [Development Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js) (71kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.js.map))
-* [Production Version](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js) (18kb - [Source Map](https://cdn.rawgit.com/neocotic/qrious/master/dist/qrious.min.js.map))
+* [Development Version](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.0/qrious.js) (71kb - [Source Map](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.0/qrious.js.map))
+* [Production Version](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.0/qrious.min.js) (18kb - [Source Map](https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.0/qrious.min.js.map))
 
 Check out [node-qrious](https://github.com/neocotic/node-qrious) if you want to install it for use within
 [Node.js](https://nodejs.org).
