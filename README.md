@@ -11,6 +11,7 @@
 [QRious](https://github.com/neocotic/qrious) is a pure JavaScript library for generating QR codes using HTML5 canvas.
 
 [![Chat](https://img.shields.io/gitter/room/neocotic/qrious.svg?style=flat-square)](https://gitter.im/neocotic/qrious)
+[![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg?style=flat-square)](https://codepen.io/neocotic/pen/YQzmBm)
 [![Dependency Status](https://img.shields.io/david/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious)
 [![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
