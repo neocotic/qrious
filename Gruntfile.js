@@ -46,7 +46,6 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
-          external: [ 'qrious-core' ],
           banner: [
             '/*',
             ' * QRious v<%= pkg.version %>',
@@ -85,7 +84,6 @@ module.exports = function(grunt) {
           moduleName: 'QRious',
           sourceMap: true,
           sourceMapRelativePaths: true,
-          external: [ 'qrious-core' ],
           banner: [
             '/*! QRious v<%= pkg.version %> | (C) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> | GPL v3 License',
             'Based on jsqrencode | (C) 2010 tz@execpc.com | GPL v3 License',

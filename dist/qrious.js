@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('qrious-core')) :
-  typeof define === 'function' && define.amd ? define('qrious', ['qrious-core'], factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define('qrious', factory) :
   (global.QRious = factory());
 }(this, (function () { 'use strict';
 
@@ -213,140 +213,6 @@
   var nevis = Nevis;
 
   var lite = nevis;
-
-  /**
-   * Defines a service contract that must be met by all implementations.
-   *
-   * @public
-   * @class
-   * @extends Nevis
-   */
-  var Service = lite.extend({
-
-    /**
-     * Returns the name of this {@link Service}.
-     *
-     * @return {string} The service name.
-     * @public
-     * @abstract
-     * @memberof Service#
-     */
-    getName: function() {}
-
-  });
-
-  var Service_1 = Service;
-
-  /**
-   * A service for working with elements.
-   *
-   * @public
-   * @class
-   * @extends Service
-   */
-  var ElementService = Service_1.extend({
-
-    /**
-     * Creates an instance of a canvas element.
-     *
-     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
-     *
-     * @return {*} The newly created canvas element.
-     * @public
-     * @abstract
-     * @memberof ElementService#
-     */
-    createCanvas: function() {},
-
-    /**
-     * Creates an instance of a image element.
-     *
-     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
-     *
-     * @return {*} The newly created image element.
-     * @public
-     * @abstract
-     * @memberof ElementService#
-     */
-    createImage: function() {},
-
-    /**
-     * @override
-     */
-    getName: function() {
-      return 'element';
-    },
-
-    /**
-     * Returns whether the specified <code>element</code> is a canvas.
-     *
-     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
-     *
-     * @param {*} element - the element to be checked
-     * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
-     * @public
-     * @abstract
-     * @memberof ElementService#
-     */
-    isCanvas: function(element) {},
-
-    /**
-     * Returns whether the specified <code>element</code> is an image.
-     *
-     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
-     *
-     * @param {*} element - the element to be checked
-     * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
-     * @public
-     * @abstract
-     * @memberof ElementService#
-     */
-    isImage: function(element) {}
-
-  });
-
-  var ElementService_1 = ElementService;
-
-  /**
-   * An implementation of {@link ElementService} intended for use within a browser environment.
-   *
-   * @public
-   * @class
-   * @extends ElementService
-   */
-  var BrowserElementService = ElementService_1.extend({
-
-    /**
-     * @override
-     */
-    createCanvas: function() {
-      return document.createElement('canvas');
-    },
-
-    /**
-     * @override
-     */
-    createImage: function() {
-      return document.createElement('img');
-    },
-
-    /**
-     * @override
-     */
-    isCanvas: function(element) {
-      return element instanceof HTMLCanvasElement;
-    },
-
-    /**
-     * @override
-     */
-    isImage: function(element) {
-      return element instanceof HTMLImageElement;
-    }
-
-  });
-
-  var BrowserElementService_1 = BrowserElementService;
 
   /**
    * Responsible for rendering a QR code {@link Frame} on a specific type of element.
@@ -2205,7 +2071,7 @@
    * @class
    * @extends Nevis
    */
-  var QRious$1 = lite.extend(function(options) {
+  var QRious = lite.extend(function(options) {
     optionManager.init(options, this, this.update.bind(this));
 
     var element = optionManager.get('element', this);
@@ -2299,7 +2165,7 @@
 
   });
 
-  Object.defineProperties(QRious$1.prototype, {
+  Object.defineProperties(QRious.prototype, {
 
     canvas: {
       /**
@@ -2331,7 +2197,7 @@
 
   });
 
-  var QRious_1$2 = QRious$1;
+  var QRious_1$2 = QRious;
 
   /**
    * The options used by {@link QRious}.
@@ -2352,18 +2218,143 @@
 
   var index = QRious_1$2;
 
+  /**
+   * Defines a service contract that must be met by all implementations.
+   *
+   * @public
+   * @class
+   * @extends Nevis
+   */
+  var Service = lite.extend({
 
+    /**
+     * Returns the name of this {@link Service}.
+     *
+     * @return {string} The service name.
+     * @public
+     * @abstract
+     * @memberof Service#
+     */
+    getName: function() {}
 
-  var index$2 = Object.freeze({
-  	default: index,
-  	__moduleExports: index
   });
 
-  var QRious = ( index$2 && index ) || index$2;
+  var Service_1 = Service;
 
-  QRious.use(new BrowserElementService_1());
+  /**
+   * A service for working with elements.
+   *
+   * @public
+   * @class
+   * @extends Service
+   */
+  var ElementService = Service_1.extend({
 
-  var QRious_1 = QRious;
+    /**
+     * Creates an instance of a canvas element.
+     *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
+     * @return {*} The newly created canvas element.
+     * @public
+     * @abstract
+     * @memberof ElementService#
+     */
+    createCanvas: function() {},
+
+    /**
+     * Creates an instance of a image element.
+     *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
+     * @return {*} The newly created image element.
+     * @public
+     * @abstract
+     * @memberof ElementService#
+     */
+    createImage: function() {},
+
+    /**
+     * @override
+     */
+    getName: function() {
+      return 'element';
+    },
+
+    /**
+     * Returns whether the specified <code>element</code> is a canvas.
+     *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
+     * @param {*} element - the element to be checked
+     * @return {boolean} <code>true</code> if <code>element</code> is a canvas; otherwise <code>false</code>.
+     * @public
+     * @abstract
+     * @memberof ElementService#
+     */
+    isCanvas: function(element) {},
+
+    /**
+     * Returns whether the specified <code>element</code> is an image.
+     *
+     * Implementations of {@link ElementService} <b>must</b> override this method with their own specific logic.
+     *
+     * @param {*} element - the element to be checked
+     * @return {boolean} <code>true</code> if <code>element</code> is an image; otherwise <code>false</code>.
+     * @public
+     * @abstract
+     * @memberof ElementService#
+     */
+    isImage: function(element) {}
+
+  });
+
+  var ElementService_1 = ElementService;
+
+  /**
+   * An implementation of {@link ElementService} intended for use within a browser environment.
+   *
+   * @public
+   * @class
+   * @extends ElementService
+   */
+  var BrowserElementService = ElementService_1.extend({
+
+    /**
+     * @override
+     */
+    createCanvas: function() {
+      return document.createElement('canvas');
+    },
+
+    /**
+     * @override
+     */
+    createImage: function() {
+      return document.createElement('img');
+    },
+
+    /**
+     * @override
+     */
+    isCanvas: function(element) {
+      return element instanceof HTMLCanvasElement;
+    },
+
+    /**
+     * @override
+     */
+    isImage: function(element) {
+      return element instanceof HTMLImageElement;
+    }
+
+  });
+
+  var BrowserElementService_1 = BrowserElementService;
+
+  index.use(new BrowserElementService_1());
+
+  var QRious_1 = index;
 
   return QRious_1;
 
