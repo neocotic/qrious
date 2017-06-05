@@ -14,6 +14,7 @@
 [![Demo](https://img.shields.io/badge/demo-live-brightgreen.svg?style=flat-square)](https://codepen.io/neocotic/pen/YQzmBm)
 [![Dev Dependency Status](https://img.shields.io/david/dev/neocotic/qrious.svg?style=flat-square)](https://david-dm.org/neocotic/qrious?type=dev)
 [![License](https://img.shields.io/npm/l/qrious.svg?style=flat-square)](https://github.com/neocotic/qrious/blob/master/LICENSE.md)
+[![CDN](https://img.shields.io/cdnjs/v/qrious.svg?style=flat-square)](https://cdnjs.com/libraries/qrious)
 [![Release](https://img.shields.io/npm/v/qrious.svg?style=flat-square)](https://www.npmjs.com/package/qrious)
 
 * [Install](#install)
