@@ -182,7 +182,7 @@ https://github.com/neocotic/qrious/wiki/Migrating-from-older-versions
 ## Bugs
 
 If you have any problems with QRious or would like to see changes currently in development you can do so
-[here](https://github.com/neocotic/nqrious/issues). Core features and issues are maintained separately
+[here](https://github.com/neocotic/qrious/issues). Core features and issues are maintained separately
 [here](https://github.com/neocotic/qrious-core/issues).
 
 ## Contributors
