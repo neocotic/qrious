@@ -63,7 +63,7 @@ Check out [node-qrious](https://github.com/neocotic/node-qrious) if you want to 
 </html>
 ```
 
-Open up `demo.html` in your browser to play around a bit.
+Open up [`demo.html`](https://cdn.rawgit.com/neocotic/qrious/master/demo.html) in your browser to play around a bit.
 
 ## API
 
