@@ -332,7 +332,9 @@
       var padding = qrious.padding;
 
       if (padding != null) {
-        return padding;
+          if(padding > 0){
+            return padding;
+          }
       }
 
       var moduleSize = this.getModuleSize(frame);
