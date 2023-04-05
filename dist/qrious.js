@@ -331,12 +331,12 @@
       var qrious = this.qrious;
       var padding = qrious.padding;
 
-      if (padding != null) {
-        return padding;
-      }
-
       var moduleSize = this.getModuleSize(frame);
       var offset = Math.floor((qrious.size - (moduleSize * frame.width)) / 2);
+
+      if (padding != null && padding > offset) {
+         return padding;
+      }
 
       return Math.max(0, offset);
     },
