@@ -1,5 +1,6 @@
 /*
  * QRious v4.0.2
+ * Copyright (C) 2023 Tumbler Terrall
  * Copyright (C) 2017 Alasdair Mercer
  * Copyright (C) 2010 Tom Zerucha
  *
@@ -410,10 +411,15 @@
       for (i = 0; i < frame.width; i++) {
         for (j = 0; j < frame.width; j++) {
           if (frame.buffer[(j * frame.width) + i]) {
-            context.fillRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize);
+            if (frame._isBoldMasked(i, j)) {
+               context.roundRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize, 0);
+            } else {
+               context.roundRect((moduleSize * i) + offset, (moduleSize * j) + offset, moduleSize, moduleSize, [0, 5, 0, 5]);
+            }
           }
         }
       }
+      context.fill();
     },
 
     /**
@@ -736,6 +742,7 @@
 
     this._ecc = Frame._createArray(dataBlock + ((dataBlock + eccBlock) * (neccBlock1 + neccBlock2)) + neccBlock2);
     this._mask = Frame._createArray(((width * (width + 1)) + 1) / 2);
+    this._boldmask = Frame._createArray(((width * (width + 1)) + 1) / 2);
 
     this._insertFinders();
     this._insertAlignments();
@@ -1407,6 +1414,12 @@
       return this._mask[bit] === 1;
     },
 
+    _isBoldMasked: function(x, y) {
+      var bit = Frame._getMaskBit(x, y);
+
+      return this._boldmask[bit] === 1;
+    },
+
     _pack: function() {
       var bit, i, j;
       var k = 1;
@@ -1488,6 +1501,12 @@
       this._mask[bit] = 1;
     },
 
+    _setBoldMask: function(x, y) {
+      var bit = Frame._getMaskBit(x, y);
+
+      this._boldmask[bit] = 1;
+    },
+
     _syncMask: function() {
       var x, y;
       var width = this.width;
@@ -1496,6 +1515,7 @@
         for (x = 0; x <= y; x++) {
           if (this.buffer[x + (width * y)]) {
             this._setMask(x, y);
+            this._setBoldMask(x, y);
           }
         }
       }
