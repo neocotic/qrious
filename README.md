@@ -62,8 +62,31 @@ Check out [node-qrious](https://github.com/neocotic/node-qrious) if you want to 
   </body>
 </html>
 ```
-
 Open up `demo.html` in your browser to play around a bit.
+
+
+### useing qrious in VueJS
+component.vue
+``` javascript
+<script>
+  import QRious from 'qrious';
+  mounted() {
+    new QRious({
+      element: this.$refs.qrcode,
+      value: 'https://www.example.com'
+    });
+ }
+</script>
+
+<template>
+  <div>
+    <canvas ref="qrcode"></canvas>
+  </div>
+</template>
+```
+
+
+
 
 ## API
 
